@@ -1,20 +1,35 @@
-import { X } from "lucide-react";
 import { ScenePhoto } from "@/components/product/ScenePhoto";
 import { TrustedStrip } from "@/components/customers/CustomerProof";
 import { CTASection, DemoNotice, PageHero, SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { FaqSection } from "@/components/commercial/FAQAccordion";
 import { RelatedModules } from "./Cards";
-import { WorkflowDiagram } from "./Diagrams";
 import { FeatureSet } from "./FeatureSet";
 import { HeroVisualView } from "./Visuals";
-import { Mascot } from "@/components/global/Mascot";
-import { mascots } from "@/data/media";
+import { Vignette, type VignetteKind } from "@/components/illustration/Vignettes";
 import type { Module } from "@/data/modules";
+
+// The small scene drawn for each step of a module's workflow. Modules not listed use the default order.
+const stepScenes: Record<string, VignetteKind[]> = {
+  "field-sales": ["plan", "map", "sell", "collect", "analyse"],
+  "van-sales": ["stock", "deliver", "sell", "collect", "stock", "analyse"],
+  routes: ["plan", "plan", "map", "read", "analyse"],
+  customers: ["read", "plan", "sell", "collect", "plan"],
+  orders: ["stock", "sell", "plan", "read", "sell"],
+  inventory: ["stock", "stock", "deliver", "stock", "analyse"],
+  delivery: ["plan", "plan", "deliver", "stock", "analyse"],
+  collections: ["read", "collect", "collect", "collect", "analyse"],
+  offline: ["stock", "map", "plan", "stock", "analyse"],
+  "b2b-ordering": ["read", "sell", "plan", "deliver"],
+  intelligence: ["read", "analyse", "analyse", "plan", "analyse"],
+  "control-room": ["map", "analyse", "read", "plan", "analyse"],
+};
+const defaultScenes: VignetteKind[] = ["plan", "stock", "sell", "deliver", "collect", "analyse"];
 
 /** Full product page. The composition changes with module.layout and module.heroLayout. */
 export function ModuleTemplate({ module: m }: { module: Module }) {
-  const [, exampleMascot] = mascots.modules[m.slug] ?? (["business", "signpost"] as const);
+  const scenes = stepScenes[m.slug] ?? defaultScenes;
+  const exampleScene = scenes[Math.min(2, scenes.length - 1)];
   return (
     <>
       <PageHero
@@ -47,10 +62,16 @@ export function ModuleTemplate({ module: m }: { module: Module }) {
                 <p className="lede mt-4">{m.challenge.body}</p>
               </ScrollReveal>
             </div>
-            <ul className="self-center">
+            <ul className="grid gap-3 self-center">
               {m.challenge.points.map((point, index) => (
-                <li key={point} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 90}ms` } as React.CSSProperties} className="flex items-start gap-3 border-b border-line py-4 text-[15.5px] font-medium last:border-b-0">
-                  <X aria-hidden="true" size={18} className="mt-0.5 shrink-0 text-muted" />
+                <li
+                  key={point}
+                  data-reveal=""
+                  suppressHydrationWarning
+                  style={{ "--d": `${index * 90}ms` } as React.CSSProperties}
+                  className="flex items-start gap-3.5 rounded-[18px] bg-white px-5 py-4 text-[15.5px] font-medium leading-snug shadow-[0_1px_2px_rgb(41_59_71/0.06)]"
+                >
+                  <span aria-hidden="true" className="mt-[7px] size-2.5 shrink-0 rounded-full bg-brand-orange" />
                   {point}
                 </li>
               ))}
@@ -71,28 +92,41 @@ export function ModuleTemplate({ module: m }: { module: Module }) {
 
       <section className="section-tight">
         <div className="wrap">
-          <div className="relative isolate overflow-hidden rounded-[24px] bg-navy-deep p-7 text-white md:p-12">
-            <span aria-hidden="true" className="capsule -right-16 -top-24 -z-10 h-56 w-[460px] border-2 border-white/10" />
+          <div className="rounded-[28px] bg-band-cyan p-6 md:p-10">
             <ScrollReveal>
               <h2 className="t-section max-w-3xl !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{m.workflow.heading}</h2>
-              <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-white/75">{m.workflow.body}</p>
+              <p className="lede mt-4 max-w-3xl">{m.workflow.body}</p>
             </ScrollReveal>
-            <div className="mt-10">
-              <WorkflowDiagram steps={m.workflow.steps} dark />
-            </div>
+            <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr">
+              {m.workflow.steps.map((step, index) => (
+                <li
+                  key={step}
+                  data-reveal=""
+                  suppressHydrationWarning
+                  style={{ "--d": `${index * 90}ms` } as React.CSSProperties}
+                  className="rounded-[22px] bg-white p-2.5 shadow-[0_1px_2px_rgb(41_59_71/0.06)]"
+                >
+                  <Vignette kind={scenes[index % scenes.length]} className="h-[104px] w-full rounded-[14px] bg-paper" />
+                  <div className="px-2 pb-2 pt-3">
+                    <span className="text-[12px] font-bold tabular-nums text-teal-deep">{String(index + 1).padStart(2, "0")}</span>
+                    <p className="mt-0.5 text-[15px] font-semibold leading-snug text-navy-deep">{step}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
           </div>
         </div>
       </section>
 
       <section className="section-tight">
-        <div className="wrap grid gap-6 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
-          <ScrollReveal>
-            <p className="eyebrow">Operational example</p>
-            <Mascot name={exampleMascot} sizes="240px" className="mt-5 w-44 md:w-56" />
-          </ScrollReveal>
-          <ScrollReveal delay={90}>
-            <p className="text-[clamp(1.25rem,1.1rem+0.7vw,1.75rem)] font-medium leading-snug tracking-tight">{m.example}</p>
-          </ScrollReveal>
+        <div className="wrap">
+          <div className="grid items-center gap-6 rounded-[28px] border border-line bg-white p-6 shadow-[0_1px_2px_rgb(41_59_71/0.05)] md:p-10 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-14">
+            <ScrollReveal>
+              <p className="eyebrow">Operational example</p>
+              <p className="mt-5 text-pretty text-[clamp(1.25rem,1.1rem+0.7vw,1.75rem)] font-medium leading-snug tracking-[-0.025em] text-navy-deep">{m.example}</p>
+            </ScrollReveal>
+            <Vignette kind={exampleScene} className="mx-auto h-[190px] w-full max-w-[280px] rounded-[20px] bg-band-cyan p-2" />
+          </div>
         </div>
       </section>
 

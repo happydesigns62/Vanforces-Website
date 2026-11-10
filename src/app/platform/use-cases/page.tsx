@@ -3,6 +3,17 @@ import { Button } from "@/components/global/Button";
 import { CTASection, PageHero } from "@/components/global/Common";
 import { Mascot } from "@/components/global/Mascot";
 import { useCases } from "@/data/modules";
+import { Vignette, type VignetteKind } from "@/components/illustration/Vignettes";
+
+const caseScenes: Record<string, VignetteKind> = {
+  "field-sales-execution": "sell",
+  "direct-store-delivery": "deliver",
+  "customer-route-visits": "map",
+  "order-to-cash": "collect",
+  "warehouse-stock-control": "stock",
+  "offline-field-work": "plan",
+  "executive-visibility": "analyse",
+};
 
 export const metadata: Metadata = {
   title: "Use Cases",
@@ -35,7 +46,8 @@ export default function UseCasesPage() {
                 </span>
                 <div>
                   <h2 className="t-section !text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)]">{useCase.title}</h2>
-                  <Button href={useCase.link.href} variant="text" className="mt-4">
+                  <Vignette kind={caseScenes[useCase.id] ?? "plan"} className="mt-4 h-[84px] w-[122px] rounded-2xl bg-band-cyan" />
+                  <Button href={useCase.link.href} variant="text" className="mt-3">
                     {useCase.link.label}
                   </Button>
                 </div>

@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 function Explore() {
   return (
-    <section className="section bg-paper">
+    <section className="section bg-mist">
       <div className="wrap">
         <ExploreShowcase
           intro={

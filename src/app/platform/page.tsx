@@ -5,7 +5,7 @@ import { Mascot } from "@/components/global/Mascot";
 import { ScrollReveal, ScreenshotReveal } from "@/components/motion/Reveal";
 import { TrustedStrip } from "@/components/customers/CustomerProof";
 import { ModuleCard } from "@/components/product/Cards";
-import { IntegrationDiagram } from "@/components/product/Diagrams";
+import { ConnectionHub } from "@/components/home/IntegrationsSection";
 import { MobileScreenshotFrame, WebScreenshotFrame } from "@/components/product/Frames";
 import { DevicePair } from "@/components/product/Visuals";
 import { phone, web } from "@/data/media";
@@ -114,7 +114,7 @@ export default function PlatformPage() {
       <section className="section">
         <div className="wrap">
           <SectionHeading eyebrow="Beyond the platform" title="Connected to the systems you already run." description="Vanforces can work alongside applicable ERP and accounting systems, with exact capabilities depending on the connector and implementation scope." className="mb-10" />
-          <IntegrationDiagram />
+          <ConnectionHub />
         </div>
       </section>
 

@@ -109,6 +109,25 @@ export const moduleIcons: Record<string, LucideIcon> = {
   "business-command-center": LayoutDashboard,
 };
 
+/** Which small scene belongs to a module, matched by the last part of the page address. */
+export const moduleScenes: Record<string, string> = {
+  "field-sales": "sell",
+  "van-sales": "deliver",
+  routes: "map",
+  customers: "read",
+  orders: "sell",
+  invoices: "collect",
+  inventory: "stock",
+  delivery: "deliver",
+  collections: "collect",
+  settlements: "collect",
+  offline: "plan",
+  "b2b-ordering": "sell",
+  intelligence: "analyse",
+  "control-room": "read",
+  "business-command-center": "analyse",
+};
+
 export type NavPromo = { pill: string; title: string; link: string; href: string };
 
 /** The tinted card on the right of each dropdown. All wording is taken from the matching page on the site. */

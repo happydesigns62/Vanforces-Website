@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { CTASection, PageHero, SectionHeading } from "@/components/global/Common";
-import { Mascot } from "@/components/global/Mascot";
+import { Vignette, type VignetteKind } from "@/components/illustration/Vignettes";
 import { ScreenshotReveal, ScrollReveal } from "@/components/motion/Reveal";
 import { FaqSection } from "@/components/commercial/FAQAccordion";
 import { RelatedModules } from "@/components/product/Cards";
@@ -13,11 +13,11 @@ export const metadata: Metadata = {
   description: "Bring sales, collections, customer balances and operational reporting into a clearer management perspective with the CXO Business Command Center.",
 };
 
-const questions = [
-  { q: "What Is Selling?", a: "Sales, products and customer performance." },
-  { q: "What Is Coming In?", a: "Collections and payment activity." },
-  { q: "What Is Outstanding?", a: "Customer receivables and account balances." },
-  { q: "What Needs Attention?", a: "Trends, exceptions and relevant operational information." },
+const questions: { q: string; a: string; scene: VignetteKind }[] = [
+  { q: "What Is Selling?", a: "Sales, products and customer performance.", scene: "sell" },
+  { q: "What Is Coming In?", a: "Collections and payment activity.", scene: "collect" },
+  { q: "What Is Outstanding?", a: "Customer receivables and account balances.", scene: "read" },
+  { q: "What Needs Attention?", a: "Trends, exceptions and relevant operational information.", scene: "analyse" },
 ];
 
 const perspectives = [
@@ -59,7 +59,7 @@ export default function CommandCenterPage() {
             <p className="lede">
               Sales, stock, delivery and collections usually live in different reports owned by different people. Leadership reviews often begin with reconciling the numbers instead of discussing what they mean. A shared view gives that conversation a better starting point.
             </p>
-            <Mascot name="inspector" sizes="170px" className="mt-4 w-32 md:w-40" />
+            <Vignette kind="analyse" className="mt-4 h-[120px] w-[174px] rounded-2xl bg-band-cyan" />
           </ScrollReveal>
         </div>
       </section>
@@ -70,7 +70,8 @@ export default function CommandCenterPage() {
           <dl className="grid gap-px overflow-hidden rounded-[28px] border border-line bg-line md:grid-cols-2">
             {questions.map((item, index) => (
               <div key={item.q} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 70}ms` } as React.CSSProperties} className="bg-white p-7 md:p-10">
-                <dt className="text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)] font-bold tracking-tight">{item.q}</dt>
+                <Vignette kind={item.scene} className="mb-4 h-[76px] w-[110px] rounded-2xl bg-band-cyan" />
+                <dt className="text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)] font-medium tracking-[-0.03em] text-navy-deep">{item.q}</dt>
                 <dd className="body mt-2">{item.a}</dd>
               </div>
             ))}
