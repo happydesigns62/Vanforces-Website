@@ -421,16 +421,16 @@ export function FinderMascot({ found = false, className = "" }: { found?: boolea
   const current = askCards[card % askCards.length];
   const bubble = (
     <g transform="translate(104 6)">
-      <path d="M10 0 H110 a10 10 0 0 1 10 10 V34 a10 10 0 0 1 -10 10 H34 L20 56 V44 H10 a10 10 0 0 1 -10 -10 V10 a10 10 0 0 1 10 -10 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      <path d="M10 0 H132 a10 10 0 0 1 10 10 V34 a10 10 0 0 1 -10 10 H34 L20 56 V44 H10 a10 10 0 0 1 -10 -10 V10 a10 10 0 0 1 10 -10 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
       {found ? (
         <g className="vg-pop">
-          <path d="M44 22 l9 9 l18 -18" fill="none" stroke={TEAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M54 22 l9 9 l18 -18" fill="none" stroke={TEAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       ) : (
         <g>
           <circle cx="26" cy="22" r="13" fill={TEAL_LIGHT} stroke={NAVY} strokeWidth="1.8" />
           <g transform="translate(26 22)">{current.icon}</g>
-          <text x="46" y="27" fontSize="13" fontWeight="700" fill={NAVY} fontFamily="inherit">
+          <text x="46" y="26.5" fontSize="12" fontWeight="700" fill={NAVY} fontFamily="inherit">
             {current.label}
           </text>
         </g>
@@ -439,7 +439,7 @@ export function FinderMascot({ found = false, className = "" }: { found?: boolea
   );
   return (
     <Live className={`pointer-events-none ${className}`}>
-      <svg viewBox="0 0 240 112" className="block h-full w-full" role="presentation">
+      <svg viewBox="0 0 252 112" className="block h-full w-full" role="presentation">
         <g className={found ? "" : "vg-ask"} onAnimationIteration={found ? undefined : () => setCard((value) => value + 1)}>
           <g transform="translate(58 110) scale(0.98)">
             <Mascot pose={found ? "tablet" : "wave"} />

@@ -25,8 +25,8 @@ export function SolutionFinder() {
 
   return (
     <div className="relative mt-28 md:mt-36">
-      {/* The mascot sits behind the card, so the card's top edge hides its lower body and it looks perched on the edge. */}
-      <FinderMascot found={Boolean(result)} className="absolute bottom-full right-4 -mb-[20px] h-[100px] w-auto sm:right-12 sm:h-[134px] sm:-mb-[28px]" />
+      {/* The mascot stands on the card's top edge. When it ducks, it slides down behind the card. */}
+      <FinderMascot found={Boolean(result)} className="absolute bottom-full right-4 -mb-[3px] h-[104px] w-auto sm:right-12 sm:h-[140px]" />
       <div className="relative z-10 grid overflow-hidden rounded-[28px] border border-cyan-line bg-white shadow-[0_1px_2px_rgb(41_59_71/0.05),0_30px_60px_-36px_rgb(8_60_66/0.3)] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       <form
         className="p-5 sm:p-7 lg:p-9"
