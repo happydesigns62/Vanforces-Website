@@ -1,10 +1,10 @@
-﻿"use client";
+"use client";
 
 // Small illustrated scenes for the rest of the site, in the same style as the hero van scene: flat shapes, navy outlines,
 // white fills, teal and orange, soft grey shadows. They use the same traced box mascot and the real logo. Each plays by
 // itself while on screen and stands still for visitors who prefer less motion.
 
-import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import {
   BOX_SHADE,
   Carton,
@@ -367,32 +367,80 @@ export function PeekMascot({ className = "" }: { className?: string }) {
   );
 }
 
+/** The four question cards the mascot brings up, one each time it rises. Each has a small drawn icon and a short question. */
+const askCards = [
+  {
+    label: "Routes?",
+    icon: (
+      <g fill="none" stroke={NAVY} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M-5 5 C-5 -3 5 3 5 -5" />
+        <circle cx="-5" cy="5" r="1.8" fill={NAVY} />
+        <circle cx="5" cy="-5" r="1.8" fill="#fff" />
+      </g>
+    ),
+  },
+  {
+    label: "Stock?",
+    icon: (
+      <g fill="none" stroke={NAVY} strokeWidth="1.8" strokeLinejoin="round">
+        <path d="M0 -6 L6 -3 V3 L0 6 L-6 3 V-3 Z" />
+        <path d="M-6 -3 L0 0 L6 -3 M0 0 V6" />
+      </g>
+    ),
+  },
+  {
+    label: "Collections?",
+    icon: (
+      <g fill="none" stroke={NAVY} strokeWidth="1.8" strokeLinejoin="round" strokeLinecap="round">
+        <rect x="-6" y="-4" width="12" height="9" rx="2" />
+        <path d="M-6 -1 H6" />
+        <circle cx="3" cy="2" r="1" fill={NAVY} />
+      </g>
+    ),
+  },
+  {
+    label: "Reports?",
+    icon: (
+      <g fill={NAVY}>
+        <rect x="-6" y="0" width="3.2" height="6" rx="0.8" />
+        <rect x="-1.6" y="-5" width="3.2" height="11" rx="0.8" />
+        <rect x="2.8" y="-2" width="3.2" height="8" rx="0.8" />
+      </g>
+    ),
+  },
+];
+
 /**
- * The mascot sitting behind the top edge of the Solution Finder card. While the box is waiting it peeks up now and then,
- * waves, and wonders (three bouncing dots in a bubble). Once suggestions appear it stays up, holds the tablet, and shows a
- * tick in the bubble. The card itself hides the lower part of the drawing, so the mascot looks as if it is perched on the edge.
+ * The mascot sitting behind the top edge of the Solution Finder card. While the box waits for a question it keeps a gentle
+ * loop: it rises, holds up a question card with a small icon (routes, stock, collections, reports, one each time), then sinks
+ * back behind the card edge and comes up again with the next one. Once suggestions appear it stays up, holds the tablet, and
+ * shows a tick. The card itself hides the lower part of the drawing, so the mascot looks as if it is perched on the edge.
  */
 export function FinderMascot({ found = false, className = "" }: { found?: boolean; className?: string }) {
+  const [card, setCard] = useState(0);
+  const current = askCards[card % askCards.length];
   const bubble = (
-    <g transform="translate(92 8)">
-      <path d="M8 0 H52 a8 8 0 0 1 8 8 V26 a8 8 0 0 1 -8 8 H22 L12 44 V34 H8 a8 8 0 0 1 -8 -8 V8 a8 8 0 0 1 8 -8 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+    <g transform="translate(104 6)">
+      <path d="M10 0 H110 a10 10 0 0 1 10 10 V34 a10 10 0 0 1 -10 10 H34 L20 56 V44 H10 a10 10 0 0 1 -10 -10 V10 a10 10 0 0 1 10 -10 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
       {found ? (
         <g className="vg-pop">
-          <path d="M20 17 l7 7 l14 -14" fill="none" stroke={TEAL} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M44 22 l9 9 l18 -18" fill="none" stroke={TEAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       ) : (
         <g>
-          {[0, 1, 2].map((i) => (
-            <circle key={i} className="vg-bob" style={{ animationDelay: `${i * 0.18}s` }} cx={18 + i * 12} cy="17" r="3.4" fill={NAVY} />
-          ))}
+          <circle cx="26" cy="22" r="13" fill={TEAL_LIGHT} stroke={NAVY} strokeWidth="1.8" />
+          <g transform="translate(26 22)">{current.icon}</g>
+          <text x="46" y="27" fontSize="13" fontWeight="700" fill={NAVY} fontFamily="inherit">
+            {current.label}
+          </text>
         </g>
       )}
     </g>
   );
   return (
     <Live className={`pointer-events-none ${className}`}>
-      <svg viewBox="0 0 170 112" className="block h-full w-full" role="presentation">
-        <g className={found ? "" : "vg-peek"}>
+      <svg viewBox="0 0 240 112" className="block h-full w-full" role="presentation">
+        <g className={found ? "" : "vg-ask"} onAnimationIteration={found ? undefined : () => setCard((value) => value + 1)}>
           <g transform="translate(58 110) scale(0.98)">
             <Mascot pose={found ? "tablet" : "wave"} />
           </g>
@@ -402,7 +450,6 @@ export function FinderMascot({ found = false, className = "" }: { found?: boolea
     </Live>
   );
 }
-
 /* ------------------------------------------------------------------ page scenes ------------------------------------------------------------------ */
 
 export type PageSceneKind = "warehouse" | "van" | "shop" | "office";
