@@ -8,6 +8,7 @@ import { ExploreShowcase } from "@/components/home/ExploreShowcase";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ComparePreview } from "@/components/home/ComparePreview";
 import { EcosystemSection } from "@/components/home/EcosystemSection";
+import { EntauraShowcase } from "@/components/home/EntauraShowcase";
 import { JourneyRail } from "@/components/home/JourneyRail";
 import { PricingSelector } from "@/components/home/PricingSelector";
 import { SolutionFinder } from "@/components/home/SolutionFinder";
@@ -89,6 +90,7 @@ export default function Home() {
       <Journey />
       <PricingSelector />
       <CommandCenter />
+      <EntauraShowcase />
       <StoriesSection />
       <WhyVanforces value={<ValueSection />} compare={<ComparePreview />} />
       <EcosystemSection />

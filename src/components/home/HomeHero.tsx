@@ -6,13 +6,10 @@ import { Words } from "@/components/motion/Words";
 import { web } from "@/data/media";
 import { trustedLogos } from "@/data/trusted-logos";
 import { HeroFlow } from "./HeroFlow";
-import { HeroShowcase } from "./HeroShowcase";
+import { HeroDashboard } from "./HeroDashboard";
 import { VanSalesScene } from "./VanSalesScene";
 
-const slides = [
-  { label: "Dashboard", shot: web.heroDashboard },
-  { label: "Command Center", shot: web.heroCxo },
-];
+
 
 /** The logo row repeats this many times per half, so the drifting strip is always wider than the screen. */
 const REPEATS = 3;
@@ -78,7 +75,7 @@ export function HomeHero() {
 
         <div className="seq-shot relative mx-auto mt-6 max-w-[1200px] md:mt-8" style={delay(400)}>
           <ScrollScene mode="entry" className="scene-stage">
-            <HeroShowcase slides={slides} sizes="(max-width: 1280px) 92vw, 1090px" />
+            <HeroDashboard shot={web.heroDashboard} sizes="(max-width: 1280px) 92vw, 1090px" />
           </ScrollScene>
         </div>
 

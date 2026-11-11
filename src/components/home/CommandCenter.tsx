@@ -5,7 +5,6 @@ import { ScrollReveal } from "@/components/motion/Reveal";
 import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words, wordCount } from "@/components/motion/Words";
 import { web } from "@/data/media";
-import { EntauraShowcase } from "./EntauraShowcase";
 
 const TITLE = "The Day Is Happening Everywhere.";
 const TITLE_MUTED = "See the Bigger Picture.";
@@ -121,7 +120,6 @@ export function CommandCenter() {
             </ul>
           </div>
 
-          <EntauraShowcase />
         </div>
       </ScrollScene>
     </section>

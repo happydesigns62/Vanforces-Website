@@ -1,14 +1,15 @@
-"use client";
-
+import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useId, useState, type KeyboardEvent } from "react";
 import { SectionHeading } from "@/components/global/Common";
+import type { CSSProperties } from "react";
 import { ScrollReveal } from "@/components/motion/Reveal";
 
 type Partner = {
   name: string;
-  mark: string;
+  logo: string;
+  width: number;
+  height: number;
   headline: string;
   body: string;
   points: string[];
@@ -17,98 +18,113 @@ type Partner = {
   cta: string;
 };
 
-type Category = { id: string; label: string; intro: string; partners: Partner[] };
+// Wording follows the product descriptions supplied by the Vanforces team. Capability lists name integration areas, not a
+// confirmation that every feature is live, and the status chips are deliberately cautious. The logos are the files supplied
+// by the Vanforces team, trimmed and resized for the web.
+const odoo: Partner = {
+  name: "Odoo",
+  logo: "/brand/partners/odoo.png",
+  width: 623,
+  height: 199,
+  headline: "Odoo Integration",
+  body: "Connect supported Odoo business records with Vanforces distribution workflows through configured data synchronization.",
+  points: ["Customers and products", "Units and packaging", "Sales orders and invoices", "Collection receipts", "Retry and duplicate handling"],
+  status: "Configured per project",
+  href: "/integrations/odoo",
+  cta: "See Odoo integration",
+};
 
-// Wording follows the product descriptions supplied by the Vanforces team. Capability lists name integration areas, not
-// a confirmation that every feature is live, and the status chips are deliberately cautious.
-const categories: Category[] = [
-  {
-    id: "erp",
-    label: "ERP & Accounting",
-    intro: "Connect supported business records with distribution workflows through configured data synchronization.",
-    partners: [
-      {
-        name: "Odoo",
-        mark: "O",
-        headline: "Odoo Integration",
-        body: "Connect supported Odoo business records with Vanforces distribution workflows through configured data synchronization.",
-        points: ["Customers and products", "Units and packaging", "Sales orders and invoices", "Collection receipts", "Retry and duplicate handling"],
-        status: "Configured per project",
-        href: "/integrations/odoo",
-        cta: "See Odoo integration",
-      },
-      {
-        name: "Zoho Books",
-        mark: "Z",
-        headline: "Zoho Books Integration",
-        body: "Connect supported customer, product, invoice and payment information between Vanforces and Zoho Books.",
-        points: ["Customers and contacts", "Items and products", "Invoices", "Customer payments", "Sync monitoring and retries"],
-        status: "Configured per project",
-        href: "/integrations/zoho-books",
-        cta: "See Zoho Books integration",
-      },
-    ],
-  },
-  {
-    id: "communication",
-    label: "Business Communication",
-    intro: "Keep customer conversations organised alongside the distribution day.",
-    partners: [
-      {
-        name: "Whatasol",
-        mark: "W",
-        headline: "Smarter Business Conversations",
-        body: "Organize customer conversations, manage team communication and streamline WhatsApp engagement through shared inboxes, automation and campaigns.",
-        points: ["Shared team inbox", "Message templates and campaigns", "Automated responses and workflows", "Communication analytics", "APIs and supported integrations"],
-        status: "Related solution",
-        href: "/contact",
-        cta: "Ask about Whatasol",
-      },
-    ],
-  },
-  {
-    id: "compliance",
-    label: "E-Invoicing & Compliance",
-    intro: "Regional invoicing requirements, handled through configured workflows.",
-    partners: [
-      {
-        name: "ZATCA",
-        mark: "Z",
-        headline: "Saudi E-Invoicing Support",
-        body: "Support applicable Saudi e-invoicing requirements through configured invoice processing, validation and integration workflows.",
-        points: ["Electronic invoice processing", "Invoice validation", "XML and QR code handling", "Fatoora integration workflows", "Submission and error handling"],
-        status: "Configured per project",
-        href: "/contact",
-        cta: "Ask about Saudi e-invoicing",
-      },
-    ],
-  },
-];
+const zoho: Partner = {
+  name: "Zoho Books",
+  logo: "/brand/partners/zoho.png",
+  width: 640,
+  height: 276,
+  headline: "Zoho Books Integration",
+  body: "Connect supported customer, product, invoice and payment information between Vanforces and Zoho Books.",
+  points: ["Customers and contacts", "Items and products", "Invoices", "Customer payments", "Sync monitoring and retries"],
+  status: "Configured per project",
+  href: "/integrations/zoho-books",
+  cta: "See Zoho Books integration",
+};
+
+const whatasol: Partner = {
+  name: "Whatasol",
+  logo: "/brand/partners/whatasol.png",
+  width: 640,
+  height: 130,
+  headline: "Smarter Business Conversations",
+  body: "Organize customer conversations, manage team communication and streamline WhatsApp engagement through shared inboxes, automation and campaigns.",
+  points: ["Shared team inbox", "Message templates and campaigns", "Automated responses and workflows", "Communication analytics", "APIs and supported integrations"],
+  status: "Related solution",
+  href: "/contact",
+  cta: "Ask about Whatasol",
+};
+
+const zatca: Partner = {
+  name: "Al Mawasil",
+  logo: "/brand/partners/al-mawasil.png",
+  width: 640,
+  height: 85,
+  headline: "Saudi E-Invoicing Support",
+  body: "Support applicable Saudi e-invoicing requirements through configured invoice processing, validation and integration workflows.",
+  points: ["Electronic invoice processing", "Invoice validation", "XML and QR code handling", "Fatoora integration workflows", "Submission and error handling"],
+  status: "Configured per project",
+  href: "/contact",
+  cta: "Ask about Saudi e-invoicing",
+};
+
+function Status({ label }: { label: string }) {
+  return <span className="rounded-full border border-cyan-line bg-white px-3 py-1 text-[12px] font-semibold text-teal-deep">{label}</span>;
+}
+
+function Points({ items }: { items: string[] }) {
+  return (
+    <ul className="mt-5 flex flex-wrap gap-2">
+      {items.map((point) => (
+        <li key={point} className="rounded-full border border-line bg-white px-3 py-1 text-[13px] text-navy">
+          {point}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CardLink({ href, children }: { href: string; children: string }) {
+  return (
+    <Link href={href} className="group mt-6 inline-flex items-center gap-1.5 self-start text-[15px] font-semibold text-teal-deep hover:text-navy">
+      {children}
+      <ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+    </Link>
+  );
+}
+
+const reveal = (ms: number) => ({ "data-reveal": "", suppressHydrationWarning: true, style: { "--d": `${ms}ms` } as CSSProperties });
+
+function PartnerCard({ partner, logoClass, className = "", delay }: { partner: Partner; logoClass: string; className?: string; delay?: number }) {
+  return (
+    <article {...(delay === undefined ? {} : reveal(delay))} className={`flex flex-col rounded-[28px] bg-mist p-6 md:p-8 ${className}`}>
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex h-14 items-center">
+          <Image src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} sizes="200px" className={`w-auto ${logoClass}`} />
+        </div>
+        <Status label={partner.status} />
+      </div>
+      <h3 className="mt-6 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{partner.headline}</h3>
+      <p className="mt-2.5 text-pretty text-[15.5px] leading-relaxed text-muted">{partner.body}</p>
+      <Points items={partner.points} />
+      <CardLink href={partner.href}>{partner.cta}</CardLink>
+    </article>
+  );
+}
 
 /**
- * Ecosystem. Odoo, Zoho Books, Whatasol and ZATCA in one compact tabbed panel instead of four sections. Each card keeps its
- * wording cautious: integration areas, a plain status chip and one link. Partner marks are neutral lettermarks until logo
- * permissions are confirmed.
+ * Ecosystem. Odoo, Zoho Books, Whatasol and ZATCA (with Al Mawasil) as one bento of cards, each led by its real logo, with
+ * cautious wording, a plain status chip and one link. A last card points to all integrations.
  */
 export function EcosystemSection() {
-  const [active, setActive] = useState(0);
-  const id = useId();
-  const current = categories[active];
-
-  function onKeyDown(event: KeyboardEvent) {
-    let next: number | null = null;
-    if (event.key === "ArrowRight") next = (active + 1) % categories.length;
-    if (event.key === "ArrowLeft") next = (active - 1 + categories.length) % categories.length;
-    if (next !== null) {
-      event.preventDefault();
-      setActive(next);
-      document.getElementById(`${id}-tab-${categories[next].id}`)?.focus();
-    }
-  }
-
   return (
-    <section className="px-3 py-16 md:px-6 md:py-24">
-      <div className="mx-auto max-w-[1320px] rounded-[32px] bg-mist px-5 py-16 sm:px-10 md:rounded-[40px] md:py-24 lg:px-14">
+    <section className="section">
+      <div className="wrap">
         <SectionHeading
           variant="fine"
           align="center"
@@ -118,62 +134,48 @@ export function EcosystemSection() {
           description="Connect your existing business systems with daily field sales, inventory, delivery and collection activities through Vanforces."
         />
 
-        <ScrollReveal delay={100} className="mx-auto mt-12 max-w-[1120px] md:mt-16">
-          <div role="tablist" aria-label="Connected systems" onKeyDown={onKeyDown} className="mx-auto flex w-full max-w-[640px] flex-wrap justify-center gap-1.5 rounded-[22px] bg-white p-1.5 shadow-[0_1px_2px_rgb(41_59_71/0.06)] sm:flex-nowrap sm:rounded-full">
-            {categories.map((category, index) => {
-              const selected = index === active;
-              return (
-                <button
-                  key={category.id}
-                  type="button"
-                  role="tab"
-                  id={`${id}-tab-${category.id}`}
-                  aria-selected={selected}
-                  aria-controls={`${id}-panel`}
-                  tabIndex={selected ? 0 : -1}
-                  onClick={() => setActive(index)}
-                  className={`min-h-11 flex-1 cursor-pointer whitespace-nowrap rounded-full px-4 py-2 text-[14px] font-semibold transition-colors duration-300 ${selected ? "bg-navy-deep text-white" : "text-muted hover:text-navy-deep"}`}
-                >
-                  {category.label}
-                </button>
-              );
-            })}
+        <div className="mt-14 grid gap-4 md:mt-16 lg:grid-cols-3">
+          <div {...reveal(0)} className="rounded-[32px] bg-cyan-soft p-4 sm:p-5 lg:col-span-2">
+            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-2 pb-4 pt-2 sm:px-3">
+              <h3 className="text-[1.0625rem] font-semibold text-navy-deep">ERP &amp; Accounting</h3>
+              <p className="text-[14px] text-muted">Supported business records, kept in step through configured data synchronization.</p>
+            </div>
+            <div className="grid gap-4 md:grid-cols-2">
+              <PartnerCard partner={odoo} logoClass="h-9" className="bg-white" />
+              <PartnerCard partner={zoho} logoClass="h-12" className="bg-white" />
+            </div>
           </div>
 
-          <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${current.id}`} className="mt-8">
-            <p className="mx-auto max-w-[36rem] text-center text-[1.0625rem] leading-relaxed text-muted">{current.intro}</p>
-            <ul className={`mt-8 grid gap-4 ${current.partners.length > 1 ? "md:grid-cols-2" : "mx-auto max-w-[620px]"}`}>
-              {current.partners.map((partner) => (
-                <li key={partner.name} className="flex flex-col rounded-[24px] bg-white p-6 shadow-[0_1px_2px_rgb(41_59_71/0.05)] md:p-8">
-                  <div className="flex items-center justify-between gap-3">
-                    <span aria-hidden="true" className="flex size-11 items-center justify-center rounded-2xl bg-cyan-soft text-[18px] font-semibold text-teal-deep">
-                      {partner.mark}
-                    </span>
-                    <span className="rounded-full border border-cyan-line bg-cyan-soft px-3 py-1 text-[12px] font-semibold text-teal-deep">{partner.status}</span>
-                  </div>
-                  <h3 className="mt-5 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{partner.headline}</h3>
-                  <p className="mt-2.5 text-pretty text-[15.5px] leading-relaxed text-muted">{partner.body}</p>
-                  <ul className="mt-5 flex flex-wrap gap-2">
-                    {partner.points.map((point) => (
-                      <li key={point} className="rounded-full bg-mist px-3 py-1 text-[13px] text-navy">
-                        {point}
-                      </li>
-                    ))}
-                  </ul>
-                  <Link href={partner.href} className="group mt-6 inline-flex items-center gap-1.5 self-start text-[15px] font-semibold text-teal-deep hover:text-navy">
-                    {partner.cta}
-                    <ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-            <p className="mx-auto mt-8 max-w-[44rem] text-center text-[13px] leading-relaxed text-muted">
-              Integration areas shown here describe what can be configured, not a promise that every feature is available in every setup. Scope depends on the connector and the implementation.{" "}
-              <Link href="/integrations" className="font-semibold text-teal-deep underline-offset-2 hover:underline">
-                Explore all integrations
-              </Link>
-            </p>
-          </div>
+          <PartnerCard partner={whatasol} logoClass="h-9" delay={90} />
+
+          <article {...reveal(120)} className="flex flex-col rounded-[28px] bg-mist p-6 md:p-8 lg:col-span-2">
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex h-14 items-center gap-4">
+                <span className="rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold tracking-[0.04em] text-navy-deep">ZATCA</span>
+                <Image src={zatca.logo} alt={zatca.name} width={zatca.width} height={zatca.height} sizes="220px" className="h-7 w-auto" />
+              </div>
+              <Status label={zatca.status} />
+            </div>
+            <h3 className="mt-6 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{zatca.headline}</h3>
+            <p className="mt-2.5 max-w-[40rem] text-pretty text-[15.5px] leading-relaxed text-muted">{zatca.body}</p>
+            <Points items={zatca.points} />
+            <CardLink href={zatca.href}>{zatca.cta}</CardLink>
+          </article>
+
+          <article {...reveal(180)} className="flex flex-col justify-between rounded-[28px] bg-cyan-soft p-6 md:p-8">
+            <div>
+              <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-10 w-auto" />
+              <h3 className="mt-5 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">Data That Moves Both Ways.</h3>
+              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">Customers · Products · Pricing · Orders · Sales · Collections</p>
+            </div>
+            <CardLink href="/integrations">Explore all integrations</CardLink>
+          </article>
+        </div>
+
+        <ScrollReveal delay={120}>
+          <p className="mx-auto mt-8 max-w-[46rem] text-center text-[13px] leading-relaxed text-muted">
+            Integration areas shown here describe what can be configured, not a promise that every feature is available in every setup. Scope depends on the connector and the implementation. Product names and logos belong to their owners and are shown only to name the systems Vanforces can work alongside.
+          </p>
         </ScrollReveal>
       </div>
     </section>
