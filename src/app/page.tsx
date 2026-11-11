@@ -1,16 +1,14 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Button } from "@/components/global/Button";
 import { SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { ClosingPanel } from "@/components/home/ClosingPanel";
 import { CommandCenter } from "@/components/home/CommandCenter";
 import { ExploreShowcase } from "@/components/home/ExploreShowcase";
-import { FieldPhotos } from "@/components/home/FieldPhotos";
 import { HomeHero } from "@/components/home/HomeHero";
 import { IntegrationsSection } from "@/components/home/IntegrationsSection";
 import { JourneyRail } from "@/components/home/JourneyRail";
 import { PricingSelector } from "@/components/home/PricingSelector";
-import { StatsBand } from "@/components/home/StatsBand";
 import { StoriesSection } from "@/components/home/StoriesSection";
 import { ValueSection } from "@/components/home/ValueSection";
 
@@ -83,13 +81,11 @@ export default function Home() {
       <HomeHero />
       <Explore />
       <Journey />
-      <StatsBand />
       <PricingSelector />
       <CommandCenter />
       <StoriesSection />
       <ValueSection />
       <IntegrationsSection />
-      <FieldPhotos />
       <ClosingPanel />
     </>
   );
