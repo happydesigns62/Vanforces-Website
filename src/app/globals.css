@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 /* Page captures are not site code. Scanning them can crash the preview while they are being written. */
 @source not "../../page-images";
@@ -449,6 +449,14 @@ body {
   background:
     linear-gradient(in oklab 180deg, rgb(255 255 255 / 0) 55%, #fff 100%),
     linear-gradient(in oklab 112deg, #fff3e9 0%, #fffaf6 35%, #f6fcfc 68%, #e3f5f6 100%);
+}
+
+/* Hero ribbon layer: fades out toward the bottom, and is held back behind the headline so the text stays crisp. */
+.hero-flow-mask {
+  mask-image:
+    linear-gradient(to bottom, #000 68%, transparent),
+    radial-gradient(ellipse 36% 26% at 50% 27%, rgb(0 0 0 / 0.3) 0%, rgb(0 0 0 / 0.3) 55%, #000 100%);
+  mask-composite: intersect;
 }
 
 /* Stage behind the product screens: a clear cyan that deepens toward the bottom, with faint vertical bands that fade
