@@ -73,7 +73,7 @@ export function HomeHero() {
           <VanSalesScene />
         </div>
 
-        <div className="seq-shot relative mx-auto mt-6 max-w-[1200px] md:mt-8" style={delay(400)}>
+        <div className="seq-shot relative mx-auto mt-10 max-w-[1200px] md:mt-16" style={delay(400)}>
           <ScrollScene mode="entry" className="scene-stage">
             <HeroDashboard shot={web.heroDashboard} sizes="(max-width: 1280px) 92vw, 1090px" />
           </ScrollScene>

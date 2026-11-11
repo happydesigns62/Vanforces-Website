@@ -111,7 +111,9 @@ export default function ComparePage() {
               <Image src="/brand/vanforces-mark.svg" alt="" width={60} height={56} className="h-5 w-auto" />
               Vanforces
             </span>
-            <span className="text-[14.5px] font-semibold text-navy-deep">BeatRoute</span>
+            <span className="flex items-center">
+              <Image src="/brand/partners/beatroute.png" alt="BeatRoute" width={384} height={44} className="h-5 w-auto" />
+            </span>
           </div>
 
           <div className="mt-5 space-y-5">
@@ -150,7 +152,7 @@ export default function ComparePage() {
               </li>
             ))}
           </ul>
-          <p className="mt-3 text-[13px] text-muted">Vendor pages describe vendor claims. They were not independently tested.</p>
+          <p className="mt-3 text-[13px] text-muted">Vendor pages describe vendor claims. They were not independently tested. The BeatRoute name and logo belong to BeatRoute and are used here only to identify the product being compared.</p>
         </div>
       </section>
 

@@ -91,6 +91,7 @@ export function EntauraShowcase() {
   return (
     <section id="entaura" className="section scroll-mt-24">
       <div className="wrap">
+        <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} className="mx-auto mb-6 h-8 w-auto" />
         <SectionHeading
           variant="fine"
           align="center"

@@ -51,7 +51,9 @@ export function ComparePreview() {
                   <Image src="/brand/vanforces-mark.svg" alt="" width={60} height={56} className="h-5 w-auto" />
                   Vanforces
                 </span>
-                <span className="text-[14px] font-semibold text-navy-deep">BeatRoute</span>
+                <span className="flex items-center">
+                  <Image src="/brand/partners/beatroute.png" alt="BeatRoute" width={384} height={44} className="h-[18px] w-auto" />
+                </span>
               </div>
               <ul className="divide-y divide-line">
                 {shown.map((row) => {

@@ -367,6 +367,42 @@ export function PeekMascot({ className = "" }: { className?: string }) {
   );
 }
 
+/**
+ * The mascot sitting behind the top edge of the Solution Finder card. While the box is waiting it peeks up now and then,
+ * waves, and wonders (three bouncing dots in a bubble). Once suggestions appear it stays up, holds the tablet, and shows a
+ * tick in the bubble. The card itself hides the lower part of the drawing, so the mascot looks as if it is perched on the edge.
+ */
+export function FinderMascot({ found = false, className = "" }: { found?: boolean; className?: string }) {
+  const bubble = (
+    <g transform="translate(92 8)">
+      <path d="M8 0 H52 a8 8 0 0 1 8 8 V26 a8 8 0 0 1 -8 8 H22 L12 44 V34 H8 a8 8 0 0 1 -8 -8 V8 a8 8 0 0 1 8 -8 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      {found ? (
+        <g className="vg-pop">
+          <path d="M20 17 l7 7 l14 -14" fill="none" stroke={TEAL} strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" />
+        </g>
+      ) : (
+        <g>
+          {[0, 1, 2].map((i) => (
+            <circle key={i} className="vg-bob" style={{ animationDelay: `${i * 0.18}s` }} cx={18 + i * 12} cy="17" r="3.4" fill={NAVY} />
+          ))}
+        </g>
+      )}
+    </g>
+  );
+  return (
+    <Live className={`pointer-events-none ${className}`}>
+      <svg viewBox="0 0 170 112" className="block h-full w-full" role="presentation">
+        <g className={found ? "" : "vg-peek"}>
+          <g transform="translate(58 110) scale(0.98)">
+            <Mascot pose={found ? "tablet" : "wave"} />
+          </g>
+          {bubble}
+        </g>
+      </svg>
+    </Live>
+  );
+}
+
 /* ------------------------------------------------------------------ page scenes ------------------------------------------------------------------ */
 
 export type PageSceneKind = "warehouse" | "van" | "shop" | "office";
