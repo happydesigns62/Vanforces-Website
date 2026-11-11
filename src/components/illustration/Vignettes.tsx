@@ -419,18 +419,28 @@ const askCards = [
 export function FinderMascot({ found = false, className = "" }: { found?: boolean; className?: string }) {
   const [card, setCard] = useState(0);
   const current = askCards[card % askCards.length];
+  // The question card is as wide as its words: the text is stretched to an estimated width and the card is drawn around it,
+  // so every label fits however long it is. The tick card is a fixed, smaller size.
+  const textWidth = Math.round(current.label.length * 7.3);
+  const width = found ? 100 : 46 + textWidth + 16;
   const bubble = (
     <g transform="translate(104 6)">
-      <path d="M10 0 H132 a10 10 0 0 1 10 10 V34 a10 10 0 0 1 -10 10 H34 L20 56 V44 H10 a10 10 0 0 1 -10 -10 V10 a10 10 0 0 1 10 -10 Z" fill="#fff" stroke={NAVY} strokeWidth="2" strokeLinejoin="round" />
+      <path
+        d={`M10 0 H${width - 10} a10 10 0 0 1 10 10 V34 a10 10 0 0 1 -10 10 H34 L20 56 V44 H10 a10 10 0 0 1 -10 -10 V10 a10 10 0 0 1 10 -10 Z`}
+        fill="#fff"
+        stroke={NAVY}
+        strokeWidth="2"
+        strokeLinejoin="round"
+      />
       {found ? (
         <g className="vg-pop">
-          <path d="M54 22 l9 9 l18 -18" fill="none" stroke={TEAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M36 22 l9 9 l18 -18" fill="none" stroke={TEAL} strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" />
         </g>
       ) : (
         <g>
           <circle cx="26" cy="22" r="13" fill={TEAL_LIGHT} stroke={NAVY} strokeWidth="1.8" />
           <g transform="translate(26 22)">{current.icon}</g>
-          <text x="46" y="26.5" fontSize="12" fontWeight="700" fill={NAVY} fontFamily="inherit">
+          <text x="46" y="26.5" fontSize="12" fontWeight="700" fill={NAVY} fontFamily="inherit" textLength={textWidth} lengthAdjust="spacingAndGlyphs">
             {current.label}
           </text>
         </g>
@@ -439,7 +449,7 @@ export function FinderMascot({ found = false, className = "" }: { found?: boolea
   );
   return (
     <Live className={`pointer-events-none ${className}`}>
-      <svg viewBox="0 0 252 112" className="block h-full w-full" role="presentation">
+      <svg viewBox="0 0 270 112" className="block h-full w-full" role="presentation">
         <g className={found ? "" : "vg-ask"} onAnimationIteration={found ? undefined : () => setCard((value) => value + 1)}>
           <g transform="translate(58 110) scale(0.98)">
             <Mascot pose={found ? "tablet" : "wave"} />
