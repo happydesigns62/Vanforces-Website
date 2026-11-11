@@ -775,8 +775,8 @@ input[type="range"] {
 .vg-sway { transform-box: fill-box; transform-origin: 50% 100%; animation: vg-sway 4s ease-in-out infinite; }
 .vg-glow { animation: vg-glow 4s ease-in-out infinite; }
 .vg-peek { animation: vg-peek 8s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
-/* The finder mascot stands on the card's top edge holding a question card. It stays up for about two and a half seconds, ducks behind the card for about two seconds, and comes back up with the next card. It starts in the up position, so it is already there when the box scrolls into view. */
-.vg-ask { animation: vg-ask 4.6s cubic-bezier(0.3, 0.9, 0.35, 1) infinite; animation-delay: -1.84s; }
+/* The finder mascot stands on the card's top edge holding a question card. It stays up for about two and a half seconds, then glides down behind the card (about a second), rests there briefly, and glides back up (about a second) with the next card. Both moves ease in and out, so it never snaps. It starts in the up position, so it is already there when the box scrolls into view. */
+.vg-ask { animation: vg-ask 5.3s cubic-bezier(0.45, 0, 0.25, 1) infinite; animation-delay: -2.4s; }
 .vg-flip { transform-box: fill-box; transform-origin: 50% 50%; animation: vg-flip 2.8s ease-in-out infinite; }
 @keyframes vg-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
 @keyframes vg-spin { to { transform: rotate(360deg); } }
@@ -800,7 +800,7 @@ input[type="range"] {
 @keyframes vg-draw { 0% { stroke-dashoffset: 1; } 38%, 86% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 1; } }
 @keyframes vg-sway { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
 @keyframes vg-glow { 0%, 100% { opacity: 0.15; } 50% { opacity: 0.9; } }
-@keyframes vg-ask { 0%, 14.15% { transform: translateY(124px); } 21.75%, 78.25% { transform: translateY(0); } 85.85%, 100% { transform: translateY(124px); } }
+@keyframes vg-ask { 0%, 6.6% { transform: translateY(124px); } 25.5%, 74.5% { transform: translateY(0); } 93.4%, 100% { transform: translateY(124px); } }
 @keyframes vg-peek { 0%, 55% { transform: translateY(118px); } 66%, 86% { transform: translateY(0); } 100% { transform: translateY(118px); } }
 @keyframes vg-flip { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
 @media (prefers-reduced-motion: reduce) {
