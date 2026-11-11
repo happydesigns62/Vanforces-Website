@@ -6,11 +6,14 @@ import { ClosingPanel } from "@/components/home/ClosingPanel";
 import { CommandCenter } from "@/components/home/CommandCenter";
 import { ExploreShowcase } from "@/components/home/ExploreShowcase";
 import { HomeHero } from "@/components/home/HomeHero";
-import { IntegrationsSection } from "@/components/home/IntegrationsSection";
+import { ComparePreview } from "@/components/home/ComparePreview";
+import { EcosystemSection } from "@/components/home/EcosystemSection";
 import { JourneyRail } from "@/components/home/JourneyRail";
 import { PricingSelector } from "@/components/home/PricingSelector";
+import { SolutionFinder } from "@/components/home/SolutionFinder";
 import { StoriesSection } from "@/components/home/StoriesSection";
 import { ValueSection } from "@/components/home/ValueSection";
+import { WhyVanforces } from "@/components/home/WhyVanforces";
 
 export const metadata: Metadata = {
   title: { absolute: "Vanforces | Connect Your Entire Distribution Operation" },
@@ -24,13 +27,16 @@ function Explore() {
       <div className="wrap">
         <ExploreShowcase
           intro={
-            <SectionHeading
-              variant="fine"
-              eyebrow="Built around your daily operations"
-              title="The Right Tools for"
-              titleMuted="Every Part of the Job."
-              description="A salesperson, warehouse team and finance manager have different responsibilities. Vanforces keeps the work connected."
-            />
+            <>
+              <SectionHeading
+                variant="fine"
+                eyebrow="Built around your daily operations"
+                title="The Right Tools for"
+                titleMuted="Every Part of the Job."
+                description="A salesperson, warehouse team and finance manager have different responsibilities. Vanforces keeps the work connected."
+              />
+              <SolutionFinder />
+            </>
           }
         />
         <ScrollReveal className="mt-16 flex flex-col items-start justify-between gap-5 border-t border-line pt-8 sm:flex-row sm:items-center">
@@ -84,8 +90,8 @@ export default function Home() {
       <PricingSelector />
       <CommandCenter />
       <StoriesSection />
-      <ValueSection />
-      <IntegrationsSection />
+      <WhyVanforces value={<ValueSection />} compare={<ComparePreview />} />
+      <EcosystemSection />
       <ClosingPanel />
     </>
   );

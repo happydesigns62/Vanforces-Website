@@ -1,11 +1,11 @@
 import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Button } from "@/components/global/Button";
-import { ScrollReveal, StaggerReveal } from "@/components/motion/Reveal";
+import { ScrollReveal } from "@/components/motion/Reveal";
 import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words, wordCount } from "@/components/motion/Words";
 import { web } from "@/data/media";
-import { ENTAURA_URL } from "@/data/navigation";
+import { EntauraShowcase } from "./EntauraShowcase";
 
 const TITLE = "The Day Is Happening Everywhere.";
 const TITLE_MUTED = "See the Bigger Picture.";
@@ -19,14 +19,6 @@ const callouts = [
   { text: "What's selling?", x: 9, y: 46 },
   { text: "What needs attention?", x: 38, y: 36 },
   { text: "What's collected? What's outstanding?", x: 62, y: 76 },
-];
-
-// The three Entaura products. The topics and lines are Entaura's own wording from entaura.ai, copied as written.
-// Watch has no separate line, so it shows its topic only.
-const products = [
-  { name: "Entaura Ask", logo: "/brand/entaura-ask.png", width: 720, height: 104, topic: "Knowledge", line: "Ask the question. See the proof.", glow: "hover:shadow-[0_18px_40px_-22px_rgb(32_130_220/0.55)]" },
-  { name: "Entaura Insight", logo: "/brand/entaura-insight.png", width: 720, height: 92, topic: "Smart & trusted analytics", line: "Live ERP numbers you can check.", glow: "hover:shadow-[0_18px_40px_-22px_rgb(70_170_50/0.55)]" },
-  { name: "Entaura Watch", logo: "/brand/entaura-watch.png", width: 720, height: 93, topic: "Alerts from your answers", line: "", glow: "hover:shadow-[0_18px_40px_-22px_rgb(190_90_240/0.5)]" },
 ];
 
 function Chips({ label, items }: { label: string; items: string[] }) {
@@ -129,32 +121,7 @@ export function CommandCenter() {
             </ul>
           </div>
 
-          <ScrollReveal className="mx-auto mt-12 max-w-[1120px] md:mt-16">
-            <div className="grid overflow-hidden rounded-[28px] bg-white text-navy shadow-[0_30px_60px_-30px_rgb(0_0_0/0.6)] lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)]">
-              <div className="flex flex-col items-start p-7 md:p-10">
-                <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} className="h-6 w-auto" />
-                <h2 className="mt-6 text-[clamp(1.5rem,1.15rem+1.1vw,2rem)] font-medium leading-[1.14] tracking-[-0.035em] text-navy-deep">Your Business Data Has More to Say.</h2>
-                <p className="mt-4 max-w-[26rem] text-pretty text-[1rem] leading-[1.65] text-muted">
-                  Ask questions. Discover insights. Stay informed. Meet Entaura, an AI-powered platform for exploring business information.
-                </p>
-                <Button href={ENTAURA_URL} variant="ink" className="mt-7 !min-h-[46px] !px-6 !text-[14.5px]">
-                  Explore Entaura.ai
-                </Button>
-              </div>
-
-              <StaggerReveal step={110} className="flex flex-col justify-center divide-y divide-line border-t border-line bg-mist/70 lg:border-l lg:border-t-0">
-                {products.map((product) => (
-                  <div key={product.name} className="grid items-center gap-x-6 gap-y-2 px-7 py-5 sm:grid-cols-[110px_minmax(0,1fr)] md:px-10">
-                    <Image src={product.logo} alt={product.name} width={product.width} height={product.height} sizes="110px" className="h-auto w-[104px]" />
-                    <div>
-                      <p className="text-[11.5px] font-semibold uppercase tracking-[0.12em] text-muted">{product.topic}</p>
-                      {product.line ? <p className="mt-0.5 text-[14.5px] leading-snug text-navy-deep">{product.line}</p> : null}
-                    </div>
-                  </div>
-                ))}
-              </StaggerReveal>
-            </div>
-          </ScrollReveal>
+          <EntauraShowcase />
         </div>
       </ScrollScene>
     </section>
