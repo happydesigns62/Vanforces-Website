@@ -51,7 +51,7 @@ function useTypedPlaceholder(active: boolean) {
 
 /**
  * Solution Finder, in the look of Entaura. A visitor describes their business in a Gemini-style search bar (a soft gradient
- * ring slowly circles it, the Entaura icon turns, and example questions type themselves into it) and sees matching Vanforces capabilities beside it.
+ * ring slowly circles it, the Entaura icon sits still, and example questions type themselves into it) and sees matching Vanforces capabilities beside it.
  * It is a plain keyword match against the site's own capabilities, so it is labelled "Guided recommendations" and never as
  * live AI, and it says it is styled after Entaura, not powered by it. The text typed is not stored or sent anywhere.
  */
@@ -94,7 +94,7 @@ export function SolutionFinder() {
             <span aria-hidden="true" className="finder-glow pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,#1cb2bb,#6f8dff,#c58bf0,#ec9850,#1cb2bb)] opacity-35 blur-xl" />
             <div className="relative rounded-[24px] bg-white p-3 sm:p-4">
               <div className="flex items-start gap-3">
-                <Image src="/brand/entaura-icon.svg" alt="" width={122} height={122} className="entaura-icon mt-0.5 size-7 shrink-0" />
+                <Image src="/brand/entaura-icon.svg" alt="" width={122} height={122} className="mt-0.5 size-7 shrink-0" />
                 <textarea
                   id={`${id}-input`}
                   value={text}

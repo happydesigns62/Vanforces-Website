@@ -55,46 +55,44 @@ export function EntauraShowcase() {
   return (
     <section id="entaura" className="section scroll-mt-24">
       <div className="wrap">
-        <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,6fr)_minmax(0,5fr)] lg:gap-16">
+        <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
           <ScrollReveal>
             <p className="eyebrow">Meet Entaura</p>
-            <h2 className="t-fine mt-5">
+            <h2 className="mt-5 text-balance text-[clamp(1.875rem,1.5rem+1.3vw,2.625rem)] font-medium leading-[1.1] tracking-[-0.04em] text-navy-deep">
               Intelligence for <span className="text-ink-soft">Better Business Decisions.</span>
             </h2>
-            <p className="mt-5 max-w-[34rem] text-pretty text-[1.0625rem] leading-[1.7] text-muted sm:text-[1.125rem]">
+            <p className="mt-4 max-w-[32rem] text-pretty text-[1rem] leading-[1.7] text-muted">
               Vanforces connects the operation. Entaura helps make sense of the information: ask questions, explore business knowledge, discover insights and monitor important changes.
             </p>
-            <div className="mt-8 flex flex-col items-start gap-3 sm:flex-row">
-              <Button href={ENTAURA_URL} variant="ink" arrow className="!min-h-[50px] !px-7 !text-[15px]">
+            <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row">
+              <Button href={ENTAURA_URL} variant="ink" arrow className="!min-h-[46px] !px-6 !text-[14.5px]">
                 Explore Entaura.ai
               </Button>
-              <Button href="/contact" variant="secondary" className="!min-h-[50px] !px-7 !text-[15px]">
+              <Button href="/contact" variant="secondary" className="!min-h-[46px] !px-6 !text-[14.5px]">
                 Ask about Entaura
               </Button>
             </div>
           </ScrollReveal>
 
           <ScrollReveal delay={120}>
-            <div className="stage-soft relative flex min-h-[260px] items-center justify-center overflow-hidden rounded-[32px] border border-cyan-line p-6 sm:min-h-[320px]">
-              <span aria-hidden="true" className="capsule left-[-8%] top-[34%] h-[34%] w-[116%] border border-white/70 bg-white/45" />
-              <div className="relative flex items-center gap-4 rounded-[28px] bg-white px-6 py-5 shadow-[0_30px_60px_-30px_rgb(8_60_66/0.5),0_2px_6px_rgb(41_59_71/0.06)] sm:gap-6 sm:px-10 sm:py-7">
-                <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-10 w-auto sm:h-12" />
-                <span aria-hidden="true" className="h-9 w-px bg-line sm:h-11" />
-                <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} priority className="h-10 w-auto sm:h-12" />
+            <div className="flex items-center justify-center rounded-[28px] bg-cyan-soft px-6 py-12 sm:py-14">
+              <div className="flex items-center gap-5 rounded-[22px] bg-white px-7 py-5 shadow-[0_24px_50px_-28px_rgb(8_60_66/0.45),0_1px_3px_rgb(41_59_71/0.06)]">
+                <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-9 w-auto" />
+                <span aria-hidden="true" className="h-8 w-px bg-line" />
+                <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} priority className="h-8 w-auto" />
               </div>
             </div>
           </ScrollReveal>
         </div>
-
-        <ul className="mt-14 grid gap-4 md:mt-16 md:grid-cols-2">
+        <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-2">
           {products.map((product, index) => (
             <li key={product.name} data-reveal="" suppressHydrationWarning style={reveal(index * 90)} className="flex flex-col rounded-[28px] bg-mist p-6 sm:p-8">
               <Image src={product.logo} alt={product.name} width={product.width} height={product.height} sizes="150px" className="h-auto w-[132px]" />
-              <h3 className="mt-5 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{product.topic}</h3>
-              <p className="mt-2 text-[15.5px] leading-relaxed text-muted">{product.lead}</p>
+              <h3 className="mt-5 text-[1.25rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{product.topic}</h3>
+              <p className="mt-2 text-[15px] leading-relaxed text-muted">{product.lead}</p>
               <ul className="mt-5 grid gap-2.5">
                 {product.points.map((point) => (
-                  <li key={point} className="flex items-start gap-2.5 text-[14.5px] font-medium leading-snug text-navy-deep">
+                  <li key={point} className="flex items-start gap-2.5 text-[14px] font-medium leading-snug text-navy-deep">
                     <span aria-hidden="true" className="mt-0.5 flex size-5 shrink-0 items-center justify-center rounded-full bg-teal text-navy-deep">
                       <Check size={12} strokeWidth={3} />
                     </span>
