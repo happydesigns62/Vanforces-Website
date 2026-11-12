@@ -94,7 +94,7 @@ export function SolutionFinder() {
             <span aria-hidden="true" className="finder-glow pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,#1cb2bb,#6f8dff,#c58bf0,#ec9850,#1cb2bb)] opacity-35 blur-xl" />
             <div className="relative rounded-[24px] bg-white p-3 sm:p-4">
               <div className="flex items-start gap-3">
-                <Image src="/brand/entaura-icon.svg" alt="" width={122} height={122} className="mt-0.5 size-7 shrink-0" />
+                <Image src="/brand/entaura-icon.png" alt="" width={260} height={149} className="mt-1 h-[22px] w-auto shrink-0" />
                 <textarea
                   id={`${id}-input`}
                   value={text}
