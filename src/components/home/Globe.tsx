@@ -6,9 +6,12 @@ import type { GeometryCollection, Topology } from "topojson-specification";
 
 type Place = { name: string; id: string; lon: number; lat: number };
 
+// In the order the globe visits them, so each glide is a short hop across the Gulf and then on to India.
 const places: Place[] = [
   { name: "Saudi Arabia", id: "682", lon: 45, lat: 24 },
+  { name: "Bahrain", id: "048", lon: 50.55, lat: 26.05 },
   { name: "UAE", id: "784", lon: 54.3, lat: 24 },
+  { name: "Oman", id: "512", lon: 57, lat: 21 },
   { name: "India", id: "356", lon: 79, lat: 21 },
 ];
 
@@ -21,8 +24,9 @@ const LIFT = 38;
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 /**
- * A large globe, cut off by the bottom of its box. It shows one country at a time, lit in the brand orange with a pin and
- * its name, then glides to the next: Saudi Arabia, the UAE, India, and back to Saudi Arabia. The map code and data load only
+ * A large globe, cut off by the bottom of its box. Every country we work in carries a small pulsing dot, so the full list is clear
+ * at first glance. One country at a time is lit in the brand orange with a pin and its name, then the globe glides to the next:
+ * Saudi Arabia, Bahrain, the UAE, Oman, India, and back to Saudi Arabia. The map code and data load only
  * when it comes near, and it stops while off screen. With reduced motion it stays still on the first country.
  */
 export function Globe({ className = "" }: { className?: string }) {
@@ -80,7 +84,9 @@ export function Globe({ className = "" }: { className?: string }) {
       const land = topo.feature(world, world.objects.land) as GeoPermissibleObjects;
       const borders = topo.mesh(world, world.objects.countries, (a, b) => a !== b) as GeoPermissibleObjects;
       const countries = topo.feature(world, world.objects.countries).features;
-      const lit = places.map((place) => countries.find((country) => String(country.id) === place.id));
+      // Bahrain is too small to be in the 110m map, so it is drawn as a small disc on its position.
+      const bahrain = d3.geoCircle().center([50.55, 26.05]).radius(0.34)();
+      const lit = places.map((place) => countries.find((country) => String(country.id) === place.id) ?? (place.id === "048" ? bahrain : undefined));
       const projection = d3.geoOrthographic().clipAngle(90).precision(0.6);
       const path = d3.geoPath(projection, ctx);
 
@@ -143,6 +149,28 @@ export function Globe({ className = "" }: { className?: string }) {
         ctx.strokeStyle = "rgb(14 127 134 / 0.45)";
         ctx.lineWidth = 1.5;
         ctx.stroke();
+
+        // A small pulsing dot on every country we work in, so all of them show at first look.
+        places.forEach((place, i) => {
+          if (place === shown) return;
+          const spot = projection([place.lon, place.lat]);
+          if (!spot) return;
+          if (!calm.matches) {
+            const beat = ((now + i * 420) % 2200) / 2200;
+            ctx.beginPath();
+            ctx.arc(spot[0], spot[1], 4 + beat * 14, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgb(255 255 255 / ${(0.65 * (1 - beat)).toFixed(3)})`;
+            ctx.lineWidth = 1.6;
+            ctx.stroke();
+          }
+          ctx.beginPath();
+          ctx.arc(spot[0], spot[1], 3.6, 0, Math.PI * 2);
+          ctx.fillStyle = "#fff";
+          ctx.fill();
+          ctx.lineWidth = 2;
+          ctx.strokeStyle = "#263a47";
+          ctx.stroke();
+        });
 
         const point = projection([shown.lon, shown.lat]);
         const chip = chipRef.current;
@@ -212,7 +240,7 @@ export function Globe({ className = "" }: { className?: string }) {
 
   return (
     <div ref={boxRef} className={`relative overflow-hidden ${className}`}>
-      <p className="sr-only">Vanforces works in Saudi Arabia, the UAE and India.</p>
+      <p className="sr-only">Vanforces works in Saudi Arabia, Bahrain, the UAE, Oman and India.</p>
       <canvas ref={canvasRef} aria-hidden="true" className="absolute inset-0 h-full w-full" />
       <div
         ref={chipRef}

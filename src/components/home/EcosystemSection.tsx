@@ -1,125 +1,97 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { SectionHeading } from "@/components/global/Common";
 import type { CSSProperties } from "react";
+import { SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
 
-type Partner = {
-  name: string;
-  logo: string;
-  width: number;
-  height: number;
-  headline: string;
-  body: string;
-  points: string[];
-  status: string;
-  href: string;
-  cta: string;
-};
+type Logo = { name: string; src: string; width: number; height: number; className: string; href?: string };
 
-// Wording follows the product descriptions supplied by the Vanforces team. Capability lists name integration areas, not a
-// confirmation that every feature is live, and the status chips are deliberately cautious. The logos are the files supplied
-// by the Vanforces team, trimmed and resized for the web.
-const odoo: Partner = {
-  name: "Odoo",
-  logo: "/brand/partners/odoo.png",
-  width: 623,
-  height: 199,
-  headline: "Odoo Integration",
-  body: "Connect supported Odoo business records with Vanforces distribution workflows through configured data synchronization.",
-  points: ["Customers and products", "Units and packaging", "Sales orders and invoices", "Collection receipts", "Retry and duplicate handling"],
-  status: "Configured per project",
-  href: "/integrations/odoo",
-  cta: "See Odoo integration",
-};
+// The systems Vanforces works alongside. The logos are the files supplied by the Vanforces team, trimmed and resized for the web.
+// Odoo and Zoho Books link to their own pages. The others are shown to name the system and are not links.
+const left: Logo[] = [
+  { name: "Odoo", src: "/brand/partners/odoo.png", width: 623, height: 199, className: "h-9", href: "/integrations/odoo" },
+  { name: "Zoho Books", src: "/brand/partners/zoho.png", width: 640, height: 276, className: "h-12", href: "/integrations/zoho-books" },
+  { name: "Taskforces ERP", src: "/brand/partners/taskforces.png", width: 640, height: 97, className: "h-8" },
+];
+const right: Logo[] = [
+  { name: "Whatasol", src: "/brand/partners/whatasol.png", width: 640, height: 130, className: "h-8" },
+  { name: "Al Mawasil, for ZATCA e-invoicing", src: "/brand/partners/al-mawasil.png", width: 640, height: 85, className: "h-7" },
+  { name: "Entaura.ai", src: "/brand/entaura-logo.svg", width: 545, height: 122, className: "h-8" },
+];
 
-const zoho: Partner = {
-  name: "Zoho Books",
-  logo: "/brand/partners/zoho.png",
-  width: 640,
-  height: 276,
-  headline: "Zoho Books Integration",
-  body: "Connect supported customer, product, invoice and payment information between Vanforces and Zoho Books.",
-  points: ["Customers and contacts", "Items and products", "Invoices", "Customer payments", "Sync monitoring and retries"],
-  status: "Configured per project",
-  href: "/integrations/zoho-books",
-  cta: "See Zoho Books integration",
-};
+const W = 1120;
+const H = 440;
+const ROWS = [78, 220, 362];
+const SIDE_X = [236, 170, 236];
+const TILE_W = 220;
+const CENTRE = { x: W / 2, y: H / 2, half: 66 };
 
-const whatasol: Partner = {
-  name: "Whatasol",
-  logo: "/brand/partners/whatasol.png",
-  width: 640,
-  height: 130,
-  headline: "Smarter Business Conversations",
-  body: "Organize customer conversations, manage team communication and streamline WhatsApp engagement through shared inboxes, automation and campaigns.",
-  points: ["Shared team inbox", "Message templates and campaigns", "Automated responses and workflows", "Communication analytics", "APIs and supported integrations"],
-  status: "Related solution",
-  href: "/contact",
-  cta: "Ask about Whatasol",
-};
-
-const zatca: Partner = {
-  name: "Al Mawasil",
-  logo: "/brand/partners/al-mawasil.png",
-  width: 640,
-  height: 85,
-  headline: "Saudi E-Invoicing Support",
-  body: "Support applicable Saudi e-invoicing requirements through configured invoice processing, validation and integration workflows.",
-  points: ["Electronic invoice processing", "Invoice validation", "XML and QR code handling", "Fatoora integration workflows", "Submission and error handling"],
-  status: "Configured per project",
-  href: "/contact",
-  cta: "Ask about Saudi e-invoicing",
-};
-
-function Status({ label }: { label: string }) {
-  return <span className="rounded-full border border-cyan-line bg-white px-3 py-1 text-[12px] font-semibold text-teal-deep">{label}</span>;
-}
-
-function Points({ items }: { items: string[] }) {
-  return (
-    <ul className="mt-5 flex flex-wrap gap-2">
-      {items.map((point) => (
-        <li key={point} className="rounded-full border border-line bg-white px-3 py-1 text-[13px] text-navy">
-          {point}
-        </li>
-      ))}
-    </ul>
+function LogoTile({ logo, style, from }: { logo: Logo; style?: CSSProperties; from?: "left" | "right" }) {
+  const body = (
+    <span className="flex h-full items-center justify-center rounded-[22px] border border-line bg-white px-5 shadow-[0_1px_2px_rgb(41_59_71/0.05),0_16px_30px_-20px_rgb(41_59_71/0.3)] transition-[transform,box-shadow,border-color] duration-500 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:border-cyan-line hover:shadow-lift">
+      <Image src={logo.src} alt={logo.name} width={logo.width} height={logo.height} sizes="200px" className={`w-auto max-w-full ${logo.className}`} />
+    </span>
   );
-}
-
-function CardLink({ href, children }: { href: string; children: string }) {
-  return (
-    <Link href={href} className="group mt-6 inline-flex items-center gap-1.5 self-start text-[15px] font-semibold text-teal-deep hover:text-navy">
-      {children}
-      <ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+  const classes = `${from ? "absolute -translate-x-1/2 -translate-y-1/2" : ""} block h-[76px] ${from ? "w-[220px]" : "w-full"}`;
+  return logo.href ? (
+    <Link href={logo.href} style={style} className={classes} aria-label={`${logo.name} integration`}>
+      {body}
     </Link>
+  ) : (
+    <div style={style} className={classes}>
+      {body}
+    </div>
   );
 }
 
-const reveal = (ms: number) => ({ "data-reveal": "", suppressHydrationWarning: true, style: { "--d": `${ms}ms` } as CSSProperties });
-
-function PartnerCard({ partner, logoClass, className = "", delay }: { partner: Partner; logoClass: string; className?: string; delay?: number }) {
+/** Lines of the diagram: a quiet base line for each connection, with a dashed teal-to-orange line moving along it. */
+function Lines() {
+  const paths: string[] = [];
+  for (let i = 0; i < 3; i++) {
+    const y = ROWS[i];
+    const startL = SIDE_X[i] + TILE_W / 2;
+    const startR = W - startL;
+    if (i === 1) {
+      paths.push(`M${startL} ${y} H${CENTRE.x - CENTRE.half}`);
+      paths.push(`M${startR} ${y} H${CENTRE.x + CENTRE.half}`);
+    } else {
+      paths.push(`M${startL} ${y} C${startL + 90} ${y} ${CENTRE.x - CENTRE.half - 70} ${CENTRE.y} ${CENTRE.x - CENTRE.half} ${CENTRE.y}`);
+      paths.push(`M${startR} ${y} C${startR - 90} ${y} ${CENTRE.x + CENTRE.half + 70} ${CENTRE.y} ${CENTRE.x + CENTRE.half} ${CENTRE.y}`);
+    }
+  }
   return (
-    <article {...(delay === undefined ? {} : reveal(delay))} className={`flex flex-col rounded-[28px] bg-mist p-6 md:p-8 ${className}`}>
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex h-14 items-center">
-          <Image src={partner.logo} alt={partner.name} width={partner.width} height={partner.height} sizes="200px" className={`w-auto ${logoClass}`} />
-        </div>
-        <Status label={partner.status} />
+    <svg viewBox={`0 0 ${W} ${H}`} fill="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
+      <defs>
+        <linearGradient id="eco-flow" x1="0" x2={W} y1="0" y2="0" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="var(--color-teal)" />
+          <stop offset="1" stopColor="var(--color-brand-orange)" />
+        </linearGradient>
+      </defs>
+      {paths.map((d, index) => (
+        <path key={`base-${index}`} d={d} stroke="#dde5e8" strokeWidth="2" strokeLinecap="round" />
+      ))}
+      {paths.map((d, index) => (
+        <path key={`flow-${index}`} d={d} stroke="url(#eco-flow)" strokeWidth="2" strokeLinecap="round" className="flow-line" />
+      ))}
+    </svg>
+  );
+}
+
+function Centre({ className = "" }: { className?: string }) {
+  return (
+    <div className={className}>
+      <span aria-hidden="true" className="hub-halo absolute left-1/2 top-1/2 size-[230px] -translate-x-1/2 -translate-y-1/2 rounded-[70px] bg-[radial-gradient(closest-side,rgb(28_178_187/0.22),rgb(28_178_187/0.06)_70%,transparent)]" />
+      <div className="relative flex size-[132px] items-center justify-center rounded-[34px] bg-white shadow-[0_28px_44px_-20px_rgb(28_178_187/0.5),0_1px_2px_rgb(41_59_71/0.08)]">
+        <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-14 w-auto" />
       </div>
-      <h3 className="mt-6 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{partner.headline}</h3>
-      <p className="mt-2.5 text-pretty text-[15.5px] leading-relaxed text-muted">{partner.body}</p>
-      <Points items={partner.points} />
-      <CardLink href={partner.href}>{partner.cta}</CardLink>
-    </article>
+    </div>
   );
 }
 
 /**
- * Ecosystem. Odoo, Zoho Books, Whatasol and ZATCA (with Al Mawasil) as one bento of cards, each led by its real logo, with
- * cautious wording, a plain status chip and one link. A last card points to all integrations.
+ * Connected systems. No cards of text: the Vanforces mark sits in the middle and the logos of the systems it works with sit
+ * either side, joined by thin lines with light moving along them. One short line of text and one link say the rest.
  */
 export function EcosystemSection() {
   return (
@@ -128,54 +100,43 @@ export function EcosystemSection() {
         <SectionHeading
           variant="fine"
           align="center"
-          eyebrow="Work with what you already have"
-          title="Your ERP. Your Field Teams."
-          titleMuted="One Connected Operation."
-          description="Connect your existing business systems with daily field sales, inventory, delivery and collection activities through Vanforces."
+          eyebrow="Connected systems"
+          title="Works With the Systems"
+          titleMuted="You Already Use."
+          description="ERP, accounting, messaging and e-invoicing tools, connected to the daily field operation."
         />
 
-        <div className="mt-14 grid gap-4 md:mt-16 lg:grid-cols-3">
-          <div {...reveal(0)} className="rounded-[32px] bg-cyan-soft p-4 sm:p-5 lg:col-span-2">
-            <div className="flex flex-wrap items-baseline justify-between gap-x-4 gap-y-1 px-2 pb-4 pt-2 sm:px-3">
-              <h3 className="text-[1.0625rem] font-semibold text-navy-deep">ERP &amp; Accounting</h3>
-              <p className="text-[14px] text-muted">Supported business records, kept in step through configured data synchronization.</p>
-            </div>
-            <div className="grid gap-4 md:grid-cols-2">
-              <PartnerCard partner={odoo} logoClass="h-9" className="bg-white" />
-              <PartnerCard partner={zoho} logoClass="h-12" className="bg-white" />
-            </div>
+        <ScrollReveal delay={100} className="mt-14 md:mt-20">
+          {/* Wide screens: logos either side of the Vanforces mark, joined by lines. */}
+          <div className="relative mx-auto hidden w-full max-w-[1120px] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
+            <Lines />
+            {left.map((logo, index) => (
+              <LogoTile key={logo.name} logo={logo} from="left" style={{ left: `${(SIDE_X[index] / W) * 100}%`, top: `${(ROWS[index] / H) * 100}%` }} />
+            ))}
+            {right.map((logo, index) => (
+              <LogoTile key={logo.name} logo={logo} from="right" style={{ left: `${((W - SIDE_X[index]) / W) * 100}%`, top: `${(ROWS[index] / H) * 100}%` }} />
+            ))}
+            <Centre className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2" />
           </div>
 
-          <PartnerCard partner={whatasol} logoClass="h-9" delay={90} />
-
-          <article {...reveal(120)} className="flex flex-col rounded-[28px] bg-mist p-6 md:p-8 lg:col-span-2">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex h-14 items-center gap-4">
-                <span className="rounded-full bg-white px-3.5 py-1.5 text-[13px] font-semibold tracking-[0.04em] text-navy-deep">ZATCA</span>
-                <Image src={zatca.logo} alt={zatca.name} width={zatca.width} height={zatca.height} sizes="220px" className="h-7 w-auto" />
-              </div>
-              <Status label={zatca.status} />
+          {/* Narrow screens: the mark on top, the logos in a tidy grid underneath. */}
+          <div className="mx-auto flex max-w-xl flex-col items-center lg:hidden">
+            <Centre className="relative my-4" />
+            <span aria-hidden="true" className="my-4 block h-10 border-l-2 border-dashed border-cyan-line" />
+            <div className="grid w-full grid-cols-2 gap-3">
+              {[...left, ...right].map((logo) => (
+                <LogoTile key={logo.name} logo={logo} />
+              ))}
             </div>
-            <h3 className="mt-6 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{zatca.headline}</h3>
-            <p className="mt-2.5 max-w-[40rem] text-pretty text-[15.5px] leading-relaxed text-muted">{zatca.body}</p>
-            <Points items={zatca.points} />
-            <CardLink href={zatca.href}>{zatca.cta}</CardLink>
-          </article>
+          </div>
+        </ScrollReveal>
 
-          <article {...reveal(180)} className="flex flex-col justify-between rounded-[28px] bg-cyan-soft p-6 md:p-8">
-            <div>
-              <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-10 w-auto" />
-              <h3 className="mt-5 text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">Data That Moves Both Ways.</h3>
-              <p className="mt-2.5 text-[15.5px] leading-relaxed text-muted">Customers · Products · Pricing · Orders · Sales · Collections</p>
-            </div>
-            <CardLink href="/integrations">Explore all integrations</CardLink>
-          </article>
-        </div>
-
-        <ScrollReveal delay={120}>
-          <p className="mx-auto mt-8 max-w-[46rem] text-center text-[13px] leading-relaxed text-muted">
-            Integration areas shown here describe what can be configured, not a promise that every feature is available in every setup. Scope depends on the connector and the implementation. Product names and logos belong to their owners and are shown only to name the systems Vanforces can work alongside.
-          </p>
+        <ScrollReveal delay={160} className="mt-12 flex flex-col items-center gap-2 text-center">
+          <Link href="/integrations" className="group inline-flex items-center gap-1.5 text-[15px] font-semibold text-teal-deep hover:text-navy">
+            Explore all integrations
+            <ArrowRight aria-hidden="true" size={15} className="transition-transform duration-300 group-hover:translate-x-0.5" />
+          </Link>
+          <p className="max-w-[40rem] text-[12.5px] leading-relaxed text-muted">Scope depends on the connector and the implementation. Names and logos belong to their owners and are shown only to name the systems Vanforces can work alongside.</p>
         </ScrollReveal>
       </div>
     </section>

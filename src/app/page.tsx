@@ -4,7 +4,7 @@ import { SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { ClosingPanel } from "@/components/home/ClosingPanel";
 import { CommandCenter } from "@/components/home/CommandCenter";
-import { ExploreShowcase } from "@/components/home/ExploreShowcase";
+import { ModulesExplorer } from "@/components/home/ModulesExplorer";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ComparePreview } from "@/components/home/ComparePreview";
 import { EcosystemSection } from "@/components/home/EcosystemSection";
@@ -26,20 +26,15 @@ function Explore() {
   return (
     <section className="section bg-mist">
       <div className="wrap">
-        <ExploreShowcase
-          intro={
-            <>
-              <SectionHeading
-                variant="fine"
-                eyebrow="Built around your daily operations"
-                title="The Right Tools for"
-                titleMuted="Every Part of the Job."
-                description="A salesperson, warehouse team and finance manager have different responsibilities. Vanforces keeps the work connected."
-              />
-              <SolutionFinder />
-            </>
-          }
+        <SectionHeading
+          variant="fine"
+          eyebrow="Built around your daily operations"
+          title="The Right Tools for"
+          titleMuted="Every Part of the Job."
+          description="A salesperson, warehouse team and finance manager have different responsibilities. Vanforces keeps the work connected."
         />
+        <SolutionFinder />
+        <ModulesExplorer />
         <ScrollReveal className="mt-16 flex flex-col items-start justify-between gap-5 border-t border-line pt-8 sm:flex-row sm:items-center">
           <p className="text-[1.25rem] font-medium tracking-[-0.02em] text-navy-deep">Made for the field. Connected to the office.</p>
           <Button href="/platform/modules" variant="secondary" arrow>
@@ -50,7 +45,6 @@ function Explore() {
     </section>
   );
 }
-
 function Journey() {
   return (
     <section className="section">

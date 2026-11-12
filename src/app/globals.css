@@ -809,3 +809,18 @@ input[type="range"] {
   }
 }
 .vg-hand { animation: vg-spin 6s linear infinite; }
+
+/* The slow gradient glow around the Solution Finder's search bar. */
+.finder-glow { animation: finder-spin 9s linear infinite; }
+@keyframes finder-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .finder-glow { animation: none; } }
+
+/* Module cards rise in one after another when a family is chosen. */
+.module-in { animation: module-in 0.5s var(--ease-soft) both; }
+@keyframes module-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .module-in { animation: none; } }
+
+/* The Command Center cards drift gently, each on its own beat. */
+.cc-float { animation: cc-float 7s ease-in-out infinite; animation-delay: var(--float-delay, 0s); }
+@keyframes cc-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
+@media (prefers-reduced-motion: reduce) { .cc-float { animation: none; } }

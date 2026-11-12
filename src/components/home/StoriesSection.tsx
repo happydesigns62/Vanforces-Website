@@ -1,4 +1,4 @@
-﻿import Image from "next/image";
+import Image from "next/image";
 import { Quote } from "lucide-react";
 import { Button } from "@/components/global/Button";
 import { SectionHeading } from "@/components/global/Common";
@@ -24,7 +24,7 @@ export function StoriesSection() {
     <section className="section bg-band-cyan">
       <div className="wrap">
         <div className="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
-          <SectionHeading variant="fine" eyebrow="Customer Stories" title="The People Behind" titleMuted="the Operations." />
+          <SectionHeading variant="fine" eyebrow="Customer Stories" title="Trusted by" titleMuted="Distribution Teams." />
           <ScrollReveal delay={100}>
             <p className="text-pretty text-[1.0625rem] leading-[1.7] text-muted sm:text-[1.125rem]">Every distribution business has its own challenges. See how teams use Vanforces to manage their everyday work.</p>
           </ScrollReveal>
