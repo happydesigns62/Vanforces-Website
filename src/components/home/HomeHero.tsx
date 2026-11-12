@@ -3,7 +3,6 @@ import type { CSSProperties } from "react";
 import { Button } from "@/components/global/Button";
 import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words } from "@/components/motion/Words";
-import { web } from "@/data/media";
 import { trustedLogos } from "@/data/trusted-logos";
 import { HeroFlow } from "./HeroFlow";
 import { HeroDashboard } from "./HeroDashboard";
@@ -75,7 +74,7 @@ export function HomeHero() {
 
         <div className="seq-shot relative mx-auto mt-10 max-w-[1200px] md:mt-16" style={delay(400)}>
           <ScrollScene mode="entry" className="scene-stage">
-            <HeroDashboard shot={web.heroDashboard} sizes="(max-width: 1280px) 92vw, 1090px" />
+            <HeroDashboard />
           </ScrollScene>
         </div>
 

@@ -1,7 +1,5 @@
-"use client";
-
 import { Bell, CircleHelp, Download, Filter, LayoutGrid, Plus, Search } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { ScaledScreen } from "./ScaledScreen";
 
 /* The Finance Command Center screen, redrawn from the real screen as page elements, so every letter and number is sharp at any
    size. It keeps the real screen's layout, labels and masked values. The screen is built at a fixed design width and then
@@ -233,33 +231,11 @@ function Screen() {
   );
 }
 
-/**
- * The redrawn Finance Command Center screen, scaled to fit whatever width it is given. Text is real text, so it stays sharp on
- * any screen and when zoomed. The bottom is cut off by its frame, as in the real screen.
- */
+/** The redrawn Finance Command Center screen, scaled to fit its box. The bottom is cut off by its frame, as in the real screen. */
 export function FinanceScreen({ className = "" }: { className?: string }) {
-  const box = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(0);
-
-  useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    const observer = new ResizeObserver(() => setScale(el.clientWidth / DESIGN_W));
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
   return (
-    <div
-      ref={box}
-      role="img"
-      aria-label="The Finance Command Center screen, redrawn from the real screen: executive insights, KPI cards, the order-to-cash funnel and sales charts."
-      className={`relative w-full overflow-hidden ${className}`}
-      style={{ height: DESIGN_H * scale, opacity: scale ? 1 : 0 } as CSSProperties}
-    >
-      <div aria-hidden="true" style={{ width: DESIGN_W, height: DESIGN_H, transform: `scale(${scale})`, transformOrigin: "top left" }}>
-        <Screen />
-      </div>
-    </div>
+    <ScaledScreen width={DESIGN_W} height={DESIGN_H} className={className} label="The Finance Command Center screen, redrawn from the real screen: executive insights, KPI cards, the order-to-cash funnel and sales charts.">
+      <Screen />
+    </ScaledScreen>
   );
 }
