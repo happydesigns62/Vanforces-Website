@@ -65,7 +65,7 @@ export function EntauraShowcase() {
               Vanforces connects the operation. Entaura helps make sense of the information: ask questions, explore business knowledge, discover insights and monitor important changes.
             </p>
             <div className="mt-7 flex flex-col items-start gap-3 sm:flex-row">
-              <Button href={ENTAURA_URL} variant="ink" arrow className="!min-h-[46px] !px-6 !text-[14.5px]">
+              <Button href={ENTAURA_URL} variant="entaura" arrow className="!min-h-[46px] !px-6 !text-[14.5px]">
                 Explore Entaura.ai
               </Button>
               <Button href="/contact" variant="secondary" className="!min-h-[46px] !px-6 !text-[14.5px]">
@@ -75,15 +75,26 @@ export function EntauraShowcase() {
           </ScrollReveal>
 
           <ScrollReveal delay={120}>
-            <div className="flex items-center justify-center rounded-[28px] bg-cyan-soft px-6 py-12 sm:py-14">
-              <div className="flex items-center gap-5 rounded-[22px] bg-white px-7 py-5 shadow-[0_24px_50px_-28px_rgb(8_60_66/0.45),0_1px_3px_rgb(41_59_71/0.06)]">
-                <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-9 w-auto" />
-                <span aria-hidden="true" className="h-8 w-px bg-line" />
-                <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} priority className="h-8 w-auto" />
+            <div className="relative overflow-hidden rounded-[28px] border border-cyan-line bg-[radial-gradient(60%_80%_at_8%_0%,rgb(28_178_187/0.16),transparent),radial-gradient(60%_80%_at_96%_100%,rgb(106_95_214/0.13),transparent),linear-gradient(180deg,#f3fbfc,#ffffff)] p-5 sm:p-7">
+              <div className="grid items-stretch gap-0 sm:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]">
+                <div className="flex flex-col items-center justify-center rounded-[22px] bg-white px-5 py-7 text-center shadow-[0_22px_44px_-28px_rgb(8_60_66/0.5),0_1px_3px_rgb(41_59_71/0.06)]">
+                  <Image src="/brand/vanforces-logo.svg" alt="Vanforces" width={170} height={46} className="h-8 w-auto" />
+                  <p className="mt-4 text-[13.5px] font-medium leading-snug text-muted">Connects the operation</p>
+                </div>
+
+                {/* A thin dashed link with a light travelling along it. It runs across on wide screens and down on narrow ones. */}
+                <div aria-hidden="true" className="relative mx-auto flex h-11 w-px items-center justify-center sm:h-auto sm:w-16">
+                  <span className="absolute inset-y-0 left-1/2 border-l-2 border-dashed border-cyan-line sm:inset-x-0 sm:inset-y-auto sm:left-0 sm:top-1/2 sm:border-l-0 sm:border-t-2" />
+                  <span className="link-dot absolute size-2.5 rounded-full bg-teal shadow-[0_0_0_4px_rgb(28_178_187/0.18)]" />
+                </div>
+
+                <div className="flex flex-col items-center justify-center rounded-[22px] bg-white px-5 py-7 text-center shadow-[0_22px_44px_-28px_rgb(8_60_66/0.5),0_1px_3px_rgb(41_59_71/0.06)]">
+                  <Image src="/brand/entaura-logo.svg" alt="Entaura.ai" width={545} height={122} priority className="h-8 w-auto" />
+                  <p className="mt-4 text-[13.5px] font-medium leading-snug text-muted">Makes sense of the information</p>
+                </div>
               </div>
             </div>
-          </ScrollReveal>
-        </div>
+          </ScrollReveal>        </div>
         <ul className="mt-10 grid gap-4 md:mt-12 md:grid-cols-2">
           {products.map((product, index) => (
             <li key={product.name} data-reveal="" suppressHydrationWarning style={reveal(index * 90)} className="flex flex-col rounded-[28px] bg-mist p-6 sm:p-8">

@@ -824,3 +824,10 @@ input[type="range"] {
 .cc-float { animation: cc-float 7s ease-in-out infinite; animation-delay: var(--float-delay, 0s); }
 @keyframes cc-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-7px); } }
 @media (prefers-reduced-motion: reduce) { .cc-float { animation: none; } }
+
+/* A light that travels along the link between the Vanforces and Entaura cards: across on wide screens, down on narrow ones. */
+.link-dot { animation: link-dot-y 2.6s ease-in-out infinite; }
+@keyframes link-dot-y { 0% { transform: translateY(-20px); opacity: 0; } 20%, 80% { opacity: 1; } 100% { transform: translateY(20px); opacity: 0; } }
+@keyframes link-dot-x { 0% { transform: translateX(-26px); opacity: 0; } 20%, 80% { opacity: 1; } 100% { transform: translateX(26px); opacity: 0; } }
+@media (min-width: 640px) { .link-dot { animation-name: link-dot-x; } }
+@media (prefers-reduced-motion: reduce) { .link-dot { animation: none; } }

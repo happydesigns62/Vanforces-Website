@@ -93,7 +93,7 @@ export function CommandCenter() {
                   <span className="size-2.5 rounded-full bg-line" />
                   <span className="ml-3 truncate rounded-md bg-white px-3 py-0.5 text-[11px] font-medium text-muted">{web.heroCxo.title}</span>
                 </div>
-                <Image src={web.heroCxo.src} alt={web.heroCxo.alt} width={web.heroCxo.width} height={web.heroCxo.height} quality={95} sizes="(max-width: 1024px) 94vw, 760px" className="block h-auto w-full" />
+                <Image src="/product/finance-command-center.webp" alt={web.heroCxo.alt} width={1819} height={865} unoptimized className="block h-auto w-full" />
               </figure>
             </div>
           </article>
