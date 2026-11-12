@@ -8,22 +8,6 @@ import { Button } from "@/components/global/Button";
 import { FinderMascot } from "@/components/illustration/Vignettes";
 import { examplePrompts, findSuggestions, type Suggestion } from "@/data/solution-finder";
 
-/** A four-point sparkle, filled with the soft Entaura-style gradient. */
-function Spark({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 32 32" aria-hidden="true" className={className}>
-      <defs>
-        <linearGradient id="finder-spark" x1="4" y1="28" x2="28" y2="4" gradientUnits="userSpaceOnUse">
-          <stop offset="0" stopColor="#1cb2bb" />
-          <stop offset="0.55" stopColor="#6f8dff" />
-          <stop offset="1" stopColor="#c58bf0" />
-        </linearGradient>
-      </defs>
-      <path d="M16 2 C17.5 10 22 14.5 30 16 C22 17.5 17.5 22 16 30 C14.5 22 10 17.5 2 16 C10 14.5 14.5 10 16 2 Z" fill="url(#finder-spark)" />
-    </svg>
-  );
-}
-
 /** Types the example sentences into the placeholder one after another, then rests, then starts the next. Still for reduced motion. */
 function useTypedPlaceholder(active: boolean) {
   const [shown, setShown] = useState(examplePrompts[0]);
@@ -67,7 +51,7 @@ function useTypedPlaceholder(active: boolean) {
 
 /**
  * Solution Finder, in the look of Entaura. A visitor describes their business in a Gemini-style search bar (a soft gradient
- * glow slowly circles it and example questions type themselves into it) and sees matching Vanforces capabilities beside it.
+ * ring slowly circles it, the Entaura icon turns, and example questions type themselves into it) and sees matching Vanforces capabilities beside it.
  * It is a plain keyword match against the site's own capabilities, so it is labelled "Guided recommendations" and never as
  * live AI, and it says it is styled after Entaura, not powered by it. The text typed is not stored or sent anywhere.
  */
@@ -110,7 +94,7 @@ export function SolutionFinder() {
             <span aria-hidden="true" className="finder-glow pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[160%] -translate-x-1/2 -translate-y-1/2 bg-[conic-gradient(from_0deg,#1cb2bb,#6f8dff,#c58bf0,#ec9850,#1cb2bb)] opacity-35 blur-xl" />
             <div className="relative rounded-[24px] bg-white p-3 sm:p-4">
               <div className="flex items-start gap-3">
-                <Spark className="mt-1 size-6 shrink-0" />
+                <Image src="/brand/entaura-icon.svg" alt="" width={122} height={122} className="entaura-icon mt-0.5 size-7 shrink-0" />
                 <textarea
                   id={`${id}-input`}
                   value={text}

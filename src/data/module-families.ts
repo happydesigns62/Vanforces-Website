@@ -29,6 +29,7 @@ import {
   Warehouse,
   type LucideIcon,
 } from "lucide-react";
+import type { VignetteKind } from "@/components/illustration/Vignettes";
 
 export type ModuleItem = { name: string; line: string; icon: LucideIcon; href?: string };
 
@@ -40,6 +41,8 @@ export type ModuleFamily = {
   /** Accent classes, written out in full so the styles are generated. */
   tile: string;
   chip: string;
+  /** The small looping illustration drawn for this family. */
+  scene: VignetteKind;
   modules: ModuleItem[];
 };
 
@@ -55,6 +58,7 @@ export const moduleFamilies: ModuleFamily[] = [
     line: "Everything the field team does, from the plan to the payment.",
     tile: "bg-teal-deep text-white",
     chip: "bg-cyan-soft text-teal-deep",
+    scene: "sell",
     modules: [
       { name: "Customer and Outlet Management", line: "Customer and outlet records, ready at every visit.", icon: Users, href: "/platform/customers" },
       { name: "Territory, Route and Journey Planning", line: "Plan territories, routes and journeys.", icon: Map, href: "/platform/routes" },
@@ -74,6 +78,7 @@ export const moduleFamilies: ModuleFamily[] = [
     line: "Stock, delivery and settlement behind every sale.",
     tile: "bg-accent-blue text-white",
     chip: "bg-accent-blue-soft text-accent-blue-deep",
+    scene: "deliver",
     modules: [
       { name: "Distributor Management", line: "Manage distributors and their activity.", icon: Building2 },
       { name: "Van Sales and Direct Store Delivery", line: "Sell and deliver from the vehicle.", icon: Truck, href: "/platform/van-sales" },
@@ -93,6 +98,7 @@ export const moduleFamilies: ModuleFamily[] = [
     line: "What happens on the shelf, checked and recorded at the outlet.",
     tile: "bg-accent-violet text-white",
     chip: "bg-accent-violet-soft text-accent-violet-deep",
+    scene: "read",
     modules: [
       { name: "Retail Visit Execution", line: "Run structured visits at the outlet.", icon: Store },
       { name: "Surveys and Checklists", line: "Surveys and checklists inside the visit.", icon: ClipboardCheck },

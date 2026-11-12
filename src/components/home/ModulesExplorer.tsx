@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { useId, useState, type KeyboardEvent } from "react";
+import { Vignette } from "@/components/illustration/Vignettes";
 import { moduleFamilies } from "@/data/module-families";
 
 /**
@@ -50,13 +51,17 @@ export function ModulesExplorer() {
                 <span className="block text-[1.0625rem] font-semibold leading-snug text-navy-deep">{item.name}</span>
                 <span className="mt-0.5 block text-[13.5px] leading-snug text-muted">{item.modules.length} modules</span>
               </span>
+              <Vignette kind={item.scene} className="ml-auto hidden h-[56px] w-[80px] shrink-0 lg:block" />
             </button>
           );
         })}
       </div>
 
       <div id={`${id}-panel`} role="tabpanel" aria-labelledby={`${id}-tab-${family.id}`} className="mt-4 rounded-[28px] bg-white p-4 shadow-[0_1px_2px_rgb(41_59_71/0.05),0_30px_60px_-44px_rgb(8_60_66/0.35)] sm:p-6 lg:p-8">
-        <p className="px-1 pb-5 text-[1.0625rem] leading-relaxed text-muted sm:text-[1.125rem]">{family.line}</p>
+        <div className="flex items-center justify-between gap-4 px-1 pb-5">
+          <p className="max-w-[36rem] text-[1.0625rem] leading-relaxed text-muted sm:text-[1.125rem]">{family.line}</p>
+          <Vignette key={family.id} kind={family.scene} className="hidden h-[84px] w-[120px] shrink-0 sm:block" />
+        </div>
         <ul key={family.id} className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {family.modules.map((module, index) => {
             const Icon = module.icon;

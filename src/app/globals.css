@@ -810,10 +810,14 @@ input[type="range"] {
 }
 .vg-hand { animation: vg-spin 6s linear infinite; }
 
-/* The slow gradient glow around the Solution Finder's search bar. */
-.finder-glow { animation: finder-spin 9s linear infinite; }
-@keyframes finder-spin { to { transform: translate(-50%, -50%) rotate(360deg); } }
-@media (prefers-reduced-motion: reduce) { .finder-glow { animation: none; } }
+/* The ring around the Solution Finder's search bar: one full circle of colour that turns steadily, so the colour is always there and only moves round. The turn uses the separate rotate property, because the centring uses translate. */
+.finder-glow { animation: finder-spin 8s linear infinite; }
+@keyframes finder-spin { to { rotate: 360deg; } }
+/* The Entaura icon in the field turns slowly and breathes a little. */
+.entaura-icon { animation: entaura-turn 10s linear infinite, entaura-breathe 3.2s ease-in-out infinite; }
+@keyframes entaura-turn { to { rotate: 360deg; } }
+@keyframes entaura-breathe { 0%, 100% { scale: 1; } 50% { scale: 1.08; } }
+@media (prefers-reduced-motion: reduce) { .finder-glow, .entaura-icon { animation: none; } }
 
 /* Module cards rise in one after another when a family is chosen. */
 .module-in { animation: module-in 0.5s var(--ease-soft) both; }
