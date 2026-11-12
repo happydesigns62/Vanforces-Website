@@ -446,7 +446,8 @@ function frame(t: number): Frame {
     van: `translate(${x.toFixed(2)} ${ROAD})`,
     vanBody: `translate(0 ${bob.toFixed(2)}) rotate(${pitch.toFixed(2)} 76 -10)`,
     puffs,
-    dash: (x * 0.45) % 26,
+    // The camera stays still, so the road and its centre dashes never move. Only the van does.
+    dash: 0,
     warehouseDoor: `translate(0 ${(-(seg(t, 0.5, 1.4) - seg(t, 5.6, 6.5)) * 70).toFixed(2)})`,
     shopDoor: `translate(154 0) scale(${(1 - 0.72 * (seg(t, 7.0, 7.7) - seg(t, 10.4, 11.1))).toFixed(3)} 1) translate(-154 0)`,
     loaderLegs: [`rotate(${(swing * loaderAmp).toFixed(1)} 338 372)`, `rotate(${(-swing * loaderAmp).toFixed(1)} 490 372)`],
