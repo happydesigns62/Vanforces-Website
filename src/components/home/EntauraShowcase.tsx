@@ -57,7 +57,7 @@ export function EntauraShowcase() {
       <div className="wrap">
         <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-14">
           <ScrollReveal>
-            <p className="eyebrow">Meet Entaura</p>
+            <p className="eyebrow">Meet entaura.ai</p>
             <h2 className="mt-5 text-balance text-[clamp(1.875rem,1.5rem+1.3vw,2.625rem)] font-medium leading-[1.1] tracking-[-0.04em] text-navy-deep">
               Intelligence for <span className="text-ink-soft">Better Business Decisions.</span>
             </h2>

@@ -110,7 +110,8 @@ export function SolutionFinder() {
                   rows={3}
                   maxLength={400}
                   placeholder={text || focused ? "Describe your team, routes, stock or systems…" : typed}
-                  className="min-h-[84px] w-full resize-none bg-transparent text-[16px] leading-relaxed text-navy-deep placeholder:text-muted/80 focus:outline-none"
+                  style={{ outline: "none", boxShadow: "none" }}
+                  className="min-h-[84px] w-full resize-none border-0 bg-transparent text-[16px] leading-relaxed text-navy-deep placeholder:text-muted/80 focus:outline-none focus-visible:outline-none"
                 />
               </div>
               <div className="mt-1 flex items-center justify-between gap-3">

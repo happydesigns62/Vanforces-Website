@@ -1,9 +1,8 @@
-import Image from "next/image";
 import type { CSSProperties } from "react";
 import { Button } from "@/components/global/Button";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { Words, wordCount } from "@/components/motion/Words";
-import { web } from "@/data/media";
+import { FinanceScreen } from "./FinanceScreen";
 
 const TITLE = "The Day Is Happening Everywhere.";
 const TITLE_MUTED = "See the Bigger Picture.";
@@ -73,7 +72,7 @@ export function CommandCenter() {
           <article data-reveal="" suppressHydrationWarning style={reveal(0)} className="grid overflow-hidden rounded-[32px] border border-line bg-white lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)]">
             <div className="flex flex-col justify-center p-6 sm:p-9">
               <h3 className="text-[1.625rem] font-medium leading-tight tracking-[-0.035em] text-navy-deep">Finance Command Center</h3>
-              <p className="mt-3 text-[15.5px] leading-relaxed text-muted">Executive insights, KPIs and the order-to-cash funnel on one real screen.</p>
+              <p className="mt-3 text-[15.5px] leading-relaxed text-muted">Executive insights, KPIs and the order-to-cash funnel in one view.</p>
               <ul className="mt-5 flex flex-wrap gap-2" aria-label="Views">
                 {views.map((view) => (
                   <li key={view} className="rounded-full bg-cyan-soft px-3.5 py-1.5 text-[13.5px] font-medium text-teal-deep">
@@ -91,9 +90,9 @@ export function CommandCenter() {
                   <span className="size-2.5 rounded-full bg-line" />
                   <span className="size-2.5 rounded-full bg-line" />
                   <span className="size-2.5 rounded-full bg-line" />
-                  <span className="ml-3 truncate rounded-md bg-white px-3 py-0.5 text-[11px] font-medium text-muted">{web.heroCxo.title}</span>
+                  <span className="ml-3 truncate rounded-md bg-white px-3 py-0.5 text-[11px] font-medium text-muted">CXO Business Command Center</span>
                 </div>
-                <Image src="/product/finance-command-center.webp" alt={web.heroCxo.alt} width={1819} height={865} unoptimized className="block h-auto w-full" />
+                <FinanceScreen />
               </figure>
             </div>
           </article>
@@ -178,7 +177,7 @@ export function CommandCenter() {
           </div>
         </div>
 
-        <p className="mt-5 text-center text-[12.5px] text-muted">Real product screen. Names and sensitive details are masked for privacy. The cards are redrawn from the same screen so they stay sharp.</p>
+        <p className="mt-5 text-center text-[12.5px] text-muted">Redrawn from the real Finance Command Center, with its masked values, so every number stays sharp. Names and sensitive details are masked for privacy.</p>
       </div>
     </section>
   );
