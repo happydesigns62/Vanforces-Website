@@ -9,7 +9,6 @@ import { HomeHero } from "@/components/home/HomeHero";
 import { ComparePreview } from "@/components/home/ComparePreview";
 import { EcosystemSection } from "@/components/home/EcosystemSection";
 import { EntauraShowcase } from "@/components/home/EntauraShowcase";
-import { JourneyRail } from "@/components/home/JourneyRail";
 import { PricingSelector } from "@/components/home/PricingSelector";
 import { SolutionFinder } from "@/components/home/SolutionFinder";
 import { StoriesSection } from "@/components/home/StoriesSection";
@@ -45,43 +44,11 @@ function Explore() {
     </section>
   );
 }
-function Journey() {
-  return (
-    <section className="section">
-      <div className="wrap">
-        <SectionHeading
-          variant="fine"
-          align="center"
-          eyebrow="One operation. From start to finish."
-          title="A Sale Doesn't Happen"
-          titleMuted="in Isolation."
-          description={
-            <>
-              <p>What happens before the invoice matters just as much as what happens after.</p>
-              <p className="mt-1">Vanforces connects the steps that keep distribution moving.</p>
-            </>
-          }
-        />
-        <div className="mt-16">
-          <JourneyRail />
-        </div>
-        <ScrollReveal className="mt-16 flex flex-col items-center justify-center gap-5 border-t border-line pt-10 text-center">
-          <p className="text-[1.25rem] font-medium tracking-[-0.02em] text-navy-deep">From the first plan to the final report. All connected.</p>
-          <Button href="/platform" arrow>
-            See How Vanforces Works
-          </Button>
-        </ScrollReveal>
-      </div>
-    </section>
-  );
-}
-
 export default function Home() {
   return (
     <>
       <HomeHero />
       <Explore />
-      <Journey />
       <PricingSelector />
       <CommandCenter />
       <EntauraShowcase />
