@@ -175,12 +175,12 @@ export function Globe({ className = "" }: { className?: string }) {
           if (!calm.matches) {
             const beat = ((now + i * 420) % 2200) / 2200;
             ctx.beginPath();
-            ctx.arc(spot[0], spot[1], 10 + beat * 14, 0, Math.PI * 2);
+            ctx.arc(spot[0], spot[1], 8 + beat * 12, 0, Math.PI * 2);
             ctx.strokeStyle = `rgb(255 255 255 / ${(0.65 * (1 - beat)).toFixed(3)})`;
             ctx.lineWidth = 1.6;
             ctx.stroke();
           }
-          drawMark(spot[0], spot[1], 17);
+          drawMark(spot[0], spot[1], 12);
         });
 
         const point = projection([shown.lon, shown.lat]);
@@ -190,16 +190,16 @@ export function Globe({ className = "" }: { className?: string }) {
           if (!calm.matches) {
             const pulse = (now % 1800) / 1800;
             ctx.beginPath();
-            ctx.arc(x, y, 14 + pulse * 22, 0, Math.PI * 2);
+            ctx.arc(x, y, 10 + pulse * 20, 0, Math.PI * 2);
             ctx.strokeStyle = `rgb(255 255 255 / ${(0.8 * (1 - pulse)).toFixed(3)})`;
             ctx.lineWidth = 2;
             ctx.stroke();
           }
-          drawMark(x, y, 24);
+          drawMark(x, y, 17);
 
           if (chip) {
             if (chip.textContent !== shown.name) chip.textContent = shown.name;
-            chip.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, calc(-100% - 26px))`;
+            chip.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, calc(-100% - 20px))`;
             chip.style.opacity = gliding && progress < 0.85 ? "0" : "1";
           }
         }

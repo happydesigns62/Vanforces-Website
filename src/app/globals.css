@@ -831,3 +831,10 @@ input[type="range"] {
 @keyframes link-dot-x { 0% { transform: translateX(-26px); opacity: 0; } 20%, 80% { opacity: 1; } 100% { transform: translateX(26px); opacity: 0; } }
 @media (min-width: 640px) { .link-dot { animation-name: link-dot-x; } }
 @media (prefers-reduced-motion: reduce) { .link-dot { animation: none; } }
+
+/* Control Room switcher: a thin progress line along the chosen screen's tab, and a soft fade when the large screen changes. */
+.cr-progress { transform-origin: left; animation: cr-progress 5.5s linear forwards; }
+@keyframes cr-progress { from { scale: 0 1; } to { scale: 1 1; } }
+.cr-swap { animation: cr-swap 0.5s var(--ease-soft, ease) both; }
+@keyframes cr-swap { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
+@media (prefers-reduced-motion: reduce) { .cr-progress, .cr-swap { animation: none; } .cr-progress { scale: 1 1; } }

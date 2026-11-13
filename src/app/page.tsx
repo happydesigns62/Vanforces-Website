@@ -34,7 +34,7 @@ function Explore() {
           titleMuted="What You Need."
           description="Describe your operation in a few words. We'll point you to the Vanforces solutions that fit."
         />
-        <SolutionFinder />
+        <div className="-mt-6 lg:-mt-24"><SolutionFinder /></div>
         <div className="mt-24 md:mt-28">
           <SectionHeading
             variant="fine"
