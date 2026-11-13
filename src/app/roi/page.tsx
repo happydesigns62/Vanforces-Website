@@ -52,7 +52,7 @@ export default function RoiPage() {
         items={[
           { q: "Is this a guarantee of savings?", a: "No. These are illustrative estimates based on your inputs, not guaranteed savings or financial returns." },
           { q: "Does it include subscription costs?", a: "No. It only estimates the value of time based on the inputs you provide." },
-          { q: "What should I use for hourly staff cost?", a: "Use a figure that reflects your own staff costs. The ₹250 default is only an example." },
+          { q: "What should I use for hourly staff cost?", a: "Use a figure that reflects your own staff costs. The $12 default is only an example." },
         ]}
       />
       <CTASection title="Put your estimate in context." description="Compare the plans, or discuss your numbers with us." primary={{ label: "Explore Pricing", href: "/pricing" }} secondary={{ label: "Book a Demo", href: "/book-demo" }} />

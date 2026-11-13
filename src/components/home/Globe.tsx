@@ -24,7 +24,7 @@ const LIFT = 38;
 const ease = (t: number) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 
 /**
- * A large globe, cut off by the bottom of its box. Every country we work in carries a small pulsing dot, so the full list is clear
+ * A large globe, cut off by the bottom of its box. Every country we work in carries a small Vanforces mark, so the full list is clear
  * at first glance. One country at a time is lit in the brand orange with a pin and its name, then the globe glides to the next:
  * Saudi Arabia, Bahrain, the UAE, Oman, India, and back to Saudi Arabia. The map code and data load only
  * when it comes near, and it stops while off screen. With reduced motion it stays still on the first country.
@@ -89,6 +89,23 @@ export function Globe({ className = "" }: { className?: string }) {
       const lit = places.map((place) => countries.find((country) => String(country.id) === place.id) ?? (place.id === "048" ? bahrain : undefined));
       const projection = d3.geoOrthographic().clipAngle(90).precision(0.6);
       const path = d3.geoPath(projection, ctx);
+      // The Vanforces mark stands in for the dots. It sits on a white disc so it reads on both the sea and the land.
+      const mark = new Image();
+      mark.src = "/brand/vanforces-mark.svg";
+      const drawMark = (x: number, y: number, size: number) => {
+        ctx.beginPath();
+        ctx.arc(x, y, size * 0.72, 0, Math.PI * 2);
+        ctx.fillStyle = "#fff";
+        ctx.shadowColor = "rgb(8 20 30 / 0.35)";
+        ctx.shadowBlur = 6;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        if (mark.complete && mark.naturalWidth) {
+          const w = size * 1.02;
+          const h = w * (232 / 252);
+          ctx.drawImage(mark, x - w / 2, y - h / 2, w, h);
+        }
+      };
 
       paint = (now: number) => {
         const step = DWELL + GLIDE;
@@ -158,18 +175,12 @@ export function Globe({ className = "" }: { className?: string }) {
           if (!calm.matches) {
             const beat = ((now + i * 420) % 2200) / 2200;
             ctx.beginPath();
-            ctx.arc(spot[0], spot[1], 4 + beat * 14, 0, Math.PI * 2);
+            ctx.arc(spot[0], spot[1], 10 + beat * 14, 0, Math.PI * 2);
             ctx.strokeStyle = `rgb(255 255 255 / ${(0.65 * (1 - beat)).toFixed(3)})`;
             ctx.lineWidth = 1.6;
             ctx.stroke();
           }
-          ctx.beginPath();
-          ctx.arc(spot[0], spot[1], 3.6, 0, Math.PI * 2);
-          ctx.fillStyle = "#fff";
-          ctx.fill();
-          ctx.lineWidth = 2;
-          ctx.strokeStyle = "#263a47";
-          ctx.stroke();
+          drawMark(spot[0], spot[1], 17);
         });
 
         const point = projection([shown.lon, shown.lat]);
@@ -179,22 +190,16 @@ export function Globe({ className = "" }: { className?: string }) {
           if (!calm.matches) {
             const pulse = (now % 1800) / 1800;
             ctx.beginPath();
-            ctx.arc(x, y, 6 + pulse * 22, 0, Math.PI * 2);
+            ctx.arc(x, y, 14 + pulse * 22, 0, Math.PI * 2);
             ctx.strokeStyle = `rgb(255 255 255 / ${(0.8 * (1 - pulse)).toFixed(3)})`;
             ctx.lineWidth = 2;
             ctx.stroke();
           }
-          ctx.beginPath();
-          ctx.arc(x, y, 5, 0, Math.PI * 2);
-          ctx.fillStyle = "#fff";
-          ctx.fill();
-          ctx.lineWidth = 2.5;
-          ctx.strokeStyle = "#263a47";
-          ctx.stroke();
+          drawMark(x, y, 24);
 
           if (chip) {
             if (chip.textContent !== shown.name) chip.textContent = shown.name;
-            chip.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, calc(-100% - 16px))`;
+            chip.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translate(-50%, calc(-100% - 26px))`;
             chip.style.opacity = gliding && progress < 0.85 ? "0" : "1";
           }
         }

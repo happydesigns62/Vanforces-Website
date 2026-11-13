@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { Check } from "lucide-react";
 import { useId, useState, type KeyboardEvent } from "react";
@@ -7,7 +7,7 @@ import { Button } from "@/components/global/Button";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words, wordCount } from "@/components/motion/Words";
-import { formatINR, plans, type Billing } from "@/data/pricing";
+import { formatUSD, plans, type Billing } from "@/data/pricing";
 
 const TITLE = "A Plan for the Way";
 const TITLE_MUTED = "You Operate.";
@@ -99,11 +99,11 @@ export function PricingSelector() {
                 </div>
                 <p className="mt-3 text-[1.5rem] font-medium leading-[1.2] tracking-[-0.03em] text-navy-deep">{plan.tagline}</p>
                 <div className="mt-6 flex flex-wrap items-baseline gap-x-2">
-                  <span className="text-[2.75rem] font-medium leading-none tracking-[-0.04em] text-navy-deep tabular-nums">{formatINR(amount)}</span>
+                  <span className="text-[2.75rem] font-medium leading-none tracking-[-0.04em] text-navy-deep tabular-nums">{formatUSD(amount)}</span>
                   <span className="text-[14px] text-muted">/ user / month</span>
                 </div>
                 <p className="mt-2 min-h-10 text-[13.5px] leading-snug text-muted">
-                  {annual ? `Billed annually. Annual total per user: ${formatINR(plan.annualTotal)}.` : "Billed monthly."}
+                  {annual ? `Billed annually. Annual total per user: ${formatUSD(plan.annualTotal)}, excluding tax.` : "Billed monthly, excluding tax."}
                 </p>
                 <ul className="mt-6 grid gap-x-6 gap-y-2.5 border-t border-line pt-6 text-[14.5px] sm:grid-cols-2">
                   {plan.features.map((feature) => (

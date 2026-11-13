@@ -1,7 +1,7 @@
 "use client";
 
 import { useId, useState } from "react";
-import { formatINR } from "@/data/pricing";
+import { formatUSD } from "@/data/pricing";
 import { DemoNotice } from "@/components/global/Common";
 
 type Inputs = { users: number; minutes: number; days: number; rate: number };
@@ -10,7 +10,7 @@ const fields: { key: keyof Inputs; label: string; min: number; max: number; step
   { key: "users", label: "Users", min: 1, max: 500, step: 1 },
   { key: "minutes", label: "Potential minutes saved per user per day", min: 0, max: 120, step: 1, suffix: "min" },
   { key: "days", label: "Working days per month", min: 1, max: 31, step: 1, suffix: "days" },
-  { key: "rate", label: "Hourly staff cost", min: 0, max: 2000, step: 10, prefix: "₹" },
+  { key: "rate", label: "Hourly staff cost", min: 0, max: 200, step: 1, prefix: "$" },
 ];
 
 function InputRow({
@@ -66,7 +66,7 @@ function InputRow({
 }
 
 export function ROICalculator() {
-  const [inputs, setInputs] = useState<Inputs>({ users: 20, minutes: 15, days: 22, rate: 250 });
+  const [inputs, setInputs] = useState<Inputs>({ users: 20, minutes: 15, days: 22, rate: 12 });
   const safe = (n: number) => (Number.isNaN(n) ? 0 : n);
 
   const monthlyHours = (safe(inputs.users) * safe(inputs.minutes) * safe(inputs.days)) / 60;
@@ -84,7 +84,7 @@ export function ROICalculator() {
         ))}
         <button
           type="button"
-          onClick={() => setInputs({ users: 20, minutes: 15, days: 22, rate: 250 })}
+          onClick={() => setInputs({ users: 20, minutes: 15, days: 22, rate: 12 })}
           className="cursor-pointer text-[14px] font-semibold text-teal-deep underline-offset-4 hover:underline"
         >
           Reset to example values
@@ -94,13 +94,13 @@ export function ROICalculator() {
       <div className="bg-navy-deep p-6 text-white md:p-9" aria-live="polite">
         <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-teal">Illustrative estimate</p>
         <p className="mt-3 text-[15px] text-white/70">Illustrative annual time value</p>
-        <p className="mt-1 text-[clamp(2.5rem,2rem+2.5vw,4.25rem)] font-bold leading-none tracking-tight tabular-nums">{formatINR(annualValue)}</p>
+        <p className="mt-1 text-[clamp(2.5rem,2rem+2.5vw,4.25rem)] font-bold leading-none tracking-tight tabular-nums">{formatUSD(annualValue)}</p>
 
         <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-[24px] bg-white/15">
           {[
             ["Monthly hours", `${Math.round(monthlyHours).toLocaleString("en-US")} hours`],
             ["Annual hours", `${Math.round(annualHours).toLocaleString("en-US")} hours`],
-            ["Monthly time value", formatINR(monthlyValue)],
+            ["Monthly time value", formatUSD(monthlyValue)],
             ["About the same as", `${Math.round(workdaysEquivalent).toLocaleString("en-US")} 8-hour days a year`],
           ].map(([label, value]) => (
             <div key={label} className="bg-navy-deep p-4 md:p-5">

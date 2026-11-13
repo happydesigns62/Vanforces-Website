@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, ArrowUp } from "lucide-react";
+import { ArrowRight, ArrowUp, Paperclip, X } from "lucide-react";
 import { useEffect, useId, useState } from "react";
 import { Button } from "@/components/global/Button";
 import { FinderMascot } from "@/components/illustration/Vignettes";
@@ -58,6 +58,7 @@ function useTypedPlaceholder(active: boolean) {
 export function SolutionFinder() {
   const [text, setText] = useState("");
   const [focused, setFocused] = useState(false);
+  const [fileName, setFileName] = useState("");
   const [result, setResult] = useState<{ matched: boolean; items: Suggestion[] } | null>(null);
   const id = useId();
   const typed = useTypedPlaceholder(!text && !focused);
@@ -86,7 +87,7 @@ export function SolutionFinder() {
           <label htmlFor={`${id}-input`} className="mt-5 block text-[1.375rem] font-medium leading-tight tracking-[-0.03em] text-navy-deep">
             Tell us about your operation
           </label>
-          <p className="mt-1 text-[13px] text-muted">Styled after Entaura. Suggestions come from what is described on this site.</p>
+          <p className="mt-1 max-w-[32rem] text-[13.5px] leading-relaxed text-muted">Type your requirements and see which Vanforces solutions fit. Our team will follow up with a tailored answer when you book a demo.</p>
 
           {/* The search bar: a soft gradient glow slowly circles the white field. */}
           <div className="relative mt-5 overflow-hidden rounded-[26px] p-[2px]">
@@ -114,8 +115,34 @@ export function SolutionFinder() {
                   className="min-h-[84px] w-full resize-none border-0 bg-transparent text-[16px] leading-relaxed text-navy-deep placeholder:text-muted/80 focus:outline-none focus-visible:outline-none"
                 />
               </div>
+              {fileName ? (
+                <p className="mt-2 flex items-center gap-2 text-[12.5px] text-navy">
+                  <Paperclip aria-hidden="true" size={13} className="shrink-0 text-teal-deep" />
+                  <span className="truncate">{fileName}</span>
+                  <button type="button" onClick={() => setFileName("")} aria-label="Remove attached file" className="cursor-pointer rounded-full p-0.5 text-muted hover:text-navy-deep">
+                    <X aria-hidden="true" size={13} />
+                  </button>
+                </p>
+              ) : null}
               <div className="mt-1 flex items-center justify-between gap-3">
-                <span className="text-[12px] text-muted">Press Enter to search</span>
+                <div className="flex items-center gap-2">
+                  <input
+                    id={`${id}-file`}
+                    type="file"
+                    accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.png,.jpg,.jpeg"
+                    className="sr-only"
+                    onChange={(event) => setFileName(event.target.files?.[0]?.name ?? "")}
+                  />
+                  <label
+                    htmlFor={`${id}-file`}
+                    title="Attach a file"
+                    className="flex size-10 cursor-pointer items-center justify-center rounded-full border border-line text-navy transition-colors hover:border-teal hover:bg-cyan-soft focus-within:border-teal"
+                  >
+                    <Paperclip aria-hidden="true" size={17} />
+                    <span className="sr-only">Attach a file</span>
+                  </label>
+                  <span className="text-[12px] text-muted">Press Enter to search</span>
+                </div>
                 <button
                   type="submit"
                   disabled={!text.trim()}
@@ -165,7 +192,7 @@ export function SolutionFinder() {
                 <Button href="/book-demo" arrow className="shrink-0 whitespace-nowrap">
                   Book a Demo
                 </Button>
-                <p className="text-[13px] text-muted">A demo confirms what fits your business.</p>
+                <p className="text-[13px] text-muted">{fileName ? "Your file stays on your device. Share it with our team in the demo." : "A demo confirms what fits your business."}</p>
               </div>
             </div>
           ) : (

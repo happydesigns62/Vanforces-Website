@@ -17,15 +17,15 @@ export type Plan = {
 };
 
 export const PRICING_NOTICE =
-  "Demonstration prices and feature allocations shown for website preview. Actual Vanforces subscription plans and commercial terms may differ.";
+  "Demonstration prices in US dollars, excluding tax. Feature allocations shown for website preview. Actual Vanforces subscription plans and commercial terms may differ.";
 
 export const plans: Plan[] = [
   {
     id: "basic",
     name: "Basic",
-    monthly: 999,
-    annualMonthly: 799,
-    annualTotal: 9588,
+    monthly: 12,
+    annualMonthly: 10,
+    annualTotal: 120,
     tagline: "Get the Essentials in Place.",
     description: "A practical starting point for field sales teams that need customer, route and daily sales workflows.",
     features: [
@@ -43,9 +43,9 @@ export const plans: Plan[] = [
   {
     id: "premium",
     name: "Premium",
-    monthly: 1999,
-    annualMonthly: 1599,
-    annualTotal: 19188,
+    monthly: 24,
+    annualMonthly: 19,
+    annualTotal: 228,
     tagline: "Bring More of Your Operation Together.",
     description: "A broader connected distribution experience across field sales, stock, deliveries and collections.",
     features: [
@@ -65,9 +65,9 @@ export const plans: Plan[] = [
   {
     id: "enterprise",
     name: "Enterprise",
-    monthly: 3999,
-    annualMonthly: 3199,
-    annualTotal: 38388,
+    monthly: 48,
+    annualMonthly: 38,
+    annualTotal: 456,
     illustrativeSuffix: "Illustrative",
     tagline: "Built Around Your Requirements.",
     description: "A solution tier for businesses with more extensive distribution and integration requirements.",
@@ -119,7 +119,7 @@ export const pricingFaqs = [
   },
   {
     q: "How does annual billing work in this preview?",
-    a: "The annual option shows a lower per-user monthly rate, billed once a year. For example, Basic shows ₹799 per user per month, which is ₹9,588 per user for the year.",
+    a: "The annual option shows a lower per-user monthly rate, billed once a year. For example, Basic shows $10 per user per month, which is $120 per user for the year. All prices are in US dollars and exclude tax.",
   },
   {
     q: "Can we compare plans?",
@@ -139,4 +139,4 @@ export const pricingFaqs = [
   },
 ];
 
-export const formatINR = (value: number) => `₹${Math.round(value).toLocaleString("en-US")}`;
+export const formatUSD = (value: number) => `$${Math.round(value).toLocaleString("en-US")}`;

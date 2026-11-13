@@ -4,6 +4,8 @@ import { SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { ClosingPanel } from "@/components/home/ClosingPanel";
 import { CommandCenter } from "@/components/home/CommandCenter";
+import { ControlRoomSection } from "@/components/home/ControlRoomSection";
+import { SectionTabs } from "@/components/home/SectionTabs";
 import { ModulesExplorer } from "@/components/home/ModulesExplorer";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ComparePreview } from "@/components/home/ComparePreview";
@@ -27,12 +29,21 @@ function Explore() {
       <div className="wrap">
         <SectionHeading
           variant="fine"
-          eyebrow="Built around your daily operations"
-          title="The Right Tools for"
-          titleMuted="Every Part of the Job."
-          description="A salesperson, warehouse team and finance manager have different responsibilities. Vanforces keeps the work connected."
+          eyebrow="Find your fit"
+          title="Tell Us"
+          titleMuted="What You Need."
+          description="Describe your operation in a few words. We'll point you to the Vanforces solutions that fit."
         />
         <SolutionFinder />
+        <div className="mt-24 md:mt-28">
+          <SectionHeading
+            variant="fine"
+            eyebrow="Explore the platform"
+            title="Every Part of"
+            titleMuted="the Job, Covered."
+            description="Browse the modules for sales, distribution and retail execution, and open any one for details."
+          />
+        </div>
         <ModulesExplorer />
         <ScrollReveal className="mt-16 flex flex-col items-start justify-between gap-5 border-t border-line pt-8 sm:flex-row sm:items-center">
           <p className="text-[1.25rem] font-medium tracking-[-0.02em] text-navy-deep">Made for the field. Connected to the office.</p>
@@ -50,7 +61,13 @@ export default function Home() {
       <HomeHero />
       <Explore />
       <PricingSelector />
-      <CommandCenter />
+      <SectionTabs
+        label="Business views"
+        tabs={[
+          { label: "Business Command Center", panel: <CommandCenter /> },
+          { label: "Control Room Monitoring", panel: <ControlRoomSection /> },
+        ]}
+      />
       <EntauraShowcase />
       <StoriesSection />
       <WhyVanforces value={<ValueSection />} compare={<ComparePreview />} />

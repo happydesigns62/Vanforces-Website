@@ -6,7 +6,7 @@ import { Check } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { DemoNotice } from "@/components/global/Common";
 import { art } from "@/data/media";
-import { formatINR, plans, type Billing, type PlanId } from "@/data/pricing";
+import { formatUSD, plans, type Billing, type PlanId } from "@/data/pricing";
 import { BillingToggle } from "./Pricing";
 
 const STORAGE_KEY = "vf-demo-registration";
@@ -230,7 +230,7 @@ export function GetStartedFlow() {
                         className={`cursor-pointer rounded-[24px] border-2 p-5 text-left transition-colors ${on ? "border-navy bg-cyan-soft" : "border-line hover:border-navy/30"}`}
                       >
                         <span className="block text-[13px] font-extrabold uppercase tracking-[0.12em]">{plan.name}</span>
-                        <span className="mt-2 block text-[24px] font-bold tracking-tight tabular-nums">{formatINR(data.billing === "annual" ? plan.annualMonthly : plan.monthly)}</span>
+                        <span className="mt-2 block text-[24px] font-bold tracking-tight tabular-nums">{formatUSD(data.billing === "annual" ? plan.annualMonthly : plan.monthly)}</span>
                         <span className="block text-[13px] text-muted">/ user / month</span>
                         <span className="mt-2 block text-[13.5px] font-medium leading-snug">{plan.tagline}</span>
                       </button>
@@ -351,9 +351,9 @@ export function GetStartedFlow() {
                   {[
                     ["Plan", selected.name],
                     ["Billing", data.billing === "annual" ? "Annual" : "Monthly"],
-                    ["Rate", `${formatINR(rate)} / user / month`],
+                    ["Rate", `${formatUSD(rate)} / user / month`],
                     ["Users", String(userCount)],
-                    [data.billing === "annual" ? "Annual total" : "Monthly total", formatINR(data.billing === "annual" ? selected.annualTotal * userCount : selected.monthly * userCount)],
+                    [data.billing === "annual" ? "Annual total" : "Monthly total", formatUSD(data.billing === "annual" ? selected.annualTotal * userCount : selected.monthly * userCount)],
                     ["Company", data.company || "Not provided"],
                     ["Contact", data.email || "Not provided"],
                   ].map(([label, value]) => (
