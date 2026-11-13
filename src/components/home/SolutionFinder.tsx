@@ -63,17 +63,6 @@ export function SolutionFinder() {
   const id = useId();
   const typed = useTypedPlaceholder(!text && !focused);
 
-  // The pricing helper can pass a visitor's words on to this box.
-  useEffect(() => {
-    const onRequirements = (event: Event) => {
-      const value = String((event as CustomEvent<string>).detail ?? "");
-      setText(value);
-      if (value.trim()) setResult(findSuggestions(value));
-    };
-    window.addEventListener("vf-requirements", onRequirements);
-    return () => window.removeEventListener("vf-requirements", onRequirements);
-  }, []);
-
   function run(value: string) {
     if (!value.trim()) return;
     setResult(findSuggestions(value));

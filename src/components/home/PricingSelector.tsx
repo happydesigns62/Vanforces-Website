@@ -8,7 +8,6 @@ import { ScrollReveal } from "@/components/motion/Reveal";
 import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words, wordCount } from "@/components/motion/Words";
 import { formatUSD, plans, type Billing } from "@/data/pricing";
-import { suggestPlan, type PlanSuggestion } from "@/data/plan-suggest";
 
 const TITLE = "A Plan for the Way";
 const TITLE_MUTED = "You Operate.";
@@ -20,23 +19,13 @@ const TITLE_MUTED = "You Operate.";
 export function PricingSelector() {
   const [selected, setSelected] = useState(1);
   const [billing, setBilling] = useState<Billing>("annual");
-  const [need, setNeed] = useState("");
-  const [suggestion, setSuggestion] = useState<PlanSuggestion | null>(null);
   const id = useId();
   const plan = plans[selected];
   const annual = billing === "annual";
   const amount = annual ? plan.annualMonthly : plan.monthly;
   const href = plan.id === "enterprise" ? plan.cta.href : `${plan.cta.href}&billing=${billing}`;
 
-  function suggest() {
-    if (!need.trim()) return;
-    const result = suggestPlan(need);
-    setSuggestion(result);
-    setSelected(Math.max(0, plans.findIndex((p) => p.id === result.plan)));
-  }
-
   function continueInChat() {
-    window.dispatchEvent(new CustomEvent("vf-requirements", { detail: need }));
     document.getElementById("find")?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
@@ -139,60 +128,18 @@ export function PricingSelector() {
               </div>
             </div>
           </div>
-          <div className="mx-auto mt-12 max-w-[1120px] border-t border-white/20 pt-8">
-            <div className="grid items-start gap-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
-              <div>
-                <p className="flex items-center gap-2 text-[1.125rem] font-semibold">
-                  <Sparkles aria-hidden="true" size={18} />
-                  Not sure which plan fits?
-                </p>
-                <p className="mt-1.5 text-[14.5px] leading-relaxed text-white/75">Tell us about your team and what you need. We&apos;ll suggest a starting plan.</p>
-              </div>
-              <div>
-                <form
-                  onSubmit={(event) => {
-                    event.preventDefault();
-                    suggest();
-                  }}
-                  className="flex flex-col gap-2.5 sm:flex-row"
-                >
-                  <label htmlFor={`${id}-need`} className="sr-only">
-                    Describe your team and needs
-                  </label>
-                  <input
-                    id={`${id}-need`}
-                    value={need}
-                    onChange={(event) => setNeed(event.target.value)}
-                    maxLength={300}
-                    placeholder="e.g. 20 salesmen with vans, stock and collections"
-                    className="min-h-[50px] flex-1 rounded-full border border-white/25 bg-white/10 px-5 text-[15px] text-white placeholder:text-white/50 focus:border-white/60 focus:outline-none"
-                  />
-                  <button
-                    type="submit"
-                    disabled={!need.trim()}
-                    className="min-h-[50px] cursor-pointer rounded-full bg-white px-6 text-[14.5px] font-semibold text-teal-deep transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
-                  >
-                    Suggest a plan
-                  </button>
-                </form>
-                <div aria-live="polite">
-                  {suggestion ? (
-                    <div className="mt-4 rounded-2xl border border-white/25 bg-white/10 p-4 text-[14.5px] leading-relaxed">
-                      <p>
-                        <span className="font-semibold">Suggested starting point: {plans.find((p) => p.id === suggestion.plan)?.name}.</span> {suggestion.reason}
-                      </p>
-                      <p className="mt-1 text-[13px] text-white/70">This is a starting point. We confirm the right plan with you in a demo.</p>
-                      <button type="button" onClick={continueInChat} className="mt-3 inline-flex cursor-pointer items-center gap-1.5 text-[14px] font-semibold underline-offset-4 hover:underline">
-                        Tell us more in the chat
-                        <ArrowRight aria-hidden="true" size={14} />
-                      </button>
-                    </div>
-                  ) : null}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          <div className="mx-auto mt-12 flex max-w-[1120px] flex-col items-start justify-between gap-4 border-t border-white/20 pt-8 sm:flex-row sm:items-center">
+            <p className="flex items-start gap-2.5 text-[15px] leading-relaxed text-white/85">
+              <Sparkles aria-hidden="true" size={18} className="mt-0.5 shrink-0" />
+              <span>
+                <span className="font-semibold text-white">Not sure which plan fits?</span> Tell our assistant what you need, and we&apos;ll point you to the right starting plan.
+              </span>
+            </p>
+            <button type="button" onClick={continueInChat} className="inline-flex min-h-[46px] shrink-0 cursor-pointer items-center gap-2 rounded-full bg-white px-6 text-[14.5px] font-semibold text-teal-deep transition-opacity hover:opacity-90">
+              Tell us what you need
+              <ArrowRight aria-hidden="true" size={15} />
+            </button>
+          </div>        </div>
         </ScrollScene>
 
       </div>

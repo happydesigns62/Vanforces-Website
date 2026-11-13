@@ -24,27 +24,18 @@ export const metadata: Metadata = {
     "From the warehouse to the road and back to the office, Vanforces keeps your teams, transactions and business information connected.",
 };
 
-function Explore() {
+/** First section after the hero: the platform's modules. */
+function ExplorePlatform() {
   return (
-    <section className="section bg-mist">
+    <section className="section">
       <div className="wrap">
         <SectionHeading
           variant="fine"
-          eyebrow="Find your fit"
-          title="Tell Us"
-          titleMuted="What You Need."
-          description="Describe your operation in a few words. We'll point you to the Vanforces solutions that fit."
+          eyebrow="Explore the platform"
+          title="Every Part of"
+          titleMuted="the Job, Covered."
+          description="Browse the modules for sales, distribution and retail execution, and open any one for details."
         />
-        <div id="find" className="-mt-6 scroll-mt-24 lg:-mt-24"><SolutionFinder /></div>
-        <div className="mt-24 md:mt-28">
-          <SectionHeading
-            variant="fine"
-            eyebrow="Explore the platform"
-            title="Every Part of"
-            titleMuted="the Job, Covered."
-            description="Browse the modules for sales, distribution and retail execution, and open any one for details."
-          />
-        </div>
         <ModulesExplorer />
         <ScrollReveal className="mt-16 flex flex-col items-start justify-between gap-5 border-t border-line pt-8 sm:flex-row sm:items-center">
           <p className="text-[1.25rem] font-medium tracking-[-0.02em] text-navy-deep">Made for the field. Connected to the office.</p>
@@ -56,14 +47,35 @@ function Explore() {
     </section>
   );
 }
+
+/** Second: the search box where a visitor describes their operation. */
+function FindYourFit() {
+  return (
+    <section className="section bg-mist">
+      <div className="wrap">
+        <SectionHeading
+          variant="fine"
+          eyebrow="Find your fit"
+          title="Tell Us"
+          titleMuted="What You Need."
+          description="Describe your operation in a few words. We'll point you to the Vanforces solutions that fit."
+        />
+        <div id="find" className="-mt-6 scroll-mt-24 lg:-mt-24">
+          <SolutionFinder />
+        </div>
+      </div>
+    </section>
+  );
+}
 export default function Home() {
   return (
     <>
       <HomeHero />
-      <Explore />
-      <EntauraShowcase />
+      <ExplorePlatform />
+      <FindYourFit />
       <PricingSelector />
       <DashboardShowcase />
+      <EntauraShowcase />
       <SectionTabs
         label="Business views"
         tabs={[
