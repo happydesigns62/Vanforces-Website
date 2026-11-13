@@ -10,6 +10,7 @@ import { ModulesExplorer } from "@/components/home/ModulesExplorer";
 import { HomeHero } from "@/components/home/HomeHero";
 import { ComparePreview } from "@/components/home/ComparePreview";
 import { EcosystemSection } from "@/components/home/EcosystemSection";
+import { DashboardShowcase } from "@/components/home/DashboardShowcase";
 import { EntauraShowcase } from "@/components/home/EntauraShowcase";
 import { PricingSelector } from "@/components/home/PricingSelector";
 import { SolutionFinder } from "@/components/home/SolutionFinder";
@@ -34,7 +35,7 @@ function Explore() {
           titleMuted="What You Need."
           description="Describe your operation in a few words. We'll point you to the Vanforces solutions that fit."
         />
-        <div className="-mt-6 lg:-mt-24"><SolutionFinder /></div>
+        <div id="find" className="-mt-6 scroll-mt-24 lg:-mt-24"><SolutionFinder /></div>
         <div className="mt-24 md:mt-28">
           <SectionHeading
             variant="fine"
@@ -60,7 +61,9 @@ export default function Home() {
     <>
       <HomeHero />
       <Explore />
+      <EntauraShowcase />
       <PricingSelector />
+      <DashboardShowcase />
       <SectionTabs
         label="Business views"
         tabs={[
@@ -68,7 +71,6 @@ export default function Home() {
           { label: "Control Room Monitoring", panel: <ControlRoomSection /> },
         ]}
       />
-      <EntauraShowcase />
       <StoriesSection />
       <WhyVanforces value={<ValueSection />} compare={<ComparePreview />} />
       <EcosystemSection />

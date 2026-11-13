@@ -5,7 +5,6 @@ import { ScrollScene } from "@/components/motion/ScrollScene";
 import { Words } from "@/components/motion/Words";
 import { trustedLogos } from "@/data/trusted-logos";
 import { HeroFlow } from "./HeroFlow";
-import { HeroDashboard } from "./HeroDashboard";
 import { VanSalesScene } from "./VanSalesScene";
 
 
@@ -35,8 +34,8 @@ function LogoSet({ hidden }: { hidden?: boolean }) {
 }
 
 /**
- * Homepage hero. Centred text, then real Vanforces screens fading through one frame, then customer logos
- * drifting slowly sideways. Motion flow: text rises in on load, the stage grows as it scrolls into view,
+ * Homepage hero. Centred text, the van scene, then customer logos
+ * drifting slowly sideways. Motion flow: text rises in on load,
  * the mascot follows, and the text eases away as the visitor scrolls on.
  */
 export function HomeHero() {
@@ -70,12 +69,6 @@ export function HomeHero() {
 
         <div className="seq mx-auto mt-10 max-w-[1200px] md:mt-14" style={delay(340)}>
           <VanSalesScene />
-        </div>
-
-        <div className="seq-shot relative mx-auto mt-10 max-w-[1200px] md:mt-16" style={delay(400)}>
-          <ScrollScene mode="entry" className="scene-stage">
-            <HeroDashboard />
-          </ScrollScene>
         </div>
 
         <div className="seq mt-16 pb-20 md:mt-24 md:pb-28" style={delay(560)}>
