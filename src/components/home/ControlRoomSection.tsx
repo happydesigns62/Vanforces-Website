@@ -1,78 +1,38 @@
-"use client";
-
-import { useCallback, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import type { CSSProperties } from "react";
 import { Button } from "@/components/global/Button";
 import { ScrollReveal } from "@/components/motion/Reveal";
-import { useCalm } from "@/components/motion/useCalm";
 import { ControlRoomScreen, SAMPLE_NOTE, type ScreenKey } from "./ControlRoomScreens";
 
-type Monitor = { key: Exclude<ScreenKey, "launcher">; title: string; refresh: string; copy: string; points: string[] };
+type Spot = { key: Exclude<ScreenKey, "launcher">; title: string; refresh: string; place: string; tilt: number };
 
-export const monitors: Monitor[] = [
-  {
-    key: "executive",
-    title: "Executive Overview",
-    refresh: "Refreshes every 120s",
-    copy: "Sales, collections, credits, customer additions and revenue trends in one management view.",
-    points: ["Four headline cards", "A dated revenue trend", "Order and delivery report panels"],
-  },
-  {
-    key: "liveOps",
-    title: "Live Operations",
-    refresh: "Refreshes every 30s",
-    copy: "Regularly refreshed sales, collection, order and delivery snapshots with route status and recent activity.",
-    points: ["Live summary cards", "Route status board and activity feed", "Live routes table"],
-  },
-  {
-    key: "attendance",
-    title: "Attendance & Movement",
-    refresh: "Refreshes every 60s",
-    copy: "Work-status records, salesman location logs and route maps in one field-supervision view.",
-    points: ["Work status grid", "Salesman log map", "Live routes map"],
-  },
-  {
-    key: "orderDelivery",
-    title: "Order & Delivery Control",
-    refresh: "Refreshes every 45s",
-    copy: "Pending orders, order-status distribution, delivery-run information and reporting panels together.",
-    points: ["Pending order and delivery run snapshots", "Order funnel by status", "Order and delivery reports"],
-  },
+// Four monitors in the corners, each overlapping the launcher a little. The side screens turn slightly toward the middle.
+const spots: Spot[] = [
+  { key: "executive", title: "Executive Overview", refresh: "120s", place: "left-0 top-0", tilt: 5 },
+  { key: "liveOps", title: "Live Operations", refresh: "30s", place: "right-0 top-0", tilt: -5 },
+  { key: "attendance", title: "Attendance & Movement", refresh: "60s", place: "left-0 bottom-0", tilt: 5 },
+  { key: "orderDelivery", title: "Order & Delivery Control", refresh: "45s", place: "right-0 bottom-0", tilt: -5 },
 ];
 
+const tilt = (deg: number) => ({ "--tilt": `${deg}deg` }) as CSSProperties;
+
+function Label({ title, refresh, right }: { title: string; refresh: string; right?: boolean }) {
+  return (
+    <span className={`pointer-events-none absolute -bottom-2.5 z-10 ${right ? "right-3" : "left-3"} inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-[11px] font-semibold text-navy-deep shadow-[0_6px_14px_-8px_rgb(8_60_66/0.5)]`}>
+      <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
+      {title}
+      <span className="font-medium text-muted">· {refresh}</span>
+    </span>
+  );
+}
+
 /**
- * Control Room Monitoring as one large screen with a switcher. The four screens are listed on the left like the launcher's own
- * cards; the one chosen is shown large on the right, and the choice rotates by itself until the visitor takes over. Every screen is
- * redrawn with synthetic sample data and labelled so. Copy avoids unproven claims: screens are "regularly refreshed", never
- * instant, and there are no tracking, optimisation, prediction or alert-rule promises.
+ * Control Room Monitoring as one compact monitoring wall: the launcher in the middle, the four monitoring screens around it, all
+ * layered with soft shadows and a slight turn toward the centre. Every screen is redrawn as page elements with synthetic sample data
+ * (no real customer screen is published) so it stays sharp at any size, and is labelled as sample data. Wording avoids unproven claims:
+ * screens are "regularly refreshed", never instant. On narrow screens the launcher leads and the four screens sit in a 2 by 2 grid.
  */
 export function ControlRoomSection() {
-  const [active, setActive] = useState(0);
-  const [auto, setAuto] = useState(true);
-  const [inView, setInView] = useState(false);
-  const calm = useCalm();
-  const box = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = box.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    if (!auto || calm || !inView) return;
-    const t = window.setTimeout(() => setActive((i) => (i + 1) % monitors.length), 5500);
-    return () => window.clearTimeout(t);
-  }, [auto, calm, inView, active]);
-
-  const pick = useCallback((i: number) => {
-    setActive(i);
-    setAuto(false);
-  }, []);
-
-  const current = monitors[active];
-
   return (
     <section className="section bg-mist">
       <div className="wrap">
@@ -97,54 +57,49 @@ export function ControlRoomSection() {
         </div>
 
         <ScrollReveal delay={100} className="mt-12">
-          <div ref={box} className="grid gap-5 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-8">
-            <div className="flex flex-col">
-              <p className="mb-3 text-[12px] font-semibold uppercase tracking-[0.12em] text-teal-deep">Control Room Launcher</p>
-              <ul role="tablist" aria-label="Monitoring screens" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 lg:mx-0 lg:flex-col lg:overflow-visible lg:px-0">
-                {monitors.map((m, i) => {
-                  const on = i === active;
-                  return (
-                    <li key={m.key} className="shrink-0 lg:shrink">
-                      <button
-                        type="button"
-                        role="tab"
-                        aria-selected={on}
-                        onClick={() => pick(i)}
-                        className={`relative w-full cursor-pointer overflow-hidden rounded-2xl border px-4 py-3.5 text-left transition-colors ${on ? "border-cyan-line bg-white shadow-[0_1px_2px_rgb(41_59_71/0.06),0_18px_36px_-26px_rgb(8_60_66/0.45)]" : "border-transparent hover:bg-white/60"}`}
-                      >
-                        <span className="flex items-center justify-between gap-3">
-                          <span className="text-[15px] font-semibold text-navy-deep">{m.title}</span>
-                          <span className={`rounded-full px-2 py-px text-[10.5px] font-semibold ${on ? "bg-teal text-white" : "bg-white text-muted"}`}>On</span>
-                        </span>
-                        <span className="mt-0.5 hidden text-[12.5px] text-muted lg:block">{m.refresh}</span>
-                        {on && auto && !calm ? <span key={`${i}-bar`} aria-hidden="true" className="cr-progress absolute bottom-0 left-0 h-[3px] w-full bg-teal" /> : null}
-                      </button>
-                    </li>
-                  );
-                })}
-              </ul>
-
-              <div className="mt-5 hidden lg:block">
-                <p className="text-[14.5px] leading-relaxed text-muted">{current.copy}</p>
-                <ul className="mt-3 space-y-1.5">
-                  {current.points.map((pt) => (
-                    <li key={pt} className="flex items-center gap-2 text-[13.5px] font-medium text-navy-deep">
-                      <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
-                      {pt}
-                    </li>
-                  ))}
-                </ul>
+          {/* Wide screens: the connected wall. */}
+          <div className="relative mx-auto hidden max-w-[980px] pb-4 [perspective:1600px] md:block">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-[8%] inset-y-[6%] rounded-[40px] bg-[radial-gradient(60%_60%_at_50%_50%,rgb(28_178_187/0.16),transparent_72%)]" />
+            <div className="relative aspect-[980/520]">
+              {spots.map((s) => (
+                <Link
+                  key={s.key}
+                  href="/control-room"
+                  aria-label={`${s.title}, sample screen`}
+                  style={tilt(s.tilt)}
+                  className={`cr-wall-screen absolute w-[39%] ${s.place}`}
+                >
+                  <ControlRoomScreen kind={s.key} className="!rounded-lg" />
+                  <Label title={s.title} refresh={s.refresh} right={s.place.startsWith("right")} />
+                </Link>
+              ))}
+              <div className="absolute left-1/2 top-1/2 z-20 w-[44%] -translate-x-1/2 -translate-y-1/2">
+                <ControlRoomScreen kind="launcher" className="!rounded-xl shadow-[0_40px_70px_-30px_rgb(8_60_66/0.55),0_8px_20px_-8px_rgb(8_60_66/0.2)]" />
+                <span className="pointer-events-none absolute -bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-navy-deep px-3 py-1 text-[11px] font-semibold text-white shadow">Control Room Launcher</span>
               </div>
-            </div>
-
-            <div role="tabpanel" aria-label={current.title}>
-              <div key={current.key} className="cr-swap">
-                <ControlRoomScreen kind={current.key} />
-              </div>
-              <p className="mt-3 text-[14px] leading-relaxed text-muted lg:hidden">{current.copy}</p>
             </div>
           </div>
-          <p className="mt-6 text-center text-[12.5px] leading-relaxed text-navy/65">{SAMPLE_NOTE} Screens refresh at set intervals. Available widgets depend on your account and configuration.</p>
+
+          {/* Narrow screens: launcher first, then the four screens in a grid. */}
+          <div className="mx-auto max-w-[520px] md:hidden">
+            <ControlRoomScreen kind="launcher" />
+            <p className="mt-2 text-center text-[12px] font-semibold text-navy-deep">Control Room Launcher</p>
+            <div aria-hidden="true" className="mx-auto h-5 w-px border-l-2 border-dashed border-cyan-line" />
+            <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
+              {spots.map((s) => (
+                <li key={s.key}>
+                  <Link href="/control-room" aria-label={`${s.title}, sample screen`}>
+                    <ControlRoomScreen kind={s.key} className="!rounded-md" />
+                    <span className="mt-1.5 block text-[12px] font-semibold leading-tight text-navy-deep">{s.title}</span>
+                    <span className="text-[11px] text-muted">Refreshes every {s.refresh}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <p className="mt-8 text-center text-[13.5px] font-medium text-navy-deep">One central Control Room. Multiple monitoring views.</p>
+          <p className="mt-2 text-center text-[12.5px] leading-relaxed text-navy/65">{SAMPLE_NOTE} Screens refresh at set intervals. Available widgets depend on your account and configuration.</p>
         </ScrollReveal>
       </div>
     </section>

@@ -838,3 +838,8 @@ input[type="range"] {
 .cr-swap { animation: cr-swap 0.5s var(--ease-soft, ease) both; }
 @keyframes cr-swap { from { opacity: 0; translate: 0 8px; } to { opacity: 1; translate: 0 0; } }
 @media (prefers-reduced-motion: reduce) { .cr-progress, .cr-swap { animation: none; } .cr-progress { scale: 1 1; } }
+
+/* Control Room wall: the side screens turn slightly toward the launcher and rise a little on hover. */
+.cr-wall-screen { transform: rotateY(var(--tilt, 0deg)); transition: transform 0.5s var(--ease-soft, ease), filter 0.5s; }
+.cr-wall-screen:hover { transform: rotateY(0deg) translateY(-6px); z-index: 30; }
+@media (prefers-reduced-motion: reduce) { .cr-wall-screen { transition: none; } }
