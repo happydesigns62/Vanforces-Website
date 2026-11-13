@@ -131,14 +131,15 @@ const modes: { id: Mode; logo: string; w: number; h: number; hint: string; name:
 /**
  * Entaura as a conversation that keeps going. Two modes, Insight and Watch. When the section is on screen, a question is typed into
  * the input, sent, reasoned through step by step and answered, then the next question follows, and the thread scrolls up as it grows.
- * It pauses on hover, can be replayed, and shows the whole thread still for reduced motion. Every figure is sample data and labelled.
+ * It can be replayed, and shows the whole thread still for reduced motion. Every figure is sample data and labelled.
  */
 export function EntauraShowcase() {
   const [mode, setMode] = useState<Mode>("insight");
   const [turn, setTurn] = useState(0);
   const [stage, setStage] = useState(4); // 0 typing, 1-3 reasoning steps, 4 answered
   const [typed, setTyped] = useState("");
-  const [paused, setPaused] = useState(false);
+  const [fading, setFading] = useState(false);
+  const scroller = useRef<HTMLDivElement>(null);
   const [inView, setInView] = useState(false);
   const calm = useCalm();
   const box = useRef<HTMLDivElement>(null);
@@ -152,49 +153,68 @@ export function EntauraShowcase() {
     return () => observer.disconnect();
   }, []);
 
+  // The whole conversation is driven by one clock, so typing, reasoning and answers keep an even pace and never drift.
+  const [run, setRun] = useState(0);
   const restart = useCallback((next: Mode) => {
     setMode(next);
-    setTurn(0);
-    setStage(0);
-    setTyped("");
+    setRun((r) => r + 1);
   }, []);
 
-  // The conversation begins from the first question the first time the section is on screen.
-  const started = useRef(false);
   useEffect(() => {
-    if (inView && !calm && !started.current) {
-      started.current = true;
-      restart("insight");
-    }
-  }, [inView, calm, restart]);
-
-  // One timer at a time moves the conversation forward.
-  useEffect(() => {
-    if (calm || !inView || paused) return;
-    const current = threads[mode][turn];
-    if (!current) {
-      const t = window.setTimeout(() => restart(mode), 3600);
-      return () => window.clearTimeout(t);
-    }
-    if (stage === 0) {
-      if (typed.length < current.question.length) {
-        const t = window.setTimeout(() => setTyped(current.question.slice(0, typed.length + 1)), 34);
-        return () => window.clearTimeout(t);
+    if (calm || !inView) return;
+    const list = threads[mode];
+    const TYPE_MS = (turnIndex: number) => (turnIndex === 0 ? 48 : 30);
+    const lengths = list.map((t, i) => t.question.length * TYPE_MS(i));
+    const GAP = 500;
+    const STEP = 800;
+    const HOLD = 3000;
+    const total = list.reduce((sum, _t, i) => sum + lengths[i] + GAP + STEP * 3 + HOLD, 0);
+    const FADE = 600;
+    const start = performance.now();
+    let raf = 0;
+    const tick = (now: number) => {
+      const t = now - start;
+      if (t >= total + FADE) {
+        setFading(false);
+        setRun((r) => r + 1);
+        return;
       }
-      const t = window.setTimeout(() => setStage(1), 450);
-      return () => window.clearTimeout(t);
-    }
-    if (stage < 4) {
-      const t = window.setTimeout(() => setStage(stage + 1), stage === 3 ? 700 : 650);
-      return () => window.clearTimeout(t);
-    }
-    const t = window.setTimeout(() => {
-      setTurn(turn + 1);
-      setStage(0);
-      setTyped("");
-    }, 2600);
-    return () => window.clearTimeout(t);
-  }, [calm, inView, paused, mode, turn, stage, typed, restart]);
+      if (t >= total) {
+        setFading(true);
+      } else {
+        let offset = 0;
+        for (let i = 0; i < list.length; i++) {
+          const dur = lengths[i] + GAP + STEP * 3 + HOLD;
+          if (t < offset + dur) {
+            const local = t - offset;
+            const q = list[i].question;
+            setTurn(i);
+            if (local < lengths[i]) {
+              setStage(0);
+              setTyped(q.slice(0, Math.floor(local / TYPE_MS(i))));
+            } else if (local < lengths[i] + GAP) {
+              setStage(0);
+              setTyped(q);
+            } else {
+              const s = local - lengths[i] - GAP;
+              setStage(s < STEP ? 1 : s < STEP * 2 ? 2 : s < STEP * 3 ? 3 : 4);
+              setTyped("");
+            }
+            break;
+          }
+          offset += dur;
+        }
+      }
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [calm, inView, mode, run]);
+  // Keep the newest message in view, scrolling smoothly as the thread grows.
+  useEffect(() => {
+    const el = scroller.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
+  }, [turn, stage]);
 
   // With reduced motion the whole thread is shown at once.
   const shownTurns = calm ? turns.length : Math.min(turn + 1, turns.length);
@@ -224,8 +244,6 @@ export function EntauraShowcase() {
         <ScrollReveal delay={100} className="mt-12">
           <div
             ref={box}
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
             className="mx-auto max-w-[1000px] overflow-hidden rounded-[24px] border border-line bg-white shadow-[0_50px_90px_-44px_rgb(8_60_66/0.4),0_10px_24px_-12px_rgb(8_60_66/0.14)]"
           >
             <div aria-hidden="true" className="flex h-9 items-center gap-1.5 border-b border-line bg-mist px-3.5">
@@ -263,36 +281,41 @@ export function EntauraShowcase() {
               </div>
 
               <div className="flex h-[460px] flex-col p-5 sm:p-7">
-                <div aria-live="off" className="flex flex-1 flex-col justify-end space-y-5 overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_14%)]">
+                <div ref={scroller} aria-live="off" className={`min-h-0 flex-1 overflow-y-auto transition-opacity duration-500 [mask-image:linear-gradient(to_bottom,transparent,black_10%)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${fading ? "opacity-0" : "opacity-100"}`}>
+                  <div className="flex min-h-full flex-col justify-end space-y-5">
+                  {!calm && turn === 0 && stage === 0 ? (
+                    <p className="cr-swap pb-2 text-center text-[13.5px] text-muted">Ask Entaura about your operation. Here is how it answers.</p>
+                  ) : null}
                   {turns.slice(0, shownTurns).map((t, i) => {
                     const last = i === shownTurns - 1 && !calm;
                     const s = last ? stage : 4;
                     return (
                       <div key={t.question} className="space-y-4">
                         {s >= 1 ? (
-                          <div className="flex justify-end">
+                          <div className="cr-swap flex justify-end">
                             <p className="max-w-[85%] rounded-2xl rounded-br-md bg-navy-deep px-4 py-2.5 text-[14.5px] leading-snug text-white">{t.question}</p>
                           </div>
                         ) : null}
                         {s >= 1 ? (
-                          <div className="max-w-[92%]">
+                          <div className="cr-swap max-w-[92%]">
                             <p className="flex items-center gap-2 text-[12.5px] font-semibold text-muted">
                               {s >= 4 ? <Check aria-hidden="true" size={14} className="text-teal-deep" /> : <span className="size-2 animate-pulse rounded-full bg-teal" />}
                               {s >= 4 ? "Reasoned in 3 steps" : "Reasoning"}
                             </p>
                             <ol className="mt-2 space-y-1.5 border-l-2 border-cyan-line pl-3.5">
                               {t.steps.slice(0, s >= 4 ? 3 : s).map((st) => (
-                                <li key={st} className="text-[13px] text-muted">
+                                <li key={st} className="cr-swap text-[13px] text-muted">
                                   {st}
                                 </li>
                               ))}
                             </ol>
                           </div>
                         ) : null}
-                        {s >= 4 ? <div className="max-w-[92%] rounded-2xl rounded-tl-md border border-line bg-white p-4 shadow-[0_1px_2px_rgb(41_59_71/0.04)]">{t.answer}</div> : null}
+                        {s >= 4 ? <div className="cr-swap max-w-[92%] rounded-2xl rounded-tl-md border border-line bg-white p-4 shadow-[0_1px_2px_rgb(41_59_71/0.04)]">{t.answer}</div> : null}
                       </div>
                     );
                   })}
+                  </div>
                 </div>
 
                 <div className="mt-4 flex items-center gap-3 rounded-full border border-line bg-white py-1.5 pl-4 pr-1.5">
