@@ -3,16 +3,11 @@ import { ScrollScene } from "@/components/motion/ScrollScene";
 import { HeroDashboard } from "./HeroDashboard";
 import { PhoneApp } from "./PhoneApp";
 
-const callouts = [
-  { text: "Start of day", top: "6%" },
-  { text: "Punch in", top: "26%" },
-  { text: "Cash collected", top: "50%" },
-];
-
 /**
  * The Vanforces dashboard, with the field app on a phone at its top right: the team runs the day on the phone, and management follows
- * it on the dashboard. On wide screens the phone overlaps the dashboard's top right corner, which holds only small controls, with
- * three short callouts. On narrow screens the phone sits below the dashboard. Both are redrawn as page elements and stay sharp.
+ * it on the dashboard. The phone is kept small and sits over the dashboard's top right corner, which holds only small controls, so
+ * the key numbers and the chart stay visible. On narrow screens the phone sits below the dashboard. Both are redrawn as page
+ * elements and stay sharp.
  */
 export function DashboardShowcase() {
   return (
@@ -28,39 +23,29 @@ export function DashboardShowcase() {
           </p>
         </ScrollReveal>
 
-        <div className="relative mx-auto mt-12 max-w-[1200px] md:mt-24">
-          <div className="md:w-[88%]">
-            <ScrollScene mode="entry" className="scene-stage">
-              <HeroDashboard />
-            </ScrollScene>
-          </div>
+        <div className="relative mx-auto mt-12 max-w-[1120px] md:mt-20">
+          <ScrollScene mode="entry" className="scene-stage">
+            <HeroDashboard />
+          </ScrollScene>
 
-          {/* Wide screens: the phone overlaps the top right corner. */}
-          <ScrollReveal delay={200} className="pointer-events-none absolute -right-[1%] -top-[72px] z-10 hidden w-[25%] min-w-[250px] md:block">
-            <div className="[rotate:3deg]">
+          {/* Wide screens: a small phone over the top right corner. */}
+          <ScrollReveal delay={200} className="absolute -right-[4%] -top-[54px] z-10 hidden w-[17%] min-w-[190px] md:block">
+            <div className="drop-shadow-[0_26px_28px_rgb(8_20_30/0.32)]">
               <PhoneApp />
             </div>
+            <p className="mt-3 text-center">
+              <span className="inline-flex rounded-full bg-navy-deep px-3.5 py-1.5 text-[12px] font-semibold text-white shadow-[0_10px_20px_-10px_rgb(8_20_30/0.6)]">Field app</span>
+            </p>
           </ScrollReveal>
-          <ul aria-hidden="true" className="pointer-events-none absolute right-[26%] top-0 z-10 hidden h-full w-48 md:block">
-            {callouts.map((c, i) => (
-              <li key={c.text} className="absolute right-0 flex items-center gap-1.5" style={{ top: c.top }}>
-                <span className="whitespace-nowrap rounded-full bg-navy-deep px-3 py-1.5 text-[12px] font-semibold text-white shadow-[0_10px_20px_-10px_rgb(8_20_30/0.6)]">{c.text}</span>
-                <span className="h-px w-8 bg-navy-deep/60" />
-                <span className="size-1.5 rounded-full bg-teal" style={{ animationDelay: `${i * 120}ms` }} />
-              </li>
-            ))}
-          </ul>
 
           {/* Narrow screens: the phone below the dashboard. */}
-          <div className="mx-auto mt-8 w-[min(78%,300px)] md:hidden">
-            <PhoneApp />
-            <ul className="mt-5 flex flex-wrap justify-center gap-2">
-              {callouts.map((c) => (
-                <li key={c.text} className="rounded-full bg-mist px-3 py-1.5 text-[12.5px] font-semibold text-navy-deep">
-                  {c.text}
-                </li>
-              ))}
-            </ul>
+          <div className="mx-auto mt-8 w-[min(62%,240px)] md:hidden">
+            <div className="drop-shadow-[0_22px_24px_rgb(8_20_30/0.3)]">
+              <PhoneApp />
+            </div>
+            <p className="mt-3 text-center">
+              <span className="inline-flex rounded-full bg-navy-deep px-3.5 py-1.5 text-[12px] font-semibold text-white">Field app</span>
+            </p>
           </div>
         </div>
       </div>

@@ -10,6 +10,8 @@ import { ScaledScreen } from "./ScaledScreen";
 
 const PHONE_W = 392;
 const PHONE_H = 812;
+/** Space around the device inside its box, so its edge buttons are not clipped when it is scaled. */
+const PAD = 8;
 
 const blue = "#0b3b8f";
 
@@ -159,13 +161,13 @@ function AppScreen() {
 /** The iPhone-style device: a titanium-look body, a black bezel, the Dynamic Island and the app screen. */
 function Device() {
   return (
-    <div className="relative" style={{ width: PHONE_W, height: PHONE_H }}>
+    <div className="absolute" style={{ width: PHONE_W, height: PHONE_H, left: PAD, top: PAD }}>
       {/* side buttons */}
       <span aria-hidden="true" className="absolute -left-[3px] top-[118px] h-[30px] w-[4px] rounded-l bg-[#3a3d42]" />
       <span aria-hidden="true" className="absolute -left-[3px] top-[170px] h-[56px] w-[4px] rounded-l bg-[#3a3d42]" />
       <span aria-hidden="true" className="absolute -left-[3px] top-[236px] h-[56px] w-[4px] rounded-l bg-[#3a3d42]" />
       <span aria-hidden="true" className="absolute -right-[3px] top-[190px] h-[84px] w-[4px] rounded-r bg-[#3a3d42]" />
-      <div className="absolute inset-0 rounded-[58px] bg-[linear-gradient(145deg,#6b6f76,#2a2c30_30%,#1b1c1f_70%,#55595f)] p-[3px] shadow-[0_40px_80px_-30px_rgb(8_20_30/0.7),0_0_0_1px_rgb(255_255_255/0.08)_inset]">
+      <div className="absolute inset-0 rounded-[58px] bg-[linear-gradient(145deg,#6b6f76,#2a2c30_30%,#1b1c1f_70%,#55595f)] p-[3px] shadow-[0_0_0_1px_rgb(255_255_255/0.08)_inset]">
         <div className="h-full w-full rounded-[55px] bg-black p-[14px]">
           <div className="relative h-full w-full overflow-hidden rounded-[42px] bg-white">
             <AppScreen />
@@ -180,7 +182,7 @@ function Device() {
 /** The phone at any width. */
 export function PhoneApp({ className = "" }: { className?: string }) {
   return (
-    <ScaledScreen width={PHONE_W} height={PHONE_H} label="The Vanforces field app Dashboard on a phone, showing the supervisor profile, attendance with Punch In, Start of Day, and tiles for sales, collections, credit, settlement, orders, cash in hand and visits, with illustrative details." className={className}>
+    <ScaledScreen width={PHONE_W + PAD * 2} height={PHONE_H + PAD * 2} label="The Vanforces field app Dashboard on a phone, showing the supervisor profile, attendance with Punch In, Start of Day, and tiles for sales, collections, credit, settlement, orders, cash in hand and visits, with illustrative details." className={className}>
       <Device />
     </ScaledScreen>
   );
