@@ -24,7 +24,7 @@ const rotation: ScreenKey[] = ["executive", "liveOps", "attendance", "orderDeliv
  * Control Room Monitoring as a command wall with one screen in focus. On a deep navy stage, the chosen screen is shown large and sharp
  * with a soft glow; below it a row of five thumbnails shows the whole room, with the launcher in the middle and two monitoring
  * screens either side. The large screen changes by itself every few seconds until the visitor picks one. Every screen is an anonymised copy of
- * page elements to match the real product screens, anonymised copies with invented data (the originals stay private), and labelled so.
+ * page elements to match the the real product screens, and labelled as illustration.
  * Wording avoids unproven claims: screens are "regularly refreshed", never instant.
  */
 export function ControlRoomSection() {
