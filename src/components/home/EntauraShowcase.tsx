@@ -19,7 +19,7 @@ function Bars({ rows, unit = "" }: { rows: { label: string; value: number; muted
         <li key={r.label} className="grid grid-cols-[5.5rem_minmax(0,1fr)_2.75rem] items-center gap-3 text-[13px]">
           <span className="truncate font-medium text-navy-deep">{r.label}</span>
           <span className="h-2.5 overflow-hidden rounded-full bg-mist">
-            <span className={`block h-full rounded-full ${r.muted ? "bg-navy/30" : "bg-teal"}`} style={{ width: `${r.value}%` }} />
+            <span className={`chat-bar block h-full rounded-full ${r.muted ? "bg-navy/30" : "bg-teal"}`} style={{ width: `${r.value}%` }} />
           </span>
           <span className="text-right font-semibold tabular-nums text-navy-deep">
             {r.value}
@@ -210,11 +210,18 @@ export function EntauraShowcase() {
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
   }, [calm, inView, mode, run]);
-  // Keep the newest message in view, scrolling smoothly as the thread grows.
+  // Keep the newest message in view. Messages grow open gradually, so following the growth keeps the scroll smooth.
+  const inner = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    const el = scroller.current;
-    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
-  }, [turn, stage]);
+    const el = inner.current;
+    const box = scroller.current;
+    if (!el || !box) return;
+    const observer = new ResizeObserver(() => {
+      box.scrollTop = box.scrollHeight;
+    });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   // With reduced motion the whole thread is shown at once.
   const shownTurns = calm ? turns.length : Math.min(turn + 1, turns.length);
@@ -282,7 +289,7 @@ export function EntauraShowcase() {
 
               <div className="flex h-[460px] flex-col p-5 sm:p-7">
                 <div ref={scroller} aria-live="off" className={`min-h-0 flex-1 overflow-y-auto transition-opacity duration-500 [mask-image:linear-gradient(to_bottom,transparent,black_10%)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden ${fading ? "opacity-0" : "opacity-100"}`}>
-                  <div className="flex min-h-full flex-col justify-end space-y-5">
+                  <div ref={inner} className="flex min-h-full flex-col justify-end space-y-5">
                   {!calm && turn === 0 && stage === 0 ? (
                     <p className="cr-swap pb-2 text-center text-[13.5px] text-muted">Ask Entaura about your operation. Here is how it answers.</p>
                   ) : null}
@@ -292,26 +299,36 @@ export function EntauraShowcase() {
                     return (
                       <div key={t.question} className="space-y-4">
                         {s >= 1 ? (
-                          <div className="cr-swap flex justify-end">
-                            <p className="max-w-[85%] rounded-2xl rounded-br-md bg-navy-deep px-4 py-2.5 text-[14.5px] leading-snug text-white">{t.question}</p>
+                          <div className="chat-reveal">
+                            <div className="flex min-h-0 justify-end overflow-hidden">
+                              <p className="max-w-[85%] rounded-2xl rounded-br-md bg-navy-deep px-4 py-2.5 text-[14.5px] leading-snug text-white">{t.question}</p>
+                            </div>
                           </div>
                         ) : null}
                         {s >= 1 ? (
-                          <div className="cr-swap max-w-[92%]">
+                          <div className="chat-reveal max-w-[92%]">
+                            <div className="min-h-0 overflow-hidden">
                             <p className="flex items-center gap-2 text-[12.5px] font-semibold text-muted">
                               {s >= 4 ? <Check aria-hidden="true" size={14} className="text-teal-deep" /> : <span className="size-2 animate-pulse rounded-full bg-teal" />}
                               {s >= 4 ? "Reasoned in 3 steps" : "Reasoning"}
                             </p>
                             <ol className="mt-2 space-y-1.5 border-l-2 border-cyan-line pl-3.5">
                               {t.steps.slice(0, s >= 4 ? 3 : s).map((st) => (
-                                <li key={st} className="cr-swap text-[13px] text-muted">
+                                <li key={st} className="chat-in text-[13px] text-muted">
                                   {st}
                                 </li>
                               ))}
                             </ol>
+                            </div>
                           </div>
                         ) : null}
-                        {s >= 4 ? <div className="cr-swap max-w-[92%] rounded-2xl rounded-tl-md border border-line bg-white p-4 shadow-[0_1px_2px_rgb(41_59_71/0.04)]">{t.answer}</div> : null}
+                        {s >= 4 ? (
+                          <div className="chat-reveal max-w-[92%]">
+                            <div className="min-h-0 overflow-hidden p-1">
+                              <div className="rounded-2xl rounded-tl-md border border-line bg-white p-4 shadow-[0_1px_2px_rgb(41_59_71/0.04)]">{t.answer}</div>
+                            </div>
+                          </div>
+                        ) : null}
                       </div>
                     );
                   })}

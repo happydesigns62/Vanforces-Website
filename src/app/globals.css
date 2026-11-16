@@ -843,3 +843,12 @@ input[type="range"] {
 .cr-wall-screen { transform: rotateY(var(--tilt, 0deg)); transition: transform 0.5s var(--ease-soft, ease), filter 0.5s; }
 .cr-wall-screen:hover { transform: rotateY(0deg) translateY(-6px); z-index: 30; }
 @media (prefers-reduced-motion: reduce) { .cr-wall-screen { transition: none; } }
+
+/* Entaura chat: each message opens gradually (so the thread glides up with it), steps fade in, and chart bars grow. */
+.chat-reveal { display: grid; animation: chat-reveal 0.8s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes chat-reveal { from { grid-template-rows: 0fr; opacity: 0; } to { grid-template-rows: 1fr; opacity: 1; } }
+.chat-in { animation: chat-in 0.55s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes chat-in { from { opacity: 0; translate: 0 6px; } to { opacity: 1; translate: 0 0; } }
+.chat-bar { transform-origin: left; animation: chat-bar 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
+@keyframes chat-bar { from { scale: 0 1; } to { scale: 1 1; } }
+@media (prefers-reduced-motion: reduce) { .chat-reveal, .chat-in, .chat-bar { animation: none; } }
