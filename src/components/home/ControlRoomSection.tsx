@@ -23,8 +23,8 @@ const rotation: ScreenKey[] = ["executive", "liveOps", "attendance", "orderDeliv
 /**
  * Control Room Monitoring as a command wall with one screen in focus. On a deep navy stage, the chosen screen is shown large and sharp
  * with a soft glow; below it a row of five thumbnails shows the whole room, with the launcher in the middle and two monitoring
- * screens either side. The large screen changes by itself every few seconds until the visitor picks one. Every screen is redrawn as
- * page elements to match the real product screens, with synthetic sample data (no real customer screen is published), and labelled so.
+ * screens either side. The large screen changes by itself every few seconds until the visitor picks one. Every screen is an anonymised copy of
+ * page elements to match the real product screens, anonymised copies with invented data (the originals stay private), and labelled so.
  * Wording avoids unproven claims: screens are "regularly refreshed", never instant.
  */
 export function ControlRoomSection() {
@@ -83,9 +83,9 @@ export function ControlRoomSection() {
             <p className="relative text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-white/70">{current.title}{current.refresh ? ` · refreshes every ${current.refresh}` : ""}</p>
 
             <div className="relative mx-auto mt-4 max-w-[880px] [perspective:1800px]">
-              <div className="aspect-[1280/882]">
+              <div className="aspect-[1920/1023]">
                 <div key={active} className="cr-swap origin-top [transform:rotateX(2deg)]">
-                  <ControlRoomScreen kind={active} className="!rounded-xl !border-white/20 shadow-[0_50px_90px_-30px_rgb(0_0_0/0.7),0_0_0_1px_rgb(255_255_255/0.08)]" />
+                  <ControlRoomScreen kind={active} className="!rounded-xl !border-white/20 !shadow-[0_50px_90px_-30px_rgb(0_0_0/0.7),0_0_0_1px_rgb(255_255_255/0.08)]" priority />
                 </div>
               </div>
             </div>
@@ -107,7 +107,7 @@ export function ControlRoomSection() {
                       }}
                       className={`group relative block w-full cursor-pointer rounded-lg text-left transition-[opacity,transform,box-shadow] duration-300 ${on ? "opacity-100 ring-2 ring-teal ring-offset-2 ring-offset-[#0b2530]" : "opacity-60 hover:-translate-y-0.5 hover:opacity-100"}`}
                     >
-                      <ControlRoomScreen kind={it.key} crop={it.key === "launcher" ? undefined : 520} className="!rounded-md !border-white/15" />
+                      <ControlRoomScreen kind={it.key} sizes="200px" className="!rounded-md !border-white/15 !shadow-none" />
                       {on && auto && !calm && !launcher ? <span key={`${it.key}-bar`} aria-hidden="true" className="cr-progress absolute -bottom-2 left-0 h-[3px] w-full rounded-full bg-teal" /> : null}
                     </button>
                     <span className={`mt-2.5 hidden text-center text-[11.5px] font-semibold leading-tight sm:block ${on ? "text-white" : "text-white/60"}`}>{it.title}</span>
