@@ -126,12 +126,12 @@ export function Header() {
   const closeNow = () => setOpen(null);
 
   return (
-    <header
-      className={`sticky top-0 z-50 border-b transition-[background-color,border-color,box-shadow] duration-300 ${
-        scrolled || open ? "border-line bg-white/85 backdrop-blur-md" : "border-transparent bg-white"
-      }`}
-    >
-      <div className={`wrap relative flex items-center justify-between gap-4 transition-[height] duration-300 ease-[var(--ease-soft)] ${scrolled ? "h-16" : "h-20"}`}>
+    <header className="pointer-events-none sticky top-0 z-50 px-3 pt-3 sm:px-5">
+      <div
+        className={`pointer-events-auto relative mx-auto flex max-w-[1320px] items-center justify-between gap-3 rounded-full border px-4 transition-[height,background-color,box-shadow,border-color] duration-500 ease-[var(--ease-soft)] sm:px-5 ${
+          scrolled || open ? "border-line bg-white/85 shadow-[0_16px_40px_-22px_rgb(8_60_66/0.45)] backdrop-blur-xl" : "border-line/60 bg-white/70 backdrop-blur-md"
+        } ${scrolled ? "h-14" : "h-[60px] sm:h-[68px]"}`}
+      >
         <Link href="/" aria-label="Vanforces home" className="shrink-0" onClick={closeNow}>
           <Logo />
         </Link>
@@ -142,7 +142,7 @@ export function Header() {
               if (item.kind === "link") {
                 return (
                   <li key={item.label}>
-                    <Link href={item.href} onMouseEnter={closeNow} className="block rounded-full px-2.5 py-2 text-[14.5px] font-medium transition-colors hover:bg-mist 2xl:px-3.5">
+                    <Link href={item.href} onMouseEnter={closeNow} className="block rounded-full px-2 py-2 text-[14px] font-medium transition-colors hover:bg-mist 2xl:px-3.5 2xl:text-[14.5px]">
                       {item.label}
                     </Link>
                   </li>
@@ -157,14 +157,14 @@ export function Header() {
                     aria-expanded={isOpen}
                     aria-haspopup="true"
                     onClick={() => setOpen(isOpen ? null : item.label)}
-                    className={`flex cursor-pointer items-center gap-1 rounded-full px-2.5 py-2 text-[14.5px] font-medium transition-colors hover:bg-mist 2xl:px-3.5 ${isOpen ? "bg-mist" : ""}`}
+                    className={`flex cursor-pointer items-center gap-1 rounded-full px-2 py-2 text-[14px] font-medium transition-colors hover:bg-mist 2xl:px-3.5 2xl:text-[14.5px] ${isOpen ? "bg-mist" : ""}`}
                   >
                     {item.label}
                     <ChevronDown aria-hidden="true" size={15} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                   </button>
 
                   {isOpen && item.kind === "mega" ? (
-                    <div className="menu-panel absolute inset-x-4 top-full pt-1.5 md:inset-x-8">
+                    <div className="menu-panel absolute inset-x-0 top-full pt-3">
                       <div data-lenis-prevent className="mx-auto max-h-[calc(100vh-6rem)] w-fit max-w-full overflow-y-auto rounded-[18px] border border-line bg-white p-2 shadow-frame">
                         <div className="grid grid-cols-[auto_auto_auto] gap-2 whitespace-nowrap">
                           {item.columns.map((column, index) => {
@@ -195,7 +195,7 @@ export function Header() {
                   ) : null}
 
                   {isOpen && item.kind === "menu" ? (
-                    <div className="menu-panel absolute inset-x-4 top-full pt-1.5 md:inset-x-8">
+                    <div className="menu-panel absolute inset-x-0 top-full pt-3">
                       <div data-lenis-prevent className="mx-auto flex max-h-[calc(100vh-6rem)] w-fit max-w-full items-stretch gap-6 overflow-y-auto rounded-[18px] border border-line bg-white p-3 pl-5 shadow-frame">
                         <ul className="grid grid-cols-[auto_auto] content-center gap-x-6 gap-y-2 py-2">
                           {item.links.map((link) => (
@@ -214,7 +214,7 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <Link href="/login" className="hidden whitespace-nowrap rounded-full px-2 py-2 text-[14.5px] font-medium transition-colors hover:bg-mist xl:block">
             Login
           </Link>
@@ -240,7 +240,11 @@ export function Header() {
         </div>
       </div>
 
-      {mobileOpen ? <MobileNavigation onClose={() => setMobileOpen(false)} /> : null}
+      {mobileOpen ? (
+        <div className="pointer-events-auto">
+          <MobileNavigation onClose={() => setMobileOpen(false)} />
+        </div>
+      ) : null}
     </header>
   );
 }
