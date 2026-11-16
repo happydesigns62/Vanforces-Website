@@ -99,9 +99,9 @@ export function ValueSection() {
           variant="fine"
           align="center"
           eyebrow="Make every workday count"
-          title="A Better Day for"
-          titleMuted="Every Role."
-          description="Vanforces gives each person what they need for the day, from the same connected information."
+          title="The ROI of a"
+          titleMuted="Better Workday."
+          description="See what changes for each role, then estimate the return on the time your team gets back."
         />
 
         <ScrollReveal delay={100} className="mt-12">

@@ -1,78 +1,57 @@
 "use client";
 
-import { X } from "lucide-react";
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/global/Button";
 import { ScrollReveal } from "@/components/motion/Reveal";
+import { useCalm } from "@/components/motion/useCalm";
 import { ControlRoomScreen, SAMPLE_NOTE, type ScreenKey } from "./ControlRoomScreens";
 
-type MonitorKey = Exclude<ScreenKey, "launcher">;
-type Spot = { key: MonitorKey; title: string; refresh: string; place: string; tilt: number; crop: number };
+type Item = { key: ScreenKey; title: string; refresh?: string };
 
-// Four monitors in the corners, each overlapping the launcher a little. The side screens turn slightly toward the middle.
-// Each shows the top part of its screen so the panels read larger; clicking one opens the whole screen.
-const spots: Spot[] = [
-  { key: "executive", title: "Executive Overview", refresh: "120s", place: "left-0 top-0", tilt: 4, crop: 560 },
-  { key: "liveOps", title: "Live Operations", refresh: "30s", place: "right-0 top-0", tilt: -4, crop: 560 },
-  { key: "attendance", title: "Attendance & Movement", refresh: "60s", place: "left-0 bottom-0", tilt: 4, crop: 560 },
-  { key: "orderDelivery", title: "Order & Delivery Control", refresh: "45s", place: "right-0 bottom-0", tilt: -4, crop: 560 },
+// The launcher sits in the middle of the row, with two monitoring screens on each side.
+const items: Item[] = [
+  { key: "executive", title: "Executive Overview", refresh: "120s" },
+  { key: "liveOps", title: "Live Operations", refresh: "30s" },
+  { key: "launcher", title: "Control Room Launcher" },
+  { key: "attendance", title: "Attendance & Movement", refresh: "60s" },
+  { key: "orderDelivery", title: "Order & Delivery Control", refresh: "45s" },
 ];
 
-const tilt = (deg: number) => ({ "--tilt": `${deg}deg` }) as CSSProperties;
-
-function Label({ title, refresh, right }: { title: string; refresh: string; right?: boolean }) {
-  return (
-    <span className={`pointer-events-none absolute -bottom-2.5 z-10 ${right ? "right-3" : "left-3"} inline-flex items-center gap-1.5 rounded-full border border-line bg-white px-2.5 py-1 text-[11px] font-semibold text-navy-deep shadow-[0_6px_14px_-8px_rgb(8_60_66/0.5)]`}>
-      <span aria-hidden="true" className="size-1.5 rounded-full bg-teal" />
-      {title}
-      <span className="font-medium text-muted">· {refresh}</span>
-    </span>
-  );
-}
-
-/** One screen opened large, in the browser's own modal dialog, so every panel can be read. */
-function Viewer({ open, onClose }: { open: ScreenKey | null; onClose: () => void }) {
-  const ref = useRef<HTMLDialogElement>(null);
-
-  useEffect(() => {
-    const dialog = ref.current;
-    if (!dialog) return;
-    if (open && !dialog.open) dialog.showModal();
-    if (!open && dialog.open) dialog.close();
-  }, [open]);
-
-  return (
-    <dialog
-      ref={ref}
-      onClose={onClose}
-      onClick={(event) => {
-        if (event.target === ref.current) onClose();
-      }}
-      aria-label="Control Room screen, full size"
-      className="m-auto w-[min(1180px,94vw)] max-w-none rounded-2xl border-0 bg-transparent p-0 backdrop:bg-navy-deep/70 backdrop:backdrop-blur-sm"
-    >
-      {open ? (
-        <div className="relative">
-          <button type="button" onClick={onClose} aria-label="Close" className="absolute -top-11 right-0 flex size-9 cursor-pointer items-center justify-center rounded-full bg-white text-navy-deep shadow">
-            <X size={18} />
-          </button>
-          <ControlRoomScreen kind={open} className="!rounded-xl" />
-          <p className="mt-3 text-center text-[12.5px] text-white/85">{SAMPLE_NOTE}</p>
-        </div>
-      ) : null}
-    </dialog>
-  );
-}
+// The monitoring screens take turns in the large view. The launcher is chosen by the visitor.
+const rotation: ScreenKey[] = ["executive", "liveOps", "attendance", "orderDelivery"];
 
 /**
- * Control Room Monitoring as one compact monitoring wall: the launcher in the middle, the four monitoring screens around it, layered
- * with soft shadows and a slight turn toward the centre. Every screen is redrawn as page elements to match the real product screens,
- * with synthetic sample data (no real customer screen is published), and labelled so. Clicking a screen opens it at full size. Wording
- * avoids unproven claims: screens are "regularly refreshed", never instant. On narrow screens the launcher leads and the four
- * screens sit in a 2 by 2 grid.
+ * Control Room Monitoring as a command wall with one screen in focus. On a deep navy stage, the chosen screen is shown large and sharp
+ * with a soft glow; below it a row of five thumbnails shows the whole room, with the launcher in the middle and two monitoring
+ * screens either side. The large screen changes by itself every few seconds until the visitor picks one. Every screen is redrawn as
+ * page elements to match the real product screens, with synthetic sample data (no real customer screen is published), and labelled so.
+ * Wording avoids unproven claims: screens are "regularly refreshed", never instant.
  */
 export function ControlRoomSection() {
-  const [open, setOpen] = useState<ScreenKey | null>(null);
+  const calm = useCalm();
+  const [active, setActive] = useState<ScreenKey>("executive");
+  const [auto, setAuto] = useState(true);
+  const [inView, setInView] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.35 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (calm || !inView || !auto) return;
+    const t = window.setTimeout(() => {
+      const i = rotation.indexOf(active);
+      setActive(rotation[(i + 1) % rotation.length]);
+    }, 5500);
+    return () => window.clearTimeout(t);
+  }, [calm, inView, auto, active]);
+
+  const current = items.find((i) => i.key === active) ?? items[0];
 
   return (
     <section className="section bg-mist">
@@ -98,60 +77,50 @@ export function ControlRoomSection() {
         </div>
 
         <ScrollReveal delay={100} className="mt-12">
-          {/* Wide screens: the connected wall. */}
-          <div className="relative mx-auto hidden max-w-[1180px] pb-4 [perspective:1800px] md:block">
-            <div aria-hidden="true" className="pointer-events-none absolute inset-x-[6%] inset-y-[6%] rounded-[40px] bg-[radial-gradient(60%_60%_at_50%_50%,rgb(28_178_187/0.16),transparent_72%)]" />
-            <div className="relative aspect-[1180/490]">
-              {spots.map((s) => (
-                <button
-                  key={s.key}
-                  type="button"
-                  onClick={() => setOpen(s.key)}
-                  aria-label={`Open ${s.title} sample screen full size`}
-                  style={tilt(s.tilt)}
-                  className={`cr-wall-screen absolute w-[41%] cursor-zoom-in text-left ${s.place}`}
-                >
-                  <ControlRoomScreen kind={s.key} crop={s.crop} className="!rounded-lg" />
-                  <Label title={s.title} refresh={s.refresh} right={s.place.startsWith("right")} />
-                </button>
-              ))}
-              <button
-                type="button"
-                onClick={() => setOpen("launcher")}
-                aria-label="Open Control Room Launcher sample screen full size"
-                className="absolute left-1/2 top-1/2 z-20 w-[42%] -translate-x-1/2 -translate-y-1/2 cursor-zoom-in text-left"
-              >
-                <ControlRoomScreen kind="launcher" className="!rounded-xl shadow-[0_40px_70px_-30px_rgb(8_60_66/0.55),0_8px_20px_-8px_rgb(8_60_66/0.2)]" />
-                <span className="pointer-events-none absolute -bottom-3 left-1/2 inline-flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-navy-deep px-3 py-1 text-[11px] font-semibold text-white shadow">Control Room Launcher</span>
-              </button>
-            </div>
-          </div>
+          <div ref={box} className="relative mx-auto max-w-[1080px] overflow-hidden rounded-[32px] bg-[radial-gradient(60%_70%_at_50%_0%,#12575c,transparent_70%),linear-gradient(180deg,#0c2f3a,#0a1f2b)] px-4 pb-6 pt-8 sm:px-8 sm:pb-8 sm:pt-10">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-[15%] top-0 h-40 rounded-full bg-teal/25 blur-3xl" />
 
-          {/* Narrow screens: launcher first, then the four screens in a grid. */}
-          <div className="mx-auto max-w-[520px] md:hidden">
-            <button type="button" onClick={() => setOpen("launcher")} className="block w-full cursor-zoom-in text-left" aria-label="Open Control Room Launcher sample screen full size">
-              <ControlRoomScreen kind="launcher" />
-            </button>
-            <p className="mt-2 text-center text-[12px] font-semibold text-navy-deep">Control Room Launcher</p>
-            <div aria-hidden="true" className="mx-auto h-5 w-px border-l-2 border-dashed border-cyan-line" />
-            <ul className="grid grid-cols-2 gap-x-3 gap-y-5">
-              {spots.map((s) => (
-                <li key={s.key}>
-                  <button type="button" onClick={() => setOpen(s.key)} className="block w-full cursor-zoom-in text-left" aria-label={`Open ${s.title} sample screen full size`}>
-                    <ControlRoomScreen kind={s.key} crop={s.crop} className="!rounded-md" />
-                    <span className="mt-1.5 block text-[12px] font-semibold leading-tight text-navy-deep">{s.title}</span>
-                    <span className="text-[11px] text-muted">Refreshes every {s.refresh}</span>
-                  </button>
-                </li>
-              ))}
+            <p className="relative text-center text-[12px] font-semibold uppercase tracking-[0.14em] text-white/70">{current.title}{current.refresh ? ` · refreshes every ${current.refresh}` : ""}</p>
+
+            <div className="relative mx-auto mt-4 max-w-[880px] [perspective:1800px]">
+              <div className="aspect-[1280/882]">
+                <div key={active} className="cr-swap origin-top [transform:rotateX(2deg)]">
+                  <ControlRoomScreen kind={active} className="!rounded-xl !border-white/20 shadow-[0_50px_90px_-30px_rgb(0_0_0/0.7),0_0_0_1px_rgb(255_255_255/0.08)]" />
+                </div>
+              </div>
+            </div>
+
+            <ul role="tablist" aria-label="Control Room screens" className="relative mt-5 grid grid-cols-5 items-end gap-2 sm:gap-4">
+              {items.map((it) => {
+                const on = it.key === active;
+                const launcher = it.key === "launcher";
+                return (
+                  <li key={it.key} className={launcher ? "-mb-1" : ""}>
+                    <button
+                      type="button"
+                      role="tab"
+                      aria-selected={on}
+                      aria-label={`Show ${it.title} sample screen`}
+                      onClick={() => {
+                        setActive(it.key);
+                        setAuto(false);
+                      }}
+                      className={`group relative block w-full cursor-pointer rounded-lg text-left transition-[opacity,transform,box-shadow] duration-300 ${on ? "opacity-100 ring-2 ring-teal ring-offset-2 ring-offset-[#0b2530]" : "opacity-60 hover:-translate-y-0.5 hover:opacity-100"}`}
+                    >
+                      <ControlRoomScreen kind={it.key} crop={it.key === "launcher" ? undefined : 520} className="!rounded-md !border-white/15" />
+                      {on && auto && !calm && !launcher ? <span key={`${it.key}-bar`} aria-hidden="true" className="cr-progress absolute -bottom-2 left-0 h-[3px] w-full rounded-full bg-teal" /> : null}
+                    </button>
+                    <span className={`mt-2.5 hidden text-center text-[11.5px] font-semibold leading-tight sm:block ${on ? "text-white" : "text-white/60"}`}>{it.title}</span>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
-          <p className="mt-8 text-center text-[13.5px] font-medium text-navy-deep">One central Control Room. Multiple monitoring views. Tap any screen to see it full size.</p>
+          <p className="mt-6 text-center text-[13.5px] font-medium text-navy-deep">One central Control Room. Multiple monitoring views. Pick any screen to see it large.</p>
           <p className="mt-2 text-center text-[12.5px] leading-relaxed text-navy/65">{SAMPLE_NOTE} Screens refresh at set intervals. Available widgets depend on your account and configuration.</p>
         </ScrollReveal>
       </div>
-      <Viewer open={open} onClose={() => setOpen(null)} />
     </section>
   );
 }
