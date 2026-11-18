@@ -3,8 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
-import { useCalm } from "@/components/motion/useCalm";
+import { useState } from "react";
 
 type Partner = {
   name: string;
@@ -52,9 +51,6 @@ function pathFor(p: Partner) {
   return `M${start} ${y} H${bus - dir * 8} Q${bus} ${y} ${bus} ${y + down * 8} V${ROW_Y[1] - down * 8} Q${bus} ${ROW_Y[1]} ${bus + dir * 8} ${ROW_Y[1]} H${end}`;
 }
 
-const DOT_TIME = 1.7;
-const GAP = 0.75;
-
 function Caption({ p }: { p: Partner }) {
   return (
     <div className="mx-auto flex min-h-[104px] max-w-[640px] items-center gap-5 rounded-[24px] border border-line bg-white p-4 pr-6 shadow-[0_24px_50px_-34px_rgb(8_60_66/0.45)] sm:p-5">
@@ -79,96 +75,21 @@ function Caption({ p }: { p: Partner }) {
 }
 
 /**
- * Connected systems as a clean board: three system tiles each side, all the same size, joined by dashed right-angle
- * lines to the Vanforces mark in the middle. A small teal dot runs along each line in turn, into the mark and then back out on
- * the next round, and a soft ring glows round the mark as each one arrives. Hovering or focusing a tile highlights its line and shows
- * what is confirmed. Reduced motion keeps the dots resting. On narrow screens the tiles are a grid with the same caption beneath.
+ * Connected systems as a clean, still board: three system tiles each side, all the same size, joined by dashed right-angle
+ * lines to the Vanforces mark in the middle. Nothing moves on its own. Hovering or focusing a tile highlights its line and shows
+ * what is confirmed. On narrow screens the tiles are a grid with the same caption beneath.
  */
 export function EcosystemBoard() {
-  const calm = useCalm();
   const [active, setActive] = useState(0);
-  const stage = useRef<HTMLDivElement>(null);
-  const paths = useRef<(SVGPathElement | null)[]>([]);
-  const dots = useRef<(SVGGElement | null)[]>([]);
-  const glow = useRef<SVGCircleElement | null>(null);
-  const visible = useRef(false);
-
-  useEffect(() => {
-    const el = stage.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(([e]) => (visible.current = e.isIntersecting), { threshold: 0.1 });
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const lengths = paths.current.map((p) => p?.getTotalLength() ?? 0);
-    const put = (i: number, k: number, on: boolean) => {
-      const g = dots.current[i];
-      const path = paths.current[i];
-      if (!g || !path) return;
-      const pt = path.getPointAtLength(lengths[i] * k);
-      g.setAttribute("transform", `translate(${pt.x.toFixed(1)} ${pt.y.toFixed(1)})`);
-      g.style.opacity = on ? String(Math.min(1, Math.sin(Math.PI * k) * 2.2)) : "0";
-    };
-    if (calm) {
-      partners.forEach((_, i) => put(i, 0.5, true));
-      return;
-    }
-    let raf = 0;
-    let start = 0;
-    let pulse = 0;
-    const lastK = partners.map(() => 0);
-    const cycle = partners.length * GAP + 0.6;
-    const loop = (now: number) => {
-      if (!start) start = now;
-      if (visible.current) {
-        const t = (now - start) / 1000;
-        partners.forEach((_, i) => {
-          const local = (((t - i * GAP) % cycle) + cycle) % cycle;
-          const round = Math.floor((t - i * GAP) / cycle);
-          if (local > DOT_TIME || t < i * GAP) {
-            put(i, 0, false);
-            lastK[i] = 0;
-            return;
-          }
-          const raw = local / DOT_TIME;
-          const k = round % 2 === 0 ? raw : 1 - raw;
-          put(i, k, true);
-          const reached = round % 2 === 0 ? raw > 0.96 && lastK[i] <= 0.96 : raw < 0.04 && lastK[i] >= 0.04;
-          if (reached) pulse = 1;
-          lastK[i] = raw;
-        });
-        pulse *= 0.93;
-        if (glow.current) glow.current.style.opacity = String(Math.min(1, pulse));
-      }
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [calm]);
-
   return (
     <div>
       {/* Wide screens: the board. */}
-      <div ref={stage} className="relative mx-auto hidden w-full max-w-[960px] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
+      <div className="relative mx-auto hidden w-full max-w-[960px] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
         <svg viewBox={`0 0 ${W} ${H}`} fill="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
-          <defs>
-            <radialGradient id="board-glow" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stopColor="#1cb2bb" stopOpacity="0.2" />
-              <stop offset="1" stopColor="#1cb2bb" stopOpacity="0" />
-            </radialGradient>
-            <filter id="hex-blur" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur stdDeviation="6" />
-            </filter>
-          </defs>
-          <circle cx={HUB.cx} cy={HUB.cy} r="190" fill="url(#board-glow)" />
-
           {/* connectors */}
           {partners.map((p, i) => (
             <path
               key={p.name}
-              ref={(el) => void (paths.current[i] = el)}
               d={pathFor(p)}
               stroke={active === i ? "#1cb2bb" : "#c4ccd2"}
               strokeWidth={active === i ? 1.8 : 1.4}
@@ -199,17 +120,6 @@ export function EcosystemBoard() {
             );
           })}
 
-          {/* a soft ring that glows each time a dot arrives */}
-          <circle ref={glow} cx={HUB.cx} cy={HUB.cy} r="58" stroke="#1cb2bb" strokeWidth="5" filter="url(#hex-blur)" style={{ opacity: 0 }} />
-
-          {/* travelling dots */}
-          {partners.map((_, i) => (
-            <g key={i} ref={(el) => void (dots.current[i] = el)} style={{ opacity: 0 }}>
-              <circle r="11" fill="#1cb2bb" opacity="0.16" />
-              <circle r="6.5" fill="#1cb2bb" opacity="0.28" />
-              <circle r="3.6" fill="#1cb2bb" />
-            </g>
-          ))}
         </svg>
 
         {partners.map((p, i) => {
@@ -234,15 +144,14 @@ export function EcosystemBoard() {
         })}
 
         <div className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center" style={{ left: `${(HUB.cx / W) * 100}%`, top: `${(HUB.cy / H) * 100}%` }}>
-          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-[72px] w-auto drop-shadow-[0_14px_20px_rgb(8_60_66/0.25)]" />
+          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-[72px] w-auto" />
         </div>
       </div>
 
       {/* Narrow screens: the mark and a grid of the systems. Tapping one shows its caption. */}
       <div className="mx-auto flex max-w-xl flex-col items-center lg:hidden">
         <div className="relative my-2 flex items-center justify-center">
-          <span aria-hidden="true" className="absolute size-[170px] rounded-full bg-[radial-gradient(closest-side,rgb(28_178_187/0.22),transparent)]" />
-          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="relative h-14 w-auto drop-shadow-[0_12px_18px_rgb(8_60_66/0.25)]" />
+          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="relative h-14 w-auto" />
         </div>
         <span aria-hidden="true" className="my-3 block h-8 border-l-2 border-dashed border-cyan-line" />
         <div className="grid w-full grid-cols-2 gap-3">
