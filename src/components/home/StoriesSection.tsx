@@ -118,9 +118,9 @@ export function StoriesSection() {
                     <QuoteIcon aria-hidden="true" size={19} />
                   </span>
                   <div key={active} className="cr-swap mt-6">
-                    <Logo name={q.company} className="h-10 w-auto max-w-[170px]" />
-                    <blockquote className="mt-6 text-pretty text-[clamp(1.375rem,1.1rem+1.1vw,1.875rem)] font-medium leading-[1.3] tracking-[-0.025em] text-navy-deep">“{q.text}”</blockquote>
-                    <div className="mt-7 flex items-center gap-3">
+                    <Logo name={q.company} className="h-9 w-auto max-w-[150px] mix-blend-multiply" />
+                    <blockquote className="mt-7 max-w-[30rem] text-pretty text-[clamp(1.125rem,1rem+0.55vw,1.4375rem)] font-normal leading-[1.5] tracking-[-0.012em] text-navy-deep/90">“{q.text}”</blockquote>
+                    <div className="mt-8 flex items-center gap-3 border-t border-line/70 pt-5">
                       <Avatar name={q.name} i={active} />
                       <span>
                         <span className="block text-[15px] font-semibold text-navy-deep">{q.name}</span>
