@@ -112,6 +112,23 @@ export function CtaRow({ items, className = "" }: { items: Cta[]; className?: st
 }
 
 /**
+ * Titles written as sentences ("Different Jobs. One Operation.") are shown in the homepage style: the last sentence in the quiet
+ * grey, the rest in navy. Titles that are one sentence, or are not plain text, are left as they are.
+ */
+function twoTone(title: ReactNode): ReactNode {
+  if (typeof title !== "string") return title;
+  const parts = title.match(/[^.!?]+[.!?]+/g);
+  if (!parts || parts.length < 2 || parts.join("") !== title.trim()) return title;
+  const last = parts[parts.length - 1].trim();
+  const first = parts.slice(0, -1).join("").trim();
+  return (
+    <>
+      {first} <span className="text-ink-soft">{last}</span>
+    </>
+  );
+}
+
+/**
  * Inner page hero, in the homepage style: a soft wash behind a pill label, a medium-weight title and a calm text line.
  * With a visual beside the text (split) the text stays on the left. Otherwise the text is centred and the visual sits
  * below it on a light stage.
@@ -148,7 +165,7 @@ export function PageHero({
         {tag}
       </div>
       <h1 className={`t-page seq mt-6 ${centred ? "mx-auto max-w-[22ch]" : ""}`} style={{ "--d": "110ms" } as React.CSSProperties}>
-        {title}
+        {twoTone(title)}
       </h1>
       {description ? (
         <div className={`lede seq mt-6 max-w-2xl ${centred ? "mx-auto" : ""}`} style={{ "--d": "200ms" } as React.CSSProperties}>
@@ -165,7 +182,7 @@ export function PageHero({
 
   if (layout === "split") {
     return (
-      <section className="hero-wash relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
+      <section className="hero-wash beams relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
         <div className="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16">
           <div>{text}</div>
           <div className="seq-shot min-w-0" style={{ "--d": "260ms" } as React.CSSProperties}>
@@ -177,7 +194,7 @@ export function PageHero({
   }
 
   return (
-    <section className="hero-wash relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
+    <section className="hero-wash beams relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
       <div className="wrap">
         <div className="mx-auto max-w-4xl text-center">{text}</div>
         {visual ? (
