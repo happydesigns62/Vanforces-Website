@@ -11,8 +11,6 @@ type Partner = {
   src: string;
   width: number;
   height: number;
-  /** Width of the logo inside its tile, so wide and tall logos look equally heavy. */
-  fit: string;
   kind: string;
   text: string;
   href?: string;
@@ -22,29 +20,26 @@ type Partner = {
 
 // The systems Vanforces works alongside. Captions say only what is confirmed: scope depends on the connector and the project.
 const partners: Partner[] = [
-  { name: "Odoo", src: "/brand/partners/odoo.png", width: 623, height: 199, fit: "68%", kind: "ERP", text: "Integration with Odoo. Scope is agreed for each project.", href: "/integrations/odoo", side: "l", row: 0 },
-  { name: "Zoho Books", src: "/brand/partners/zoho.png", width: 640, height: 276, fit: "76%", kind: "Accounting", text: "Integration with Zoho Books. Scope is agreed for each project.", href: "/integrations/zoho-books", side: "l", row: 1 },
-  { name: "Taskforces ERP", src: "/brand/partners/taskforces.png", width: 640, height: 97, fit: "84%", kind: "ERP", text: "A system Vanforces can work alongside. Scope depends on the implementation.", side: "l", row: 2 },
-  { name: "Whatasol", src: "/brand/partners/whatasol.png", width: 640, height: 130, fit: "82%", kind: "Messaging", text: "A related WhatsApp messaging solution. Direct synchronisation is not confirmed.", side: "r", row: 0 },
-  { name: "Al Mawasil", src: "/brand/partners/al-mawasil.png", width: 640, height: 85, fit: "86%", kind: "E-invoicing", text: "Used for ZATCA e-invoicing in Saudi Arabia. Supported phase to be confirmed.", side: "r", row: 1 },
-  { name: "Entaura.ai", src: "/brand/entaura-logo.svg", width: 545, height: 122, fit: "80%", kind: "Intelligence", text: "A separate AI platform for insight and monitoring. It is not included in every plan.", side: "r", row: 2 },
+  { name: "Odoo", src: "/brand/partners/odoo.png", width: 623, height: 199, kind: "ERP", text: "Integration with Odoo. Scope is agreed for each project.", href: "/integrations/odoo", side: "l", row: 0 },
+  { name: "Zoho Books", src: "/brand/partners/zoho.png", width: 640, height: 276, kind: "Accounting", text: "Integration with Zoho Books. Scope is agreed for each project.", href: "/integrations/zoho-books", side: "l", row: 1 },
+  { name: "Taskforces ERP", src: "/brand/partners/taskforces.png", width: 640, height: 97, kind: "ERP", text: "A system Vanforces can work alongside. Scope depends on the implementation.", side: "l", row: 2 },
+  { name: "Whatasol", src: "/brand/partners/whatasol.png", width: 640, height: 130, kind: "Messaging", text: "A related WhatsApp messaging solution. Direct synchronisation is not confirmed.", side: "r", row: 0 },
+  { name: "Al Mawasil", src: "/brand/partners/al-mawasil.png", width: 640, height: 85, kind: "E-invoicing", text: "Used for ZATCA e-invoicing in Saudi Arabia. Supported phase to be confirmed.", side: "r", row: 1 },
+  { name: "Entaura.ai", src: "/brand/entaura-logo.svg", width: 545, height: 122, kind: "Intelligence", text: "A separate AI platform for insight and monitoring. It is not included in every plan.", side: "r", row: 2 },
 ];
 
 // Geometry, in a 960 by 520 box.
 const W = 960;
 const H = 520;
 const ROW_Y = [100, 260, 420];
-const TILE = [132, 112, 132];
+const TILE = [124, 124, 124];
 const COL_X = { l: 132, r: 828 };
 const BUS = { l: 292, r: 668 };
-const HEX = { cx: 480, cy: 260, r: 84 };
-const hexPoints = Array.from({ length: 6 }, (_, i) => {
-  const a = (-90 + i * 60) * (Math.PI / 180);
-  return `${(HEX.cx + HEX.r * Math.cos(a)).toFixed(1)},${(HEX.cy + HEX.r * Math.sin(a)).toFixed(1)}`;
-}).join(" ");
-const hexEdge = { l: HEX.cx - HEX.r * Math.cos(Math.PI / 6), r: HEX.cx + HEX.r * Math.cos(Math.PI / 6) };
+const HUB = { cx: 480, cy: 260 };
+/** Where the lines end, a little short of the Vanforces mark. */
+const hexEdge = { l: HUB.cx - 66, r: HUB.cx + 66 };
 
-/** A right-angle connector from a tile to the hexagon, with small rounded corners. */
+/** A right-angle connector from a tile to the Vanforces mark, with small rounded corners. */
 function pathFor(p: Partner) {
   const y = ROW_Y[p.row];
   const left = p.side === "l";
@@ -84,9 +79,9 @@ function Caption({ p }: { p: Partner }) {
 }
 
 /**
- * Connected systems as a blueprint board. A white panel with a faint grid: three system tiles each side, joined by dashed right-angle
- * lines to a hexagon holding the Vanforces mark. A small teal dot runs along each line in turn, into the hexagon and then back out on
- * the next round, and the hexagon's edge glows softly as each one arrives. Hovering or focusing a tile highlights its line and shows
+ * Connected systems as a clean board: three system tiles each side, all the same size, joined by dashed right-angle
+ * lines to the Vanforces mark in the middle. A small teal dot runs along each line in turn, into the mark and then back out on
+ * the next round, and a soft ring glows round the mark as each one arrives. Hovering or focusing a tile highlights its line and shows
  * what is confirmed. Reduced motion keeps the dots resting. On narrow screens the tiles are a grid with the same caption beneath.
  */
 export function EcosystemBoard() {
@@ -95,7 +90,7 @@ export function EcosystemBoard() {
   const stage = useRef<HTMLDivElement>(null);
   const paths = useRef<(SVGPathElement | null)[]>([]);
   const dots = useRef<(SVGGElement | null)[]>([]);
-  const glow = useRef<SVGPolygonElement | null>(null);
+  const glow = useRef<SVGCircleElement | null>(null);
   const visible = useRef(false);
 
   useEffect(() => {
@@ -156,13 +151,9 @@ export function EcosystemBoard() {
   return (
     <div>
       {/* Wide screens: the board. */}
-      <div ref={stage} className="relative mx-auto hidden w-full max-w-[960px] overflow-hidden rounded-[28px] border border-line bg-white shadow-[0_40px_80px_-50px_rgb(8_60_66/0.4),0_1px_2px_rgb(41_59_71/0.05)] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
+      <div ref={stage} className="relative mx-auto hidden w-full max-w-[960px] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
         <svg viewBox={`0 0 ${W} ${H}`} fill="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
           <defs>
-            <radialGradient id="board-fade" cx="0.5" cy="0.5" r="0.62">
-              <stop offset="0.55" stopColor="#fff" stopOpacity="0" />
-              <stop offset="1" stopColor="#fff" stopOpacity="1" />
-            </radialGradient>
             <radialGradient id="board-glow" cx="0.5" cy="0.5" r="0.5">
               <stop offset="0" stopColor="#1cb2bb" stopOpacity="0.2" />
               <stop offset="1" stopColor="#1cb2bb" stopOpacity="0" />
@@ -171,15 +162,7 @@ export function EcosystemBoard() {
               <feGaussianBlur stdDeviation="6" />
             </filter>
           </defs>
-          {/* faint blueprint grid */}
-          {[40, 132, 292, 480, 668, 828, 920].map((x) => (
-            <line key={`v${x}`} x1={x} y1="0" x2={x} y2={H} stroke="#eef1f3" strokeWidth="1" />
-          ))}
-          {[40, 100, 180, 260, 340, 420, 480].map((y) => (
-            <line key={`h${y}`} x1="0" y1={y} x2={W} y2={y} stroke="#eef1f3" strokeWidth="1" />
-          ))}
-          <rect width={W} height={H} fill="url(#board-fade)" />
-          <circle cx={HEX.cx} cy={HEX.cy} r="170" fill="url(#board-glow)" />
+          <circle cx={HUB.cx} cy={HUB.cy} r="190" fill="url(#board-glow)" />
 
           {/* connectors */}
           {partners.map((p, i) => (
@@ -216,9 +199,8 @@ export function EcosystemBoard() {
             );
           })}
 
-          {/* hexagon */}
-          <polygon ref={glow} points={hexPoints} stroke="#1cb2bb" strokeWidth="5" strokeLinejoin="round" filter="url(#hex-blur)" style={{ opacity: 0 }} />
-          <polygon points={hexPoints} fill="#fff" stroke="#aeb9c2" strokeWidth="2" strokeLinejoin="round" />
+          {/* a soft ring that glows each time a dot arrives */}
+          <circle ref={glow} cx={HUB.cx} cy={HUB.cy} r="58" stroke="#1cb2bb" strokeWidth="5" filter="url(#hex-blur)" style={{ opacity: 0 }} />
 
           {/* travelling dots */}
           {partners.map((_, i) => (
@@ -246,20 +228,21 @@ export function EcosystemBoard() {
               }`}
               style={{ left: `${(COL_X[p.side] / W) * 100}%`, top: `${(ROW_Y[p.row] / H) * 100}%`, width: `${(size / W) * 100}%`, aspectRatio: "1 / 1" }}
             >
-              <Image src={p.src} alt="" width={p.width} height={p.height} sizes="120px" className="h-auto" style={{ width: p.fit }} />
+              <Image src={p.src} alt="" width={p.width} height={p.height} sizes="120px" className="h-auto max-h-[40%] w-[80%] object-contain" />
             </button>
           );
         })}
 
-        <div className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center" style={{ left: `${(HEX.cx / W) * 100}%`, top: `${(HEX.cy / H) * 100}%` }}>
-          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-[56px] w-auto" />
+        <div className="pointer-events-none absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center" style={{ left: `${(HUB.cx / W) * 100}%`, top: `${(HUB.cy / H) * 100}%` }}>
+          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-[72px] w-auto drop-shadow-[0_14px_20px_rgb(8_60_66/0.25)]" />
         </div>
       </div>
 
       {/* Narrow screens: the mark and a grid of the systems. Tapping one shows its caption. */}
       <div className="mx-auto flex max-w-xl flex-col items-center lg:hidden">
-        <div className="relative my-2 flex size-[104px] items-center justify-center rounded-[30px] border border-line bg-white shadow-[0_26px_40px_-24px_rgb(28_178_187/0.5)]">
-          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="h-11 w-auto" />
+        <div className="relative my-2 flex items-center justify-center">
+          <span aria-hidden="true" className="absolute size-[170px] rounded-full bg-[radial-gradient(closest-side,rgb(28_178_187/0.22),transparent)]" />
+          <Image src="/brand/vanforces-mark.svg" alt="Vanforces" width={60} height={56} className="relative h-14 w-auto drop-shadow-[0_12px_18px_rgb(8_60_66/0.25)]" />
         </div>
         <span aria-hidden="true" className="my-3 block h-8 border-l-2 border-dashed border-cyan-line" />
         <div className="grid w-full grid-cols-2 gap-3">
@@ -271,7 +254,7 @@ export function EcosystemBoard() {
               aria-pressed={active === i}
               className={`flex h-[72px] cursor-pointer items-center justify-center rounded-[20px] border bg-white px-4 shadow-[0_1px_2px_rgb(41_59_71/0.05)] transition-colors ${active === i ? "border-teal" : "border-line"}`}
             >
-              <Image src={p.src} alt={p.name} width={p.width} height={p.height} sizes="140px" className="h-auto" style={{ width: p.fit }} />
+              <Image src={p.src} alt={p.name} width={p.width} height={p.height} sizes="140px" className="h-auto max-h-9 w-[64%] object-contain" />
             </button>
           ))}
         </div>
