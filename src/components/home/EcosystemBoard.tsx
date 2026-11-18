@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useCalm } from "@/components/motion/useCalm";
 
 type Partner = {
   name: string;
@@ -38,17 +38,17 @@ const HUB = { cx: 480, cy: 260 };
 const hexEdge = { l: HUB.cx - 66, r: HUB.cx + 66 };
 
 /** A right-angle connector from a tile to the Vanforces mark, with small rounded corners. */
-/** A tile is a link when the partner has its own page, and a plain highlightable tile otherwise. */
-function Tile({ p, className, style, onActive, children }: { p: Partner; className: string; style?: React.CSSProperties; onActive: () => void; children: React.ReactNode }) {
-  const common = { onMouseEnter: onActive, onFocus: onActive, "aria-label": `${p.name}, ${p.kind}`, className, style };
+/** A tile is a link when the partner has its own page, and a plain tile otherwise. */
+function Tile({ p, className, style, children }: { p: Partner; className: string; style?: React.CSSProperties; children: React.ReactNode }) {
+  const common = { "aria-label": `${p.name}, ${p.kind}`, className, style };
   return p.href ? (
     <Link href={p.href} {...common}>
       {children}
     </Link>
   ) : (
-    <button type="button" onClick={onActive} {...common}>
+    <div role="img" {...common}>
       {children}
-    </button>
+    </div>
   );
 }
 
@@ -66,28 +66,41 @@ function pathFor(p: Partner) {
 
 /**
  * Connected systems as a clean, still board: three system tiles each side, all the same size, joined by dashed right-angle
- * lines to the Vanforces mark in the middle. Nothing moves on its own. Hovering or focusing a tile highlights its line.
- * Odoo and Zoho Books open their own pages. On narrow screens the tiles are a grid.
+ * lines to the Vanforces mark in the middle. Small dots drift slowly along every line toward the mark, all together.
+ * Odoo and Zoho Books open their own pages. Reduced motion shows no dots. On narrow screens the tiles are a grid.
  */
 export function EcosystemBoard() {
-  const [active, setActive] = useState(0);
+  const calm = useCalm();
   return (
     <div>
       {/* Wide screens: the board. */}
       <div className="relative mx-auto hidden w-full max-w-[960px] lg:block" style={{ aspectRatio: `${W} / ${H}` }}>
         <svg viewBox={`0 0 ${W} ${H}`} fill="none" aria-hidden="true" className="absolute inset-0 h-full w-full">
           {/* connectors */}
-          {partners.map((p, i) => (
+          {partners.map((p) => (
             <path
               key={p.name}
               d={pathFor(p)}
-              stroke={active === i ? "#1cb2bb" : "#c4ccd2"}
-              strokeWidth={active === i ? 1.8 : 1.4}
-              strokeDasharray={active === i ? undefined : "5 5"}
+              stroke="#c4ccd2" strokeWidth="1.4" strokeDasharray="5 5"
               strokeLinecap="round"
-              className="transition-[stroke] duration-300"
             />
           ))}
+          {/* dots flowing toward the mark, all together and slowly */}
+          {!calm
+            ? partners.map((p) => (
+                <g key={`dot-${p.name}`}>
+                  <circle r="7" fill="#1cb2bb" opacity="0.16">
+                    <animateMotion dur="7s" repeatCount="indefinite" path={pathFor(p)} calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.55 1" />
+                    <animate attributeName="opacity" values="0;0.16;0.16;0" keyTimes="0;0.18;0.82;1" dur="7s" repeatCount="indefinite" />
+                  </circle>
+                  <circle r="3.6" fill="#1cb2bb">
+                    <animateMotion dur="7s" repeatCount="indefinite" path={pathFor(p)} calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.55 1" />
+                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.18;0.82;1" dur="7s" repeatCount="indefinite" />
+                  </circle>
+                </g>
+              ))
+            : null}
+
           {/* dark corner ticks, like the reference */}
           {partners
             .filter((p) => p.row !== 1)
@@ -112,16 +125,13 @@ export function EcosystemBoard() {
 
         </svg>
 
-        {partners.map((p, i) => {
+        {partners.map((p) => {
           const size = TILE[p.row];
           return (
             <Tile
               key={p.name}
               p={p}
-              onActive={() => setActive(i)}
-              className={`absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[22px] border bg-white transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-[calc(50%+3px)] ${
-                active === i ? "border-teal shadow-[0_0_0_4px_rgb(28_178_187/0.12),0_20px_34px_-20px_rgb(8_60_66/0.45)]" : "border-line shadow-[0_1px_2px_rgb(41_59_71/0.06),0_18px_30px_-20px_rgb(41_59_71/0.35)]"
-              }`}
+              className={`absolute flex -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-[22px] border border-line bg-white shadow-[0_1px_2px_rgb(41_59_71/0.06),0_18px_30px_-20px_rgb(41_59_71/0.35)] transition-[transform,box-shadow] duration-300 ${p.href ? "hover:-translate-y-[calc(50%+3px)] hover:shadow-[0_22px_36px_-20px_rgb(8_60_66/0.45)]" : ""}`}
               style={{ left: `${(COL_X[p.side] / W) * 100}%`, top: `${(ROW_Y[p.row] / H) * 100}%`, width: `${(size / W) * 100}%`, aspectRatio: "1 / 1" }}
             >
               <Image src={p.src} alt="" width={p.width} height={p.height} sizes="120px" className="h-auto max-h-[40%] w-[80%] object-contain" />
@@ -141,12 +151,11 @@ export function EcosystemBoard() {
         </div>
         <span aria-hidden="true" className="my-3 block h-8 border-l-2 border-dashed border-cyan-line" />
         <div className="grid w-full grid-cols-2 gap-3">
-          {partners.map((p, i) => (
+          {partners.map((p) => (
             <Tile
               key={p.name}
               p={p}
-              onActive={() => setActive(i)}
-              className={`flex h-[72px] cursor-pointer items-center justify-center rounded-[20px] border bg-white px-4 shadow-[0_1px_2px_rgb(41_59_71/0.05)] transition-colors ${active === i ? "border-teal" : "border-line"}`}
+              className="flex h-[72px] items-center justify-center rounded-[20px] border border-line bg-white px-4 shadow-[0_1px_2px_rgb(41_59_71/0.05)]"
             >
               <Image src={p.src} alt={p.name} width={p.width} height={p.height} sizes="140px" className="h-auto max-h-9 w-[64%] object-contain" />
             </Tile>
