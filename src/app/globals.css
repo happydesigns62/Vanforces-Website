@@ -854,6 +854,6 @@ input[type="range"] {
 @media (prefers-reduced-motion: reduce) { .chat-reveal, .chat-in, .chat-bar { animation: none; } }
 
 /* Integrations board: the dashes of each grey line drift slowly toward the centre, all together. */
-.board-flow { animation: board-flow 2.8s linear infinite; }
+.board-flow { animation: board-flow 1.9s linear infinite; }
 @keyframes board-flow { to { stroke-dashoffset: -10; } }
 @media (prefers-reduced-motion: reduce) { .board-flow { animation: none; } }
