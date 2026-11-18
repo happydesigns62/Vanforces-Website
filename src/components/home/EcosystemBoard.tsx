@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 
 type Partner = {
@@ -39,6 +38,20 @@ const HUB = { cx: 480, cy: 260 };
 const hexEdge = { l: HUB.cx - 66, r: HUB.cx + 66 };
 
 /** A right-angle connector from a tile to the Vanforces mark, with small rounded corners. */
+/** A tile is a link when the partner has its own page, and a plain highlightable tile otherwise. */
+function Tile({ p, className, style, onActive, children }: { p: Partner; className: string; style?: React.CSSProperties; onActive: () => void; children: React.ReactNode }) {
+  const common = { onMouseEnter: onActive, onFocus: onActive, "aria-label": `${p.name}, ${p.kind}`, className, style };
+  return p.href ? (
+    <Link href={p.href} {...common}>
+      {children}
+    </Link>
+  ) : (
+    <button type="button" onClick={onActive} {...common}>
+      {children}
+    </button>
+  );
+}
+
 function pathFor(p: Partner) {
   const y = ROW_Y[p.row];
   const left = p.side === "l";
@@ -51,33 +64,10 @@ function pathFor(p: Partner) {
   return `M${start} ${y} H${bus - dir * 8} Q${bus} ${y} ${bus} ${y + down * 8} V${ROW_Y[1] - down * 8} Q${bus} ${ROW_Y[1]} ${bus + dir * 8} ${ROW_Y[1]} H${end}`;
 }
 
-function Caption({ p }: { p: Partner }) {
-  return (
-    <div className="mx-auto flex min-h-[104px] max-w-[640px] items-center gap-5 rounded-[24px] border border-line bg-white p-4 pr-6 shadow-[0_24px_50px_-34px_rgb(8_60_66/0.45)] sm:p-5">
-      <span className="flex h-[68px] w-[120px] shrink-0 items-center justify-center rounded-2xl bg-mist px-3 sm:w-[140px]">
-        <Image src={p.src} alt="" width={p.width} height={p.height} sizes="140px" className="h-auto max-h-9 w-auto max-w-full" />
-      </span>
-      <div key={p.name} className="cr-swap min-w-0">
-        <p className="flex flex-wrap items-center gap-2 text-[15.5px] font-semibold text-navy-deep">
-          {p.name}
-          <span className="rounded-full bg-cyan-soft px-2.5 py-0.5 text-[11px] font-semibold text-teal-deep">{p.kind}</span>
-        </p>
-        <p className="mt-1 text-[13.5px] leading-snug text-muted">{p.text}</p>
-        {p.href ? (
-          <Link href={p.href} className="group mt-1.5 inline-flex items-center gap-1 text-[13px] font-semibold text-teal-deep hover:text-navy">
-            Learn more
-            <ArrowRight aria-hidden="true" size={13} className="transition-transform duration-300 group-hover:translate-x-0.5" />
-          </Link>
-        ) : null}
-      </div>
-    </div>
-  );
-}
-
 /**
  * Connected systems as a clean, still board: three system tiles each side, all the same size, joined by dashed right-angle
- * lines to the Vanforces mark in the middle. Nothing moves on its own. Hovering or focusing a tile highlights its line and shows
- * what is confirmed. On narrow screens the tiles are a grid with the same caption beneath.
+ * lines to the Vanforces mark in the middle. Nothing moves on its own. Hovering or focusing a tile highlights its line.
+ * Odoo and Zoho Books open their own pages. On narrow screens the tiles are a grid.
  */
 export function EcosystemBoard() {
   const [active, setActive] = useState(0);
@@ -125,21 +115,17 @@ export function EcosystemBoard() {
         {partners.map((p, i) => {
           const size = TILE[p.row];
           return (
-            <button
+            <Tile
               key={p.name}
-              type="button"
-              onMouseEnter={() => setActive(i)}
-              onFocus={() => setActive(i)}
-              onClick={() => setActive(i)}
-              aria-label={`${p.name}, ${p.kind}`}
-              aria-pressed={active === i}
+              p={p}
+              onActive={() => setActive(i)}
               className={`absolute flex -translate-x-1/2 -translate-y-1/2 cursor-pointer items-center justify-center rounded-[22px] border bg-white transition-[transform,border-color,box-shadow] duration-300 hover:-translate-y-[calc(50%+3px)] ${
                 active === i ? "border-teal shadow-[0_0_0_4px_rgb(28_178_187/0.12),0_20px_34px_-20px_rgb(8_60_66/0.45)]" : "border-line shadow-[0_1px_2px_rgb(41_59_71/0.06),0_18px_30px_-20px_rgb(41_59_71/0.35)]"
               }`}
               style={{ left: `${(COL_X[p.side] / W) * 100}%`, top: `${(ROW_Y[p.row] / H) * 100}%`, width: `${(size / W) * 100}%`, aspectRatio: "1 / 1" }}
             >
               <Image src={p.src} alt="" width={p.width} height={p.height} sizes="120px" className="h-auto max-h-[40%] w-[80%] object-contain" />
-            </button>
+            </Tile>
           );
         })}
 
@@ -156,22 +142,18 @@ export function EcosystemBoard() {
         <span aria-hidden="true" className="my-3 block h-8 border-l-2 border-dashed border-cyan-line" />
         <div className="grid w-full grid-cols-2 gap-3">
           {partners.map((p, i) => (
-            <button
+            <Tile
               key={p.name}
-              type="button"
-              onClick={() => setActive(i)}
-              aria-pressed={active === i}
+              p={p}
+              onActive={() => setActive(i)}
               className={`flex h-[72px] cursor-pointer items-center justify-center rounded-[20px] border bg-white px-4 shadow-[0_1px_2px_rgb(41_59_71/0.05)] transition-colors ${active === i ? "border-teal" : "border-line"}`}
             >
               <Image src={p.src} alt={p.name} width={p.width} height={p.height} sizes="140px" className="h-auto max-h-9 w-[64%] object-contain" />
-            </button>
+            </Tile>
           ))}
         </div>
       </div>
 
-      <div className="mt-8" aria-live="polite">
-        <Caption p={partners[active]} />
-      </div>
     </div>
   );
 }
