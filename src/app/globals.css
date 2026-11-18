@@ -852,3 +852,11 @@ input[type="range"] {
 .chat-bar { transform-origin: left; animation: chat-bar 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes chat-bar { from { scale: 0 1; } to { scale: 1 1; } }
 @media (prefers-reduced-motion: reduce) { .chat-reveal, .chat-in, .chat-bar { animation: none; } }
+
+/* Testimonial wall: two columns drift in opposite directions and slow to a stop under the pointer. */
+.testi-up { animation: testi-up 46s linear infinite; }
+.testi-down { animation: testi-down 52s linear infinite; }
+@keyframes testi-up { from { translate: 0 0; } to { translate: 0 -50%; } }
+@keyframes testi-down { from { translate: 0 -50%; } to { translate: 0 0; } }
+.testi-col:hover .testi-up, .testi-col:hover .testi-down { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .testi-up, .testi-down { animation: none; } }

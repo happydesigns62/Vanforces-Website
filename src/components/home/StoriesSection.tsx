@@ -1,27 +1,106 @@
+"use client";
+
 import Image from "next/image";
-import { Quote } from "lucide-react";
+import { Quote as QuoteIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/global/Button";
 import { SectionHeading } from "@/components/global/Common";
-import { ScrollReveal, StaggerReveal } from "@/components/motion/Reveal";
-import { ScrollScene } from "@/components/motion/ScrollScene";
-import { homeReviews } from "@/data/customers";
+import { ScrollReveal } from "@/components/motion/Reveal";
+import { useCalm } from "@/components/motion/useCalm";
+import { cards, featured, type LogoName, type Quote } from "@/data/home-testimonials";
+import { trustedLogos } from "@/data/trusted-logos";
 
 const initials = (name: string) =>
   name
+    .replace(/Al-/g, "")
     .split(" ")
     .filter(Boolean)
     .slice(0, 2)
-    .map((part) => part[0])
+    .map((p) => p[0])
     .join("")
     .toUpperCase();
 
+const tints = ["#d3f0f3", "#fde9d3", "#d3e6fa", "#e4d9f7", "#d6f0dc", "#fbe0e8"];
+
+function Logo({ name, className }: { name: LogoName; className: string }) {
+  const logo = trustedLogos.find((l) => l.name === name);
+  if (!logo) return null;
+  return <Image src={logo.src} alt={name} width={logo.width} height={logo.height} sizes="120px" className={`${className} object-contain`} />;
+}
+
+function Avatar({ name, i }: { name: string; i: number }) {
+  return (
+    <span aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-full text-[13px] font-semibold text-navy-deep" style={{ background: tints[i % tints.length] }}>
+      {initials(name)}
+    </span>
+  );
+}
+
+function Card({ q, i }: { q: Quote; i: number }) {
+  return (
+    <figure className="rounded-[20px] border border-line bg-white p-5 shadow-[0_1px_2px_rgb(41_59_71/0.05),0_16px_30px_-26px_rgb(8_60_66/0.35)]">
+      <blockquote className="text-[14.5px] leading-[1.6] text-navy-deep">{q.text}</blockquote>
+      <figcaption className="mt-4 flex items-center gap-3">
+        <Avatar name={q.name} i={i} />
+        <span className="min-w-0 flex-1">
+          <span className="block truncate text-[13.5px] font-semibold text-navy-deep">{q.name}</span>
+          <span className="block truncate text-[12px] text-muted">{q.role}</span>
+        </span>
+        <Logo name={q.company} className="h-6 w-auto max-w-[64px] shrink-0 opacity-90" />
+      </figcaption>
+    </figure>
+  );
+}
+
+/** One scrolling column. The list is drawn twice so the loop has no seam; the second copy is hidden from assistive tech. */
+function Column({ items, dir, offset }: { items: Quote[]; dir: "up" | "down"; offset: number }) {
+  return (
+    <div className="testi-col h-[560px] overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,black_14%,black_86%,transparent)]">
+      <div className={dir === "up" ? "testi-up" : "testi-down"}>
+        {[0, 1].map((copy) => (
+          <div key={copy} aria-hidden={copy === 1 || undefined} className="space-y-4 pb-4">
+            {items.map((q, i) => (
+              <Card key={`${copy}-${q.name}`} q={q} i={i + offset} />
+            ))}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /**
- * Customer Stories. One large image-led card that stands in for the customer video, with two quieter quote cards beside it.
- * The photo and the quotes are sample content until real customer stories are available.
+ * Customer Stories as a flowing wall of reviews, on white. On the left, one large quote at a time with the client's logo, changing on
+ * its own with a thin progress line. On the right, two columns of short reviews drift in opposite directions and slow to a stop under
+ * the pointer. Reduced motion shows the cards still. The quotes are placeholders (see data/home-testimonials.ts).
  */
 export function StoriesSection() {
+  const calm = useCalm();
+  const [active, setActive] = useState(0);
+  const [auto, setAuto] = useState(true);
+  const [inView, setInView] = useState(false);
+  const box = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(([e]) => setInView(e.isIntersecting), { threshold: 0.3 });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (calm || !inView || !auto) return;
+    const t = window.setTimeout(() => setActive((i) => (i + 1) % featured.length), 6000);
+    return () => window.clearTimeout(t);
+  }, [calm, inView, auto, active]);
+
+  const q = featured[active];
+  const left = cards.filter((_, i) => i % 2 === 0);
+  const right = cards.filter((_, i) => i % 2 === 1);
+
   return (
-    <section className="section bg-band-cyan">
+    <section className="section bg-mist">
       <div className="wrap">
         <div className="grid gap-6 lg:grid-cols-2 lg:items-end lg:gap-16">
           <SectionHeading variant="fine" eyebrow="Customer Stories" title="Trusted by" titleMuted="Distribution Teams." />
@@ -30,53 +109,62 @@ export function StoriesSection() {
           </ScrollReveal>
         </div>
 
-        <div className="mt-12 grid gap-5 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
-          <ScrollReveal className="lg:order-2">
-            <div className="group relative isolate aspect-[4/3] overflow-hidden rounded-[24px] bg-navy-deep sm:aspect-video">
-              <div className="absolute -inset-y-[7%] inset-x-0 -z-10">
-                <ScrollScene mode="pass" className="scene-drift relative h-full">
-                  <Image
-                    src="/photos/stories-van.webp"
-                    alt="A white Vanforces delivery van on a palm-lined city street at sunset, with a driver in a Vanforces polo checking a tablet beside it."
-                    fill
-                    sizes="(max-width: 1024px) 94vw, 720px"
-                    className="object-cover transition-transform duration-[1200ms] ease-[var(--ease-soft)] group-hover:scale-[1.03]"
-                  />
-                </ScrollScene>
-              </div>
-              <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-t from-navy-deep/90 via-navy-deep/30 to-navy-deep/10" />
+        <ScrollReveal delay={100} className="mt-12">
+          <div ref={box} className="relative overflow-hidden rounded-[32px] border border-line bg-[radial-gradient(60%_70%_at_8%_0%,rgb(28_178_187/0.12),transparent),linear-gradient(180deg,#ffffff,#f7fbfc)] p-5 shadow-[0_40px_80px_-50px_rgb(8_60_66/0.4)] sm:p-8 lg:p-10">
+            <div className="grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
+              <div className="flex flex-col justify-between lg:min-h-[560px]">
+                <div>
+                  <span className="flex size-11 items-center justify-center rounded-full bg-cyan-soft text-teal-deep">
+                    <QuoteIcon aria-hidden="true" size={19} />
+                  </span>
+                  <div key={active} className="cr-swap mt-6">
+                    <Logo name={q.company} className="h-10 w-auto max-w-[170px]" />
+                    <blockquote className="mt-6 text-pretty text-[clamp(1.375rem,1.1rem+1.1vw,1.875rem)] font-medium leading-[1.3] tracking-[-0.025em] text-navy-deep">“{q.text}”</blockquote>
+                    <div className="mt-7 flex items-center gap-3">
+                      <Avatar name={q.name} i={active} />
+                      <span>
+                        <span className="block text-[15px] font-semibold text-navy-deep">{q.name}</span>
+                        <span className="block text-[13.5px] text-muted">
+                          {q.role}, {q.company}
+                        </span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-              <div className="absolute inset-x-0 bottom-0 p-5 md:p-8">
-                <p className="max-w-[15rem] text-[clamp(1.375rem,1.1rem+1.3vw,2rem)] font-medium leading-[1.15] tracking-[-0.03em] text-white">A Closer Look at Life With Vanforces.</p>
+                <div className="mt-8 flex items-center gap-2" role="tablist" aria-label="Featured quotes">
+                  {featured.map((f, i) => (
+                    <button
+                      key={f.name}
+                      type="button"
+                      role="tab"
+                      aria-selected={i === active}
+                      aria-label={`Show quote from ${f.name}`}
+                      onClick={() => {
+                        setActive(i);
+                        setAuto(false);
+                      }}
+                      className="relative h-6 flex-1 cursor-pointer"
+                    >
+                      <span className="absolute inset-x-0 top-1/2 h-[3px] -translate-y-1/2 overflow-hidden rounded-full bg-navy/10">
+                        {i === active ? (
+                          auto && !calm ? <span key={`${active}-bar`} className="cr-progress block h-full w-full bg-teal" style={{ animationDuration: "6s" }} /> : <span className="block h-full w-full bg-teal" />
+                        ) : null}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative grid gap-4 sm:grid-cols-2">
+                <Column items={left} dir="up" offset={0} />
+                <div className="hidden sm:block">
+                  <Column items={right} dir="down" offset={3} />
+                </div>
               </div>
             </div>
-            <p className="mt-4 max-w-xl text-[1rem] leading-relaxed text-muted">
-              Hear directly from a customer about their field operations, daily challenges and experience using Vanforces.
-            </p>
-          </ScrollReveal>
-
-          <StaggerReveal start={120} step={110} className="grid gap-5 lg:order-1">
-            {homeReviews.map((review) => (
-              <figure key={review.topic} className="flex h-full flex-col rounded-[24px] border border-line bg-white p-6 transition-[transform,box-shadow] duration-500 ease-[var(--ease-soft)] hover:-translate-y-0.5 hover:shadow-lift md:p-8">
-                <div className="flex items-center justify-between gap-3">
-                  <span className="flex size-9 items-center justify-center rounded-full bg-cyan-soft text-teal-deep">
-                    <Quote aria-hidden="true" size={16} />
-                  </span>
-                </div>
-                <blockquote className="mt-5 flex-1 text-[1.1875rem] font-medium leading-[1.5] tracking-[-0.015em] text-navy-deep">“{review.quote}”</blockquote>
-                <figcaption className="mt-6 flex items-center gap-3 border-t border-line pt-5">
-                  <span aria-hidden="true" className="flex size-10 items-center justify-center rounded-full bg-mist text-[13px] font-semibold text-muted">
-                    {initials(review.person)}
-                  </span>
-                  <span>
-                    <span className="block text-[14.5px] font-semibold text-navy-deep">{review.person}</span>
-                    <span className="mt-0.5 block text-[13px] leading-snug text-muted">{review.company}</span>
-                  </span>
-                </figcaption>
-              </figure>
-            ))}
-          </StaggerReveal>
-        </div>
+          </div>
+        </ScrollReveal>
 
         <ScrollReveal className="mt-8">
           <Button href="/customers" variant="secondary" arrow>

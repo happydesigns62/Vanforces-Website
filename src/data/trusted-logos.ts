@@ -15,5 +15,4 @@ export const trustedLogos: TrustedLogo[] = [
   { name: "KAKU", src: "/logos/kaku.png", width: 385, height: 256, className: "h-14 w-auto" },
   { name: "Maximus", src: "/logos/maximus.png", width: 436, height: 193, className: "h-11 w-auto" },
   { name: "Punathil Egg Traders", src: "/logos/punathil.png", width: 256, height: 276, className: "h-16 w-auto" },
-  { name: "QTerminals", src: "/logos/qterminals.png", width: 391, height: 75, className: "h-auto w-[128px]" },
 ];
