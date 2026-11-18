@@ -5,6 +5,7 @@ import { Button, type ButtonProps } from "@/components/global/Button";
 import type { ArtKey } from "@/data/media";
 import { ScrollReveal } from "@/components/motion/Reveal";
 import { Words, wordCount } from "@/components/motion/Words";
+import { PageOutline } from "@/components/global/PageOutline";
 
 export type Crumb = { label: string; href?: string };
 
@@ -90,7 +91,7 @@ export function SectionHeading({
       )}
       {description ? (
         <ScrollReveal delay={140}>
-          <div className={`${fine ? "text-pretty text-[1.0625rem] leading-[1.7] text-muted sm:text-[1.125rem]" : "lede"} mt-5 ${center ? "mx-auto" : ""}`}>{description}</div>
+          <div className={`${fine ? "sh-lede text-pretty text-muted" : "lede"} mt-5 ${center ? "mx-auto" : ""}`}>{description}</div>
         </ScrollReveal>
       ) : null}
     </div>
@@ -129,9 +130,9 @@ function twoTone(title: ReactNode): ReactNode {
 }
 
 /**
- * Inner page hero, in the homepage style: a soft wash behind a pill label, a medium-weight title and a calm text line.
- * With a visual beside the text (split) the text stays on the left. Otherwise the text is centred and the visual sits
- * below it on a light stage.
+ * Inner page hero: compact and calm. The text sits on the left (a small label, a two-tone title, one calm line, up to two buttons).
+ * With a visual, it sits beside the text in a small framed card ("split"), or below it ("stacked"). Pages without a visual get the
+ * editorial version ("plain"): the same text, and on wide screens an "On this page" card listing the page's own section headings.
  */
 export function PageHero({
   eyebrow,
@@ -152,11 +153,11 @@ export function PageHero({
   layout?: "split" | "stacked" | "plain";
   tag?: ReactNode;
 }) {
-  const centred = layout !== "split";
+  const centred = layout === "stacked";
   const text = (
     <>
       {crumbs ? (
-        <div className={`seq mb-8 ${centred ? "flex justify-center" : ""}`} style={{ "--d": "0ms" } as React.CSSProperties}>
+        <div className={`seq mb-6 ${centred ? "flex justify-center" : ""}`} style={{ "--d": "0ms" } as React.CSSProperties}>
           <Breadcrumbs items={crumbs} />
         </div>
       ) : null}
@@ -164,16 +165,16 @@ export function PageHero({
         <p className="eyebrow">{eyebrow}</p>
         {tag}
       </div>
-      <h1 className={`t-page seq mt-6 ${centred ? "mx-auto max-w-[22ch]" : ""}`} style={{ "--d": "110ms" } as React.CSSProperties}>
+      <h1 className={`t-page seq mt-5 ${centred ? "mx-auto max-w-[24ch]" : "max-w-[22ch]"}`} style={{ "--d": "110ms" } as React.CSSProperties}>
         {twoTone(title)}
       </h1>
       {description ? (
-        <div className={`lede seq mt-6 max-w-2xl ${centred ? "mx-auto" : ""}`} style={{ "--d": "200ms" } as React.CSSProperties}>
+        <div className={`lede seq mt-5 max-w-[34rem] ${centred ? "mx-auto" : ""}`} style={{ "--d": "200ms" } as React.CSSProperties}>
           {description}
         </div>
       ) : null}
       {ctas ? (
-        <div className={`seq mt-9 ${centred ? "flex justify-center" : ""}`} style={{ "--d": "290ms" } as React.CSSProperties}>
+        <div className={`seq mt-7 ${centred ? "flex justify-center" : ""}`} style={{ "--d": "290ms" } as React.CSSProperties}>
           <CtaRow items={ctas} className={centred ? "items-center justify-center" : ""} />
         </div>
       ) : null}
@@ -182,26 +183,37 @@ export function PageHero({
 
   if (layout === "split") {
     return (
-      <section className="hero-wash beams relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
-        <div className="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,1fr)] lg:gap-16">
+      <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+        <div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
           <div>{text}</div>
-          <div className="seq-shot min-w-0" style={{ "--d": "260ms" } as React.CSSProperties}>
-            <div className="stage-soft rounded-[28px] border border-cyan-line p-5 sm:rounded-[32px] sm:p-8">{visual}</div>
+          <div className="seq-shot min-w-0 lg:w-full lg:max-w-[500px] lg:justify-self-end" style={{ "--d": "260ms" } as React.CSSProperties}>
+            <div className="stage-soft rounded-[24px] border border-cyan-line p-4 sm:p-5">{visual}</div>
           </div>
         </div>
       </section>
     );
   }
 
+  if (layout === "stacked") {
+    return (
+      <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+        <div className="wrap">
+          <div className="mx-auto max-w-3xl text-center">{text}</div>
+          {visual ? (
+            <div className="seq-shot mx-auto mt-10 min-w-0 max-w-[880px]" style={{ "--d": "300ms" } as React.CSSProperties}>
+              <div className="stage-soft rounded-[24px] border border-cyan-line p-3 sm:p-5 lg:p-7">{visual}</div>
+            </div>
+          ) : null}
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section className="hero-wash beams relative overflow-hidden pb-14 pt-10 md:pb-20 md:pt-16">
-      <div className="wrap">
-        <div className="mx-auto max-w-4xl text-center">{text}</div>
-        {visual ? (
-          <div className="seq-shot mt-14 min-w-0" style={{ "--d": "300ms" } as React.CSSProperties}>
-            <div className="stage-soft rounded-[28px] border border-cyan-line p-3 sm:rounded-[32px] sm:p-8 lg:p-12">{visual}</div>
-          </div>
-        ) : null}
+    <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+      <div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-14">
+        <div>{text}</div>
+        <PageOutline />
       </div>
     </section>
   );

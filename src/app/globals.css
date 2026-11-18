@@ -880,3 +880,16 @@ input[type="range"] {
   -webkit-mask-image: linear-gradient(to bottom, black, transparent 85%);
   mask-image: linear-gradient(to bottom, black, transparent 85%);
 }
+
+/* ---- Inner pages: a calmer, more refined scale. Applies only to pages that have an inner hero, so the home page keeps its own sizes. ---- */
+.sh-lede { font-size: 1.0625rem; line-height: 1.7; }
+@media (min-width: 640px) { .sh-lede { font-size: 1.125rem; } }
+body:has(.inner-hero) .wrap { max-width: 1140px; }
+body:has(.inner-hero) .section { padding-block: clamp(48px, 6vw, 80px); }
+body:has(.inner-hero) .section-tight { padding-block: clamp(32px, 4vw, 56px); }
+body:has(.inner-hero) .t-page { font-size: clamp(1.9rem, 1.45rem + 1.9vw, 2.75rem); line-height: 1.08; }
+body:has(.inner-hero) .t-section { font-size: clamp(1.5rem, 1.25rem + 1.1vw, 2.1rem); }
+body:has(.inner-hero) .t-fine { font-size: clamp(1.625rem, 1.3rem + 1.3vw, 2.25rem); }
+body:has(.inner-hero) .t-card { font-size: clamp(1rem, 0.97rem + 0.2vw, 1.125rem); }
+body:has(.inner-hero) .lede, body:has(.inner-hero) .sh-lede { font-size: clamp(0.98rem, 0.95rem + 0.15vw, 1.0625rem); line-height: 1.65; }
+body:has(.inner-hero) main h2 { scroll-margin-top: 96px; }
