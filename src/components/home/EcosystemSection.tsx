@@ -2,10 +2,10 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { SectionHeading } from "@/components/global/Common";
 import { ScrollReveal } from "@/components/motion/Reveal";
-import { EcosystemOrbit } from "./EcosystemOrbit";
+import { EcosystemBoard } from "./EcosystemBoard";
 
 /**
- * Connected systems, as an orbit around the Vanforces mark (see EcosystemOrbit). One link and a short note say the rest.
+ * Connected systems, as a blueprint board around the Vanforces mark (see EcosystemBoard). One link and a short note say the rest.
  */
 export function EcosystemSection() {
   return (
@@ -21,7 +21,7 @@ export function EcosystemSection() {
         />
 
         <ScrollReveal delay={100} className="mt-14 md:mt-20">
-          <EcosystemOrbit />
+          <EcosystemBoard />
         </ScrollReveal>
 
         <ScrollReveal delay={160} className="mt-12 flex flex-col items-center gap-2 text-center">
