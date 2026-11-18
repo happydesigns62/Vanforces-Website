@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useCalm } from "@/components/motion/useCalm";
 
 type Partner = {
   name: string;
@@ -66,11 +65,10 @@ function pathFor(p: Partner) {
 
 /**
  * Connected systems as a clean, still board: three system tiles each side, all the same size, joined by dashed right-angle
- * lines to the Vanforces mark in the middle. Small dots drift slowly along every line toward the mark, all together.
- * Odoo and Zoho Books open their own pages. Reduced motion shows no dots. On narrow screens the tiles are a grid.
+ * lines to the Vanforces mark in the middle. The dashes of every line drift slowly toward the mark, all together.
+ * Odoo and Zoho Books open their own pages. Reduced motion keeps the lines still. On narrow screens the tiles are a grid.
  */
 export function EcosystemBoard() {
-  const calm = useCalm();
   return (
     <div>
       {/* Wide screens: the board. */}
@@ -81,26 +79,10 @@ export function EcosystemBoard() {
             <path
               key={p.name}
               d={pathFor(p)}
-              stroke="#c4ccd2" strokeWidth="1.4" strokeDasharray="5 5"
+              stroke="#c4ccd2" strokeWidth="1.4" strokeDasharray="5 5" className="board-flow"
               strokeLinecap="round"
             />
           ))}
-          {/* dots flowing toward the mark, all together and slowly */}
-          {!calm
-            ? partners.map((p) => (
-                <g key={`dot-${p.name}`}>
-                  <circle r="7" fill="#1cb2bb" opacity="0.16">
-                    <animateMotion dur="7s" repeatCount="indefinite" path={pathFor(p)} calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.55 1" />
-                    <animate attributeName="opacity" values="0;0.16;0.16;0" keyTimes="0;0.18;0.82;1" dur="7s" repeatCount="indefinite" />
-                  </circle>
-                  <circle r="3.6" fill="#1cb2bb">
-                    <animateMotion dur="7s" repeatCount="indefinite" path={pathFor(p)} calcMode="spline" keyTimes="0;1" keySplines="0.45 0 0.55 1" />
-                    <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.18;0.82;1" dur="7s" repeatCount="indefinite" />
-                  </circle>
-                </g>
-              ))
-            : null}
-
           {/* dark corner ticks, like the reference */}
           {partners
             .filter((p) => p.row !== 1)

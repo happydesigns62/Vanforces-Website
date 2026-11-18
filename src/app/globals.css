@@ -852,3 +852,8 @@ input[type="range"] {
 .chat-bar { transform-origin: left; animation: chat-bar 1s 0.35s cubic-bezier(0.22, 1, 0.36, 1) both; }
 @keyframes chat-bar { from { scale: 0 1; } to { scale: 1 1; } }
 @media (prefers-reduced-motion: reduce) { .chat-reveal, .chat-in, .chat-bar { animation: none; } }
+
+/* Integrations board: the dashes of each grey line drift slowly toward the centre, all together. */
+.board-flow { animation: board-flow 2.8s linear infinite; }
+@keyframes board-flow { to { stroke-dashoffset: -10; } }
+@media (prefers-reduced-motion: reduce) { .board-flow { animation: none; } }
