@@ -215,9 +215,6 @@ export function Header() {
         </nav>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Link href="/login" className="hidden whitespace-nowrap rounded-full px-2 py-2 text-[14.5px] font-medium transition-colors hover:bg-mist xl:block">
-            Login
-          </Link>
           <span className="hidden shrink-0 sm:block">
             <Button href="/book-demo" variant="secondary" className="!min-h-10 whitespace-nowrap !px-4 !py-2 !text-[14px]">
               Book a Demo

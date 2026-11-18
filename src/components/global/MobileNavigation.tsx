@@ -98,11 +98,6 @@ export function MobileNavigation({ onClose }: { onClose: () => void }) {
               </li>
             );
           })}
-          <li>
-            <Link href="/login" onClick={onClose} className="block py-4 text-[17px] font-semibold">
-              Login
-            </Link>
-          </li>
         </ul>
       </nav>
 

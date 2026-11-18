@@ -23,7 +23,6 @@ export default function PrivacyPage() {
           paragraphs: ["This website is a frontend prototype. It does not submit data to a Vanforces server."],
           bullets: [
             "Contact, demo and partner forms check your entries in your browser, and then do not send them anywhere.",
-            "The login page is a visual prototype and doesn't check credentials.",
             "The Get Started demo keeps entries temporarily in your browser session, so you can move back and forward. The demo password is kept in memory only.",
             "No real verification codes are sent and no payments are processed.",
           ],

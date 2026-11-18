@@ -105,7 +105,6 @@ export const faqCategories: FaqCategory[] = [
     title: "Registration",
     items: [
       { q: "Does Get Started create a real account?", a: "Not on this prototype. It is a demo registration experience: no account is created, no code is sent and no payment is taken." },
-      { q: "How do I log in?", a: "The login page on this site is a visual prototype. Existing customers should use the login details supplied for their deployment." },
     ],
   },
   {

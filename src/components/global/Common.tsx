@@ -183,7 +183,7 @@ export function PageHero({
 
   if (layout === "split") {
     return (
-      <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+      <section className="inner-hero hero-wash relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
         <div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
           <div>{text}</div>
           <div className="seq-shot min-w-0 lg:w-full lg:max-w-[500px] lg:justify-self-end" style={{ "--d": "260ms" } as React.CSSProperties}>
@@ -196,7 +196,7 @@ export function PageHero({
 
   if (layout === "stacked") {
     return (
-      <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+      <section className="inner-hero hero-wash relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
         <div className="wrap">
           <div className="mx-auto max-w-3xl text-center">{text}</div>
           {visual ? (
@@ -210,7 +210,7 @@ export function PageHero({
   }
 
   return (
-    <section className="inner-hero hero-wash beams relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
+    <section className="inner-hero hero-wash relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
       <div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,0.75fr)] lg:gap-14">
         <div>{text}</div>
         <PageOutline />

@@ -36,7 +36,6 @@ export const phone = {
   route: phoneShot("m-route", "Vanforces Route Journey Plan in list view with a timeline of pending customer visits. Customer names are masked."),
   profile: phoneShot("m-profile", "Vanforces mobile salesman profile. Personal details are masked."),
   sync: phoneShot("m-sync", "Vanforces mobile data export progress across sales, collection, settlement, load, unload and quotation records."),
-  login: phoneShot("m-login", "Vanforces mobile sign-in screen with the Distribution Simplified logo and a branded van."),
   splash: phoneShot("m-splash", "Vanforces mobile app splash screen."),
 };
 
