@@ -78,7 +78,7 @@ export function ROICalculator() {
   return (
     <div className="grid overflow-hidden rounded-[26px] border border-line lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)]">
       <form className="space-y-7 bg-mist p-6 md:p-9" onSubmit={(event) => event.preventDefault()} aria-label="ROI inputs">
-        <h2 className="text-[20px] font-bold">Your inputs</h2>
+        <h2 className="text-[17px] font-bold">Your inputs</h2>
         {fields.map((field) => (
           <InputRow key={field.key} field={field} value={inputs[field.key]} onChange={(next) => setInputs((prev) => ({ ...prev, [field.key]: next }))} />
         ))}
@@ -94,7 +94,7 @@ export function ROICalculator() {
       <div className="bg-navy-deep p-6 text-white md:p-9" aria-live="polite">
         <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-teal">Illustrative estimate</p>
         <p className="mt-3 text-[15px] text-white/70">Illustrative annual time value</p>
-        <p className="mt-1 text-[clamp(2.5rem,2rem+2.5vw,4.25rem)] font-bold leading-none tracking-tight tabular-nums">{formatUSD(annualValue)}</p>
+        <p className="mt-1 text-[clamp(2.1rem,1.68rem+2.1vw,3.57rem)] font-bold leading-none tracking-tight tabular-nums">{formatUSD(annualValue)}</p>
 
         <dl className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-[24px] bg-white/15">
           {[
@@ -105,7 +105,7 @@ export function ROICalculator() {
           ].map(([label, value]) => (
             <div key={label} className="bg-navy-deep p-4 md:p-5">
               <dt className="text-[13px] text-white/65">{label}</dt>
-              <dd className="mt-1 text-[clamp(1.05rem,1rem+0.5vw,1.375rem)] font-bold leading-tight tabular-nums">{value}</dd>
+              <dd className="mt-1 text-[clamp(1.05rem,0.84rem+0.42vw,1.155rem)] font-bold leading-tight tabular-nums">{value}</dd>
             </div>
           ))}
         </dl>

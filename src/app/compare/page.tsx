@@ -63,7 +63,7 @@ export default function ComparePage() {
             <p className="mt-3 text-[13px] text-muted sm:hidden">Swipe the table sideways to see every platform.</p>
           </div>
 
-          <h2 className="mt-14 text-[1.5rem] font-semibold tracking-[-0.02em] text-navy-deep">Different Platforms. Different Operational Strengths.</h2>
+          <h2 className="mt-10 text-[1.5rem] font-semibold tracking-[-0.02em] text-navy-deep">Different Platforms. Different Operational Strengths.</h2>
           <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {focusCards.map((c) => (
               <div key={c.id} className="rounded-2xl border border-line bg-white p-5">

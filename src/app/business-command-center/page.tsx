@@ -50,10 +50,10 @@ export default function CommandCenterPage() {
       />
 
       <section className="section-tight">
-        <div className="wrap grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="wrap grid gap-8 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
           <ScrollReveal>
             <p className="eyebrow">The business challenge</p>
-            <h2 className="t-section mt-4 !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">By the time the numbers are together, the day has moved on.</h2>
+            <h2 className="t-section mt-4 !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">By the time the numbers are together, the day has moved on.</h2>
           </ScrollReveal>
           <ScrollReveal delay={90}>
             <p className="lede">
@@ -71,7 +71,7 @@ export default function CommandCenterPage() {
             {questions.map((item, index) => (
               <div key={item.q} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 70}ms` } as React.CSSProperties} className="bg-white p-7 md:p-10">
                 <Vignette kind={item.scene} className="mb-4 h-[76px] w-[110px] rounded-2xl bg-band-cyan" />
-                <dt className="text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)] font-medium tracking-[-0.03em] text-navy-deep">{item.q}</dt>
+                <dt className="text-[clamp(1.26rem,1.092rem+0.672vw,1.785rem)] font-medium tracking-[-0.03em] text-navy-deep">{item.q}</dt>
                 <dd className="body mt-2">{item.a}</dd>
               </div>
             ))}
@@ -88,7 +88,7 @@ export default function CommandCenterPage() {
             className="mb-10"
           />
           <WorkflowDiagram steps={["Quotation", "Order", "Delivery", "Sales", "Collection", "Expenses", "Settlement"]} />
-          <ScreenshotReveal className="mt-14">
+          <ScreenshotReveal className="mt-10">
             <WebScreenshotFrame shot={web.cxoTrends} sizes="(max-width: 1320px) 100vw, 1216px" />
             <PrivacyCaption className="mt-3" />
           </ScreenshotReveal>

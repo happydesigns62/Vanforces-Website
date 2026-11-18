@@ -34,10 +34,10 @@ export function ProductExplorer() {
         id: category.id,
         label: category.label,
         panel: (
-          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-14">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-10">
             <div>
               <Mascot name={category.mascot} sizes="180px" className="mb-4 w-36 lg:w-44" />
-              <h3 className="t-section !text-[clamp(1.625rem,1.4rem+1vw,2.375rem)]">{category.heading}</h3>
+              <h3 className="t-section !text-[clamp(1.365rem,1.176rem+0.84vw,1.995rem)]">{category.heading}</h3>
               <ul className="mt-6 space-y-2.5">
                 {category.items.map((item) => (
                   <li key={item} className="flex items-center gap-2.5 text-[16px] font-medium">

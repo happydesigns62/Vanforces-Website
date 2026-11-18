@@ -104,7 +104,7 @@ export function TestimonialCard({ item, tag = "", large = false }: { item: Testi
         <Quote aria-hidden="true" size={22} className="text-teal" />
         {tag ? <span className="text-[12px] font-semibold text-teal-deep">{tag}</span> : null}
       </div>
-      <blockquote className={`mt-4 flex-1 font-medium leading-relaxed ${large ? "text-[20px]" : "text-[16.5px]"}`}>“{item.quote}”</blockquote>
+      <blockquote className={`mt-4 flex-1 font-medium leading-relaxed ${large ? "text-[17px]" : "text-[16.5px]"}`}>“{item.quote}”</blockquote>
       <figcaption className="mt-5 border-t border-line pt-4">
         <span className="block text-[14.5px] font-bold">{item.person}</span>
         <span className="mt-0.5 block text-[13px] leading-snug text-muted">{item.company}</span>
@@ -131,7 +131,7 @@ export function VideoPlaceholder({
       <span aria-hidden="true" className="capsule -bottom-16 right-[22%] -z-10 h-32 w-[58%] border-2 border-teal/50" />
       <div className="flex h-full flex-col justify-between p-5 md:p-7">
         <span className="self-start rounded-full bg-white px-3 py-1 text-[11.5px] font-bold text-navy">{label}</span>
-        <p className={`max-w-md font-medium leading-tight tracking-[-0.03em] ${large ? "text-[clamp(1.25rem,1rem+1.4vw,2rem)]" : "text-[19px]"}`}>{title}</p>
+        <p className={`max-w-md font-medium leading-tight tracking-[-0.03em] ${large ? "text-[clamp(1.05rem,0.84rem+1.176vw,1.68rem)]" : "text-[19px]"}`}>{title}</p>
       </div>
     </div>
   );
@@ -163,7 +163,7 @@ export function CustomerStoryCard({ story, featured = false }: { story: Customer
         <div className="flex flex-wrap items-center gap-2">
           <span className={`text-[12px] font-bold uppercase tracking-[0.12em] ${featured ? "text-teal" : "text-teal-deep"}`}>{story.industry}</span>
         </div>
-        <h3 className={`mt-4 font-medium leading-tight tracking-[-0.03em] ${featured ? "text-[clamp(1.5rem,1.3rem+1vw,2.25rem)]" : "text-[clamp(1.25rem,1.1rem+0.5vw,1.5rem)]"}`}>{story.title}</h3>
+        <h3 className={`mt-4 font-medium leading-tight tracking-[-0.03em] ${featured ? "text-[clamp(1.26rem,1.092rem+0.84vw,1.89rem)]" : "text-[clamp(1.05rem,0.924rem+0.42vw,1.26rem)]"}`}>{story.title}</h3>
         <p className={`mt-3 text-[15.5px] leading-relaxed ${featured ? "text-white/75" : "text-muted"}`}>{story.excerpt}</p>
       </div>
       <p className={`mt-6 flex items-center justify-between gap-3 border-t pt-4 text-[14px] font-semibold ${featured ? "border-white/15" : "border-line"}`}>

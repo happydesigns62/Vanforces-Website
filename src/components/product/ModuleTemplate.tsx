@@ -58,7 +58,7 @@ export function ModuleTemplate({ module: m }: { module: Module }) {
             <div>
               <ScrollReveal>
                 <p className="eyebrow">The business challenge</p>
-                <h2 className="t-section mt-4 !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{m.challenge.heading}</h2>
+                <h2 className="t-section mt-4 !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{m.challenge.heading}</h2>
                 <p className="lede mt-4">{m.challenge.body}</p>
               </ScrollReveal>
             </div>
@@ -94,7 +94,7 @@ export function ModuleTemplate({ module: m }: { module: Module }) {
         <div className="wrap">
           <div className="rounded-[28px] bg-band-cyan p-6 md:p-10">
             <ScrollReveal>
-              <h2 className="t-section max-w-3xl !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{m.workflow.heading}</h2>
+              <h2 className="t-section max-w-3xl !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{m.workflow.heading}</h2>
               <p className="lede mt-4 max-w-3xl">{m.workflow.body}</p>
             </ScrollReveal>
             <ol className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-flow-col lg:auto-cols-fr">
@@ -120,10 +120,10 @@ export function ModuleTemplate({ module: m }: { module: Module }) {
 
       <section className="section-tight">
         <div className="wrap">
-          <div className="grid items-center gap-6 rounded-[28px] border border-line bg-white p-6 shadow-[0_1px_2px_rgb(41_59_71/0.05)] md:p-10 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-14">
+          <div className="grid items-center gap-6 rounded-[28px] border border-line bg-white p-6 shadow-[0_1px_2px_rgb(41_59_71/0.05)] md:p-10 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-10">
             <ScrollReveal>
               <p className="eyebrow">Operational example</p>
-              <p className="mt-5 text-pretty text-[clamp(1.25rem,1.1rem+0.7vw,1.75rem)] font-medium leading-snug tracking-[-0.025em] text-navy-deep">{m.example}</p>
+              <p className="mt-5 text-pretty text-[clamp(1.05rem,0.924rem+0.588vw,1.47rem)] font-medium leading-snug tracking-[-0.025em] text-navy-deep">{m.example}</p>
             </ScrollReveal>
             <Vignette kind={exampleScene} className="mx-auto h-[190px] w-full max-w-[280px] rounded-[20px] bg-band-cyan p-2" />
           </div>

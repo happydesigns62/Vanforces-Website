@@ -18,7 +18,7 @@ export default function ResourcesPage() {
     <>
       <PageHero eyebrow="Vanforces Resources" title="Find the Detail When You Need It." description="Practical guides on the everyday work of distribution, plus answers and tools to help you think through your next step." crumbs={[{ label: "Resources" }]} layout="split" visual={<Mascot name="inspector" priority sizes="(max-width: 1024px) 70vw, 420px" className="mx-auto w-full max-w-[400px]" />} />
 
-      <section className="pb-14 md:pb-20">
+      <section className="pb-10 md:pb-14">
         <div className="wrap">
           <ScrollReveal>
             <Link href={`/resources/guides/${lead.slug}`} className="link-arrow group grid gap-6 rounded-[24px] bg-navy-deep p-8 text-white transition-transform duration-300 hover:-translate-y-0.5 md:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] md:items-end md:p-12">
@@ -47,7 +47,7 @@ export default function ResourcesPage() {
                   </div>
                   <div className="mt-3 flex flex-1 items-start justify-between gap-4">
                     <div>
-                      <h2 className="t-card !text-[22px]">{guide.title}</h2>
+                      <h2 className="t-card !text-[18px]">{guide.title}</h2>
                       <p className="body mt-2">{guide.summary}</p>
                     </div>
                     <Mascot name={mascots.guides[guide.slug] ?? "business"} sizes="120px" className="w-24 shrink-0 md:w-28" />

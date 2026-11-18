@@ -21,8 +21,8 @@ export default function ContactPage() {
   return (
     <>
       <PageHero eyebrow="Contact" title="Tell Us What You're Working On." description="Choose what you'd like to talk about, and share a little context so the conversation starts in the right place." crumbs={[{ label: "Contact" }]} />
-      <section className="pb-16 md:pb-24">
-        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <section className="pb-12 md:pb-16">
+        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
           <div>
             <dl className="border-t border-line">
               {reasons.map((reason, index) => (

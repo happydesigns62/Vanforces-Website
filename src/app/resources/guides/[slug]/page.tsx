@@ -43,7 +43,7 @@ export default async function GuidePage({ params }: Props) {
   return (
     <>
       <article>
-        <header className="wrap relative pt-10 md:pt-14">
+        <header className="wrap relative pt-10 md:pt-10">
           <div className="seq mb-8">
             <Breadcrumbs items={[{ label: "Resources", href: "/resources" }, { label: guide.title }]} />
           </div>
@@ -62,7 +62,7 @@ export default async function GuidePage({ params }: Props) {
           </p>
         </header>
 
-        <div className="wrap mt-10 grid gap-12 pb-14 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-20">
+        <div className="wrap mt-10 grid gap-12 pb-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-14">
           <nav aria-label="On this page" className="hidden lg:sticky lg:top-24 lg:block lg:self-start">
             <p className="text-[13px] font-bold">On this page</p>
             <ul className="mt-3 space-y-2 border-l border-line">
@@ -78,12 +78,12 @@ export default async function GuidePage({ params }: Props) {
 
           <div className="prose-doc max-w-[720px]">
 
-            <h2 id="introduction" className="scroll-mt-24 !mt-0">Introduction</h2>
+            <h2 id="introduction" className="scroll-mt-16 !mt-0">Introduction</h2>
             {guide.introduction.map((paragraph) => (
               <p key={paragraph.slice(0, 20)}>{paragraph}</p>
             ))}
 
-            <h2 id="key-concepts" className="scroll-mt-24">Key Concepts</h2>
+            <h2 id="key-concepts" className="scroll-mt-16">Key Concepts</h2>
             <dl className="not-prose my-4 divide-y divide-line rounded-[24px] border border-line">
               {guide.concepts.map((concept) => (
                 <div key={concept.term} className="grid gap-1 p-4 sm:grid-cols-[170px_minmax(0,1fr)] sm:gap-4">
@@ -93,7 +93,7 @@ export default async function GuidePage({ params }: Props) {
               ))}
             </dl>
 
-            <h2 id="practical-workflow" className="scroll-mt-24">Practical Workflow</h2>
+            <h2 id="practical-workflow" className="scroll-mt-16">Practical Workflow</h2>
             <ol className="my-4 space-y-3.5">
               {guide.workflow.map((step, stepIndex) => (
                 <li key={step} className="flex gap-4">
@@ -103,14 +103,14 @@ export default async function GuidePage({ params }: Props) {
               ))}
             </ol>
 
-            <h2 id="common-challenges" className="scroll-mt-24">Common Challenges</h2>
+            <h2 id="common-challenges" className="scroll-mt-16">Common Challenges</h2>
             <ul>
               {guide.challenges.map((challenge) => (
                 <li key={challenge}>{challenge}</li>
               ))}
             </ul>
 
-            <h2 id="review-checklist" className="scroll-mt-24">Suggested Review Checklist</h2>
+            <h2 id="review-checklist" className="scroll-mt-16">Suggested Review Checklist</h2>
             <ul className="my-4 !grid gap-2.5 rounded-[24px] bg-paper p-5">
               {guide.checklist.map((item) => (
                 <li key={item} className="!pl-0 before:!hidden flex gap-3">
@@ -120,19 +120,19 @@ export default async function GuidePage({ params }: Props) {
               ))}
             </ul>
 
-            <h2 id="related-modules" className="scroll-mt-24">Related Vanforces Modules</h2>
+            <h2 id="related-modules" className="scroll-mt-16">Related Vanforces Modules</h2>
             <div className="my-4 grid gap-3 sm:grid-cols-3">
               {guide.modules.map((module) => (
                 <ModuleCard key={module.label} title={module.label} body="See how this connects to Vanforces." href={module.href} />
               ))}
             </div>
 
-            <h2 id="closing-summary" className="scroll-mt-24">Closing Summary</h2>
+            <h2 id="closing-summary" className="scroll-mt-16">Closing Summary</h2>
             <p>{guide.closing}</p>
 
             <div className="mt-10 border-t border-line pt-6">
               <p className="!mb-1 !text-[13px]">Next guide</p>
-              <Link href={`/resources/guides/${next.slug}`} className="text-[20px] font-bold tracking-tight transition-colors hover:text-teal-deep">
+              <Link href={`/resources/guides/${next.slug}`} className="text-[17px] font-bold tracking-tight transition-colors hover:text-teal-deep">
                 {next.title} →
               </Link>
             </div>

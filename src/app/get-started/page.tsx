@@ -19,7 +19,7 @@ export default function GetStartedPage() {
         layout="split"
         visual={<Mascot name="setup" priority sizes="(max-width: 1024px) 60vw, 340px" className="mx-auto w-full max-w-[320px]" />}
       />
-      <section className="pb-16 md:pb-24">
+      <section className="pb-12 md:pb-16">
         <div className="wrap">
           <GetStartedFlow />
         </div>

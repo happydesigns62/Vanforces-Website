@@ -11,7 +11,7 @@ export function ModuleDirectory() {
   const groups = active === "All" ? moduleDirectory : moduleDirectory.filter((group) => group.category === active);
 
   return (
-    <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-14">
+    <div className="grid gap-10 lg:grid-cols-[240px_minmax(0,1fr)] lg:gap-10">
       <div className="min-w-0 lg:sticky lg:top-24 lg:self-start">
         <div role="group" aria-label="Filter modules by category" className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-col lg:gap-1 lg:px-0">
           {filters.map((filter) => (
@@ -32,7 +32,7 @@ export function ModuleDirectory() {
       <div className="min-w-0 space-y-12">
         {groups.map((group) => (
           <section key={group.category} className="seq">
-            <h2 className="t-card !text-[22px]">{group.category}</h2>
+            <h2 className="t-card !text-[18px]">{group.category}</h2>
             <div className="mt-4 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {group.items.map((item) => (
                 <ModuleCard key={item.label} title={item.label} body={item.body} href={item.href} />

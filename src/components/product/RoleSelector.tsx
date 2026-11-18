@@ -15,9 +15,9 @@ export function RoleSelector({ roles }: { roles: RoleTab[] }) {
         id: role.id,
         label: role.label,
         panel: (
-          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+          <div className="grid items-center gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
             <div>
-              <h2 className="t-section !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{role.heading}</h2>
+              <h2 className="t-section !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{role.heading}</h2>
               <p className="lede mt-4">{role.body}</p>
               <ul className="mt-6 flex flex-wrap gap-2">
                 {role.points.map((point) => (

@@ -61,7 +61,7 @@ export default async function IntegrationDetailPage({ params }: Props) {
         <div className="wrap">
           <ScrollReveal className="grid gap-6 rounded-[24px] bg-band-cyan p-7 md:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] md:p-12">
             <div>
-              <h2 className="t-section !text-[clamp(1.5rem,1.3rem+1vw,2.25rem)]">Before the first conversation</h2>
+              <h2 className="t-section !text-[clamp(1.26rem,1.092rem+0.84vw,1.89rem)]">Before the first conversation</h2>
               <p className="body mt-3">Having these ready usually makes a requirements discussion more useful.</p>
               <Mascot name="confirm" sizes="220px" className="mt-5 w-44 md:w-52" />
             </div>

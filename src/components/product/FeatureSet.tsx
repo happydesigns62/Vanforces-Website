@@ -33,7 +33,7 @@ export function FeatureSet({
 /** Phone stays in view while the steps scroll past. */
 function StickyStory({ features, phone }: { features: Feature[]; phone?: PhoneKey }) {
   return (
-    <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-20">
+    <div className="grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-14">
       {phone ? (
         <div className="lg:sticky lg:top-28 lg:self-start">
           <ScreenshotReveal className="mx-auto w-[62%] max-w-[300px] lg:w-full">
@@ -46,7 +46,7 @@ function StickyStory({ features, phone }: { features: Feature[]; phone?: PhoneKe
           <li key={feature.title} id={feature.id} className="border-t border-line py-8 first:border-t-0 first:pt-0 lg:py-11">
             <ScrollReveal>
               <span className="text-[13px] font-bold tabular-nums text-teal-deep">{String(index + 1).padStart(2, "0")}</span>
-              <h3 className="t-section mt-2 !text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)]">{feature.title}</h3>
+              <h3 className="t-section mt-2 !text-[clamp(1.26rem,1.092rem+0.672vw,1.785rem)]">{feature.title}</h3>
               <p className="lede mt-3 max-w-xl">{feature.body}</p>
             </ScrollReveal>
           </li>
@@ -72,7 +72,7 @@ function Rail({ features, web }: { features: Feature[]; web?: WebKey }) {
         ))}
       </ol>
       {web ? (
-        <ScreenshotReveal className="mt-14">
+        <ScreenshotReveal className="mt-10">
           <WebScreenshotFrame shot={webs[web]} />
         </ScreenshotReveal>
       ) : null}
@@ -98,7 +98,7 @@ function Bento({ features }: { features: Feature[] }) {
             style={{ "--d": `${(index % 3) * 80}ms` } as React.CSSProperties}
             className={`rounded-[28px] p-7 md:p-9 ${set[index] ?? "md:col-span-4"} ${lead ? "bg-navy-deep text-white" : index % 3 === 1 ? "bg-band-cyan" : "border border-line bg-white shadow-[0_1px_2px_rgb(41_59_71/0.05)]"}`}
           >
-            <h3 className={lead ? "text-[clamp(1.5rem,1.3rem+0.8vw,2rem)] font-medium leading-tight tracking-[-0.03em]" : "t-card"}>{feature.title}</h3>
+            <h3 className={lead ? "text-[clamp(1.26rem,1.092rem+0.672vw,1.68rem)] font-medium leading-tight tracking-[-0.03em]" : "t-card"}>{feature.title}</h3>
             <p className={`mt-3 ${lead ? "max-w-md text-[17px] leading-relaxed text-white/75" : "body"}`}>{feature.body}</p>
           </div>
         );
@@ -129,7 +129,7 @@ function Ledger({ features, web }: { features: Feature[]; web?: WebKey }) {
         ))}
       </dl>
       {web ? (
-        <ScreenshotReveal className="mt-14">
+        <ScreenshotReveal className="mt-10">
           <WebScreenshotFrame shot={webs[web]} />
         </ScreenshotReveal>
       ) : null}

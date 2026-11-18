@@ -6,7 +6,7 @@ import { HubDiagram } from "./Diagrams";
 /** Desktop frame with a phone overlapping its corner. On phones the two stack. */
 export function DevicePair({ web, phone, priority }: { web: WebKey; phone: PhoneKey; priority?: boolean }) {
   return (
-    <div className="relative pb-8 sm:pb-14 sm:pr-[12%]">
+    <div className="relative pb-8 sm:pb-10 sm:pr-[12%]">
       <WebScreenshotFrame shot={webs[web]} priority={priority} sizes="(max-width: 1024px) 90vw, 760px" />
       <div className="absolute -bottom-0 right-0 w-[26%] min-w-[92px] max-w-[210px]">
         <MobileScreenshotFrame shot={phones[phone]} sizes="210px" />

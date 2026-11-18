@@ -72,14 +72,14 @@ export default function PlatformPage() {
       <section className="section">
         <div className="wrap">
           <SectionHeading eyebrow="The shape of a distribution day" title="Three parts of the day. One connected record." />
-          <div className="mt-14 space-y-16 md:space-y-24">
+          <div className="mt-10 space-y-16 md:space-y-24">
             {moments.map((moment, index) => {
               return (
-                <div key={moment.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-20">
+                <div key={moment.title} className="grid items-center gap-10 lg:grid-cols-2 lg:gap-14">
                   <ScrollReveal className={index % 2 === 1 ? "lg:order-2" : ""}>
                     {index === 0 ? <Mascot name={moment.mascot} sizes="210px" className="mb-5 w-40 md:w-52" /> : null}
                     <p className="eyebrow">{moment.eyebrow}</p>
-                    <h3 className="t-section mt-3 !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{moment.title}</h3>
+                    <h3 className="t-section mt-3 !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{moment.title}</h3>
                     <p className="lede mt-4">{moment.body}</p>
                     <ul className="mt-6 space-y-2.5">
                       {moment.points.map((point) => (

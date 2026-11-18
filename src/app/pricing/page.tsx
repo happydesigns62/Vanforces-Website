@@ -26,7 +26,7 @@ export default function PricingPage() {
         visual={<Image src={art.pricing.src} alt="The Vanforces box mascot inspecting a large price tag with a magnifying glass." width={art.pricing.width} height={art.pricing.height} sizes="(max-width: 1024px) 70vw, 420px" priority className="mx-auto h-auto w-full max-w-[360px]" />}
       />
       <section className="px-3 pb-6 pt-4 md:px-6">
-        <div className="plan-panel mx-auto max-w-[1320px] rounded-[32px] px-5 py-12 md:rounded-[40px] md:py-16 lg:px-14">
+        <div className="plan-panel mx-auto max-w-[1320px] rounded-[32px] px-5 py-12 md:rounded-[40px] md:py-12 lg:px-14">
           <div className="mx-auto max-w-[1120px]">
             <PricingPlans onPanel />
           </div>
@@ -35,7 +35,7 @@ export default function PricingPage() {
 
       <TrustedStrip />
 
-      <section id="compare" className="section scroll-mt-20 bg-band-cyan">
+      <section id="compare" className="section scroll-mt-14 bg-band-cyan">
         <div className="wrap">
           <SectionHeading variant="fine" eyebrow="Compare plans" title="See What Each Plan" titleMuted="Brings Together." className="mb-10" />
           <ScrollReveal>
@@ -48,7 +48,7 @@ export default function PricingPage() {
         <div className="wrap">
           <ScrollReveal className="grid gap-5 rounded-[28px] bg-white border border-line p-7 shadow-[0_1px_2px_rgb(41_59_71/0.05)] md:grid-cols-[minmax(0,8fr)_auto] md:items-center md:p-9">
             <div>
-              <h2 className="t-card !text-[22px]">Wondering whether it&apos;s worth it?</h2>
+              <h2 className="t-card !text-[18px]">Wondering whether it&apos;s worth it?</h2>
               <p className="body mt-1.5">Estimate the value of time saved, using your own numbers.</p>
             </div>
             <Button href="/roi" variant="secondary" arrow>

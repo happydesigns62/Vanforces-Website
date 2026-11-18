@@ -42,10 +42,10 @@ export default function PartnersPage() {
           </div>
         </div>
       </section>
-      <section id="partner-form" className="section scroll-mt-20">
-        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-16">
+      <section id="partner-form" className="section scroll-mt-14">
+        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,4fr)_minmax(0,7fr)] lg:gap-12">
           <ScrollReveal>
-            <h2 className="t-section !text-[clamp(1.75rem,1.5rem+1vw,2.5rem)]">Tell us about your organization.</h2>
+            <h2 className="t-section !text-[clamp(1.47rem,1.26rem+0.84vw,2.1rem)]">Tell us about your organization.</h2>
             <p className="lede mt-4">Share who you work with, and where you think a collaboration could help.</p>
           </ScrollReveal>
           <ScrollReveal delay={90} className="rounded-[28px] border border-line p-6 md:p-9">

@@ -43,7 +43,7 @@ export default function IntegrationsPage() {
           <div className="grid gap-4 md:grid-cols-2">
             {integrationPillars.map((pillar, index) => (
               <div key={pillar.title} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 80}ms` } as React.CSSProperties} className={`rounded-[28px] p-8 ${index === 0 || index === 3 ? "bg-cyan-soft" : "border border-line"}`}>
-                <h3 className="text-[clamp(1.375rem,1.2rem+0.6vw,1.75rem)] font-bold tracking-tight">{pillar.title}</h3>
+                <h3 className="text-[clamp(1.155rem,1.008rem+0.504vw,1.47rem)] font-bold tracking-tight">{pillar.title}</h3>
                 <p className="body mt-2">{pillar.body}</p>
               </div>
             ))}

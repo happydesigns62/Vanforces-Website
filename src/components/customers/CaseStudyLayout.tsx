@@ -30,12 +30,12 @@ export function CaseStudyLayout({ story }: { story: CustomerStory }) {
       />
 
       <section className="section-tight">
-        <div className="wrap grid gap-12 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-20">
+        <div className="wrap grid gap-12 lg:grid-cols-[minmax(0,8fr)_minmax(0,4fr)] lg:gap-14">
           <div className="space-y-10">
             {sections.map((section, index) => (
               <ScrollReveal key={section.label} delay={index * 40}>
                 <h2 className="eyebrow">{section.label}</h2>
-                <p className="mt-3 text-[clamp(1.25rem,1.1rem+0.7vw,1.75rem)] font-medium leading-snug tracking-tight">{section.body}</p>
+                <p className="mt-3 text-[clamp(1.05rem,0.924rem+0.588vw,1.47rem)] font-medium leading-snug tracking-tight">{section.body}</p>
               </ScrollReveal>
             ))}
           </div>
@@ -72,7 +72,7 @@ export function CaseStudyLayout({ story }: { story: CustomerStory }) {
         <div className="wrap">
           <SectionHeading eyebrow="How the day could flow" title="The workflow, step by step." className="mb-10" />
           <WorkflowDiagram steps={story.dayFlow} />
-          <ScreenshotReveal className="mt-14">
+          <ScreenshotReveal className="mt-10">
             {story.web ? <WebScreenshotFrame shot={web[story.web]} sizes="(max-width: 1320px) 100vw, 1216px" /> : story.phones ? <PhoneDuo phones={story.phones} /> : null}
             <PrivacyCaption className={`mt-4 ${story.web ? "" : "text-center"}`} />
           </ScreenshotReveal>

@@ -169,7 +169,7 @@ export function GetStartedFlow() {
   });
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-14">
+    <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10">
       <aside className="lg:sticky lg:top-24 lg:self-start">
         <p className="mb-2 text-[14px] font-semibold lg:hidden">
           Step {step + 1} of {steps.length}: {steps[step]}
@@ -207,7 +207,7 @@ export function GetStartedFlow() {
           <div className="flex items-start justify-between gap-6">
             <div>
               <p className="eyebrow">Step {step + 1}</p>
-              <h2 ref={headingRef} tabIndex={-1} className="t-section mt-2 !text-[clamp(1.625rem,1.4rem+1vw,2.25rem)] outline-none">
+              <h2 ref={headingRef} tabIndex={-1} className="t-section mt-2 !text-[clamp(1.365rem,1.176rem+0.84vw,1.89rem)] outline-none">
                 {steps[step]}
               </h2>
             </div>
@@ -230,7 +230,7 @@ export function GetStartedFlow() {
                         className={`cursor-pointer rounded-[24px] border-2 p-5 text-left transition-colors ${on ? "border-navy bg-cyan-soft" : "border-line hover:border-navy/30"}`}
                       >
                         <span className="block text-[13px] font-extrabold uppercase tracking-[0.12em]">{plan.name}</span>
-                        <span className="mt-2 block text-[24px] font-bold tracking-tight tabular-nums">{formatUSD(data.billing === "annual" ? plan.annualMonthly : plan.monthly)}</span>
+                        <span className="mt-2 block text-[20px] font-bold tracking-tight tabular-nums">{formatUSD(data.billing === "annual" ? plan.annualMonthly : plan.monthly)}</span>
                         <span className="block text-[13px] text-muted">/ user / month</span>
                         <span className="mt-2 block text-[13.5px] font-medium leading-snug">{plan.tagline}</span>
                       </button>

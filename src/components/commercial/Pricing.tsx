@@ -42,7 +42,7 @@ export function PricingCard({ plan, billing, compact = false }: { plan: Plan; bi
       </div>
       <p className={`mt-3 text-[1.375rem] font-medium leading-[1.2] tracking-[-0.03em] ${featured ? "text-white" : "text-navy-deep"}`}>{plan.tagline}</p>
       <div className="mt-5 flex flex-wrap items-baseline gap-x-1.5">
-        <span className={`text-[2.75rem] font-medium leading-none tracking-[-0.04em] tabular-nums ${featured ? "text-white" : "text-navy-deep"}`}>{formatUSD(amount)}</span>
+        <span className={`text-[2.25rem] font-medium leading-none tracking-[-0.04em] tabular-nums ${featured ? "text-white" : "text-navy-deep"}`}>{formatUSD(amount)}</span>
         <span className={`text-[14px] ${featured ? "text-white/70" : "text-muted"}`}>/ user / month</span>
       </div>
       <p className={`mt-2 min-h-10 text-[13.5px] leading-snug ${featured ? "text-white/70" : "text-muted"}`}>

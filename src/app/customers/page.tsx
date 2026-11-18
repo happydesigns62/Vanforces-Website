@@ -23,7 +23,7 @@ export default function CustomersPage() {
         visual={<Mascot name="partners" priority sizes="(max-width: 1024px) 80vw, 420px" className="mx-auto w-full max-w-[400px]" />}
       />
 
-      <section className="section bg-band-cyan mt-14">
+      <section className="section bg-band-cyan mt-10">
         <div className="wrap">
           <SectionHeading variant="fine" align="center" eyebrow="Trusted by distribution teams" title="Businesses That Run" titleMuted="on Vanforces." className="mb-12" />
           <CustomerLogoGrid className="mx-auto max-w-[960px]" />

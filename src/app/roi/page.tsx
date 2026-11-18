@@ -28,7 +28,7 @@ export default function RoiPage() {
         layout="split"
         visual={<Mascot name="review" priority sizes="(max-width: 1024px) 70vw, 380px" className="mx-auto w-full max-w-[360px]" />}
       />
-      <section className="pb-14">
+      <section className="pb-10">
         <div className="wrap">
           <ScrollReveal>
             <ROICalculator />

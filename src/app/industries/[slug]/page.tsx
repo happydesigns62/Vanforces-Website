@@ -141,12 +141,12 @@ export default async function IndustryPage({ params }: Props) {
             <div className="flex flex-wrap items-center gap-3">
               <p className="eyebrow">Example scenario</p>
             </div>
-            <p className="mt-4 text-[clamp(1.25rem,1.1rem+0.7vw,1.75rem)] font-medium leading-snug tracking-[-0.03em]">{i.scenario}</p>
+            <p className="mt-4 text-[clamp(1.05rem,0.924rem+0.588vw,1.47rem)] font-medium leading-snug tracking-[-0.03em]">{i.scenario}</p>
             <p className="body mt-4">{i.scenarioDetail}</p>
           </ScrollReveal>
           <ScrollReveal delay={90} className="h-full rounded-[28px] bg-band-cyan p-8 md:p-10">
             <p className="eyebrow">Business value</p>
-            <p className="mt-4 text-[clamp(1.125rem,1.05rem+0.5vw,1.5rem)] font-semibold leading-snug tracking-tight">{i.value}</p>
+            <p className="mt-4 text-[clamp(1.05rem,0.882rem+0.42vw,1.26rem)] font-semibold leading-snug tracking-tight">{i.value}</p>
             <Mascot name={mascots.industries[i.slug] ?? "business"} sizes="230px" className="mt-6 w-44 md:w-56" />
           </ScrollReveal>
         </div>

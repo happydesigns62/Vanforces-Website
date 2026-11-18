@@ -22,8 +22,8 @@ export default function FaqPage() {
         layout="split"
         visual={<Image src={art.faq.src} alt="The Vanforces box mascot looking through a magnifying glass beside a large question mark." width={art.faq.width} height={art.faq.height} priority className="mx-auto h-auto w-full max-w-[460px]" />}
       />
-      <section className="pb-16 pt-6 md:pb-24">
-        <div className="wrap grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
+      <section className="pb-12 pt-6 md:pb-16">
+        <div className="wrap grid gap-10 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
           <nav aria-label="FAQ categories" className="min-w-0 lg:sticky lg:top-24 lg:self-start">
             <ul className="no-scrollbar -mx-5 flex gap-2 overflow-x-auto px-5 lg:mx-0 lg:flex-col lg:gap-0.5 lg:px-0">
               {faqCategories.map((category) => (
@@ -37,8 +37,8 @@ export default function FaqPage() {
           </nav>
           <div className="min-w-0 space-y-14">
             {faqCategories.map((category) => (
-              <ScrollReveal key={category.id} as="section" id={category.id} className="scroll-mt-24">
-                <h2 className="t-card mb-4 !text-[24px]">{category.title}</h2>
+              <ScrollReveal key={category.id} as="section" id={category.id} className="scroll-mt-16">
+                <h2 className="t-card mb-4 !text-[20px]">{category.title}</h2>
                 <FAQAccordion items={category.items} />
               </ScrollReveal>
             ))}

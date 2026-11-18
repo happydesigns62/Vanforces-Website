@@ -65,7 +65,7 @@ export default function ControlRoomPage() {
           <ControlRoomScreen kind="executive" />
           <p className="mt-3 text-center text-[12.5px] text-navy/65">{SAMPLE_NOTE}</p>
 
-          <h2 className="mt-16 text-[clamp(1.5rem,1.25rem+1vw,2rem)] font-medium tracking-[-0.03em] text-navy-deep">What the Control Room gives your team</h2>
+          <h2 className="mt-12 text-[clamp(1.26rem,1.05rem+0.84vw,1.68rem)] font-medium tracking-[-0.03em] text-navy-deep">What the Control Room gives your team</h2>
           <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map(([t, d]) => (
               <li key={t} className="rounded-2xl border border-line bg-white p-5">
@@ -75,7 +75,7 @@ export default function ControlRoomPage() {
             ))}
           </ul>
 
-          <h2 className="mt-16 text-[clamp(1.5rem,1.25rem+1vw,2rem)] font-medium tracking-[-0.03em] text-navy-deep">One launch point for your monitoring screens</h2>
+          <h2 className="mt-12 text-[clamp(1.26rem,1.05rem+0.84vw,1.68rem)] font-medium tracking-[-0.03em] text-navy-deep">One launch point for your monitoring screens</h2>
           <p className="mt-3 max-w-[44rem] text-[15.5px] leading-relaxed text-muted">
             Start with a dedicated view for executives, live operations, attendance and movement, or order and delivery control. See each screen&apos;s refresh interval and enabled-widget count before opening it, or create a custom screen for your team.
           </p>
@@ -83,7 +83,7 @@ export default function ControlRoomPage() {
             <ControlRoomScreen kind="launcher" />
           </div>
 
-          <div className="mt-16 space-y-16">
+          <div className="mt-12 space-y-16">
             {details.map((d, i) => (
               <article key={d.key} className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
                 <div className={i % 2 ? "lg:order-2" : ""}>
@@ -91,7 +91,7 @@ export default function ControlRoomPage() {
                 </div>
                 <div>
                   <p className="text-[12.5px] font-semibold uppercase tracking-[0.12em] text-teal-deep">{d.title}</p>
-                  <h3 className="mt-2 text-[clamp(1.375rem,1.15rem+0.8vw,1.75rem)] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{d.heading}</h3>
+                  <h3 className="mt-2 text-[clamp(1.155rem,0.966rem+0.672vw,1.47rem)] font-medium leading-tight tracking-[-0.03em] text-navy-deep">{d.heading}</h3>
                   <p className="mt-3 text-[15.5px] leading-relaxed text-muted">{d.body}</p>
                   <ul className="mt-5 space-y-2.5">
                     {d.points.map((p) => (
@@ -108,8 +108,8 @@ export default function ControlRoomPage() {
             ))}
           </div>
 
-          <div className="mt-16 rounded-[28px] bg-cyan-soft p-6 sm:p-9">
-            <h2 className="text-[clamp(1.375rem,1.15rem+0.8vw,1.75rem)] font-medium tracking-[-0.03em] text-navy-deep">Build the screen your team needs</h2>
+          <div className="mt-12 rounded-[28px] bg-cyan-soft p-6 sm:p-9">
+            <h2 className="text-[clamp(1.155rem,0.966rem+0.672vw,1.47rem)] font-medium tracking-[-0.03em] text-navy-deep">Build the screen your team needs</h2>
             <p className="mt-3 max-w-[44rem] text-[15.5px] leading-relaxed text-navy-deep">
               Create a focused wall screen for a team, region or operational priority. Name the screen, choose a supported refresh interval, start with a widget or an empty view, and organise information into slides.
             </p>
@@ -125,7 +125,7 @@ export default function ControlRoomPage() {
             </ul>
           </div>
 
-          <h2 className="mt-16 text-[clamp(1.375rem,1.15rem+0.8vw,1.75rem)] font-medium tracking-[-0.03em] text-navy-deep">Designed for shared monitoring</h2>
+          <h2 className="mt-12 text-[clamp(1.155rem,0.966rem+0.672vw,1.47rem)] font-medium tracking-[-0.03em] text-navy-deep">Designed for shared monitoring</h2>
           <p className="mt-3 max-w-[44rem] text-[15.5px] leading-relaxed text-muted">
             Open a dedicated screen or use carousel presentation to keep business information visible on shared displays. Branch scope, last-update time and the current clock stay on screen, and chart, table or map views are available where a widget supports them.
           </p>

@@ -45,7 +45,7 @@ export default function CompanyPage() {
         <div className="wrap">
           <ul className="grid gap-x-8 gap-y-5 md:grid-cols-2 lg:grid-cols-4">
             {questions.map((question, index) => (
-              <li key={question} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 90}ms` } as React.CSSProperties} className="border-l-2 border-teal pl-4 text-[clamp(1.125rem,1.05rem+0.4vw,1.375rem)] font-medium leading-snug tracking-[-0.03em]">
+              <li key={question} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 90}ms` } as React.CSSProperties} className="border-l-2 border-teal pl-4 text-[clamp(1.05rem,0.882rem+0.336vw,1.155rem)] font-medium leading-snug tracking-[-0.03em]">
                 {question}
               </li>
             ))}
@@ -54,7 +54,7 @@ export default function CompanyPage() {
       </section>
 
       <section className="section">
-        <div className="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-20">
+        <div className="wrap grid items-center gap-12 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:gap-14">
           <div>
             <SectionHeading eyebrow="Why Vanforces exists" title="The work is connected. The tools often aren't." description="Distribution activities often involve separate teams, systems and operational records. Vanforces focuses on connecting the workflows behind daily work." />
             <ScrollReveal delay={150} className="mt-8">
@@ -72,7 +72,7 @@ export default function CompanyPage() {
           <div className="grid gap-px overflow-hidden rounded-[28px] border border-line bg-line lg:grid-cols-3">
             {beliefs.map((belief, index) => (
               <div key={belief.title} data-reveal="" suppressHydrationWarning style={{ "--d": `${index * 90}ms` } as React.CSSProperties} className="bg-white p-8 md:p-10">
-                <h2 className="text-[clamp(1.25rem,1.1rem+0.6vw,1.625rem)] font-medium leading-tight tracking-[-0.03em]">{belief.title}</h2>
+                <h2 className="text-[clamp(1.05rem,0.924rem+0.504vw,1.365rem)] font-medium leading-tight tracking-[-0.03em]">{belief.title}</h2>
                 <p className="body mt-3">{belief.body}</p>
               </div>
             ))}

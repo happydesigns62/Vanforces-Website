@@ -66,7 +66,7 @@ export default async function SolutionPage({ params }: Props) {
           <div className="rounded-[24px] bg-band-cyan p-7 md:p-12">
             <ScrollReveal className="flex flex-col justify-between gap-6 md:flex-row md:items-center">
               <div>
-                <h2 className="t-section max-w-3xl !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{s.dayInLife.heading}</h2>
+                <h2 className="t-section max-w-3xl !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{s.dayInLife.heading}</h2>
                 <p className="lede mt-4 max-w-3xl">{s.dayInLife.body}</p>
               </div>
               <Mascot name={mascots.solutions[s.slug] ?? "business"} sizes="240px" className="w-44 shrink-0 md:w-56" />

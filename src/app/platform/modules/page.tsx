@@ -21,7 +21,7 @@ export default function ModulesPage() {
         layout="split"
         visual={<Mascot name="signpost" priority sizes="(max-width: 1024px) 70vw, 420px" className="mx-auto w-full max-w-[400px]" />}
       />
-      <section className="pb-16 pt-4 md:pb-24">
+      <section className="pb-12 pt-4 md:pb-16">
         <div className="wrap">
           <ModuleDirectory />
         </div>

@@ -33,13 +33,13 @@ export default function IndustriesPage() {
         visual={<Image src={art.supplyChain.src} alt="The Vanforces box mascot pointing along a chain from factory to warehouse to shop." width={art.supplyChain.width} height={art.supplyChain.height} sizes="(max-width: 1024px) 80vw, 480px" priority className="mx-auto h-auto w-full max-w-[440px]" />}
       />
 
-      <section className="pb-16 pt-4 md:pb-24">
+      <section className="pb-12 pt-4 md:pb-16">
         <div className="wrap grid gap-5 lg:grid-cols-12">
           <ScrollReveal className="lg:col-span-7">
             <Link href={`/industries/${fmcg.slug}`} className={`${card} bg-navy-deep p-8 text-white md:p-11`}>
               <div className="grid gap-8 sm:grid-cols-[minmax(0,1fr)_170px] sm:items-center">
                 <div>
-                  <h2 className="t-section !text-[clamp(1.625rem,1.4rem+1vw,2.5rem)]">{fmcg.name}</h2>
+                  <h2 className="t-section !text-[clamp(1.365rem,1.176rem+0.84vw,2.1rem)]">{fmcg.name}</h2>
                   <p className="mt-4 text-[16.5px] leading-relaxed text-white/75">{fmcg.short}</p>
                   {more}
                 </div>
@@ -49,7 +49,7 @@ export default function IndustriesPage() {
           </ScrollReveal>
           <ScrollReveal delay={90} className="lg:col-span-5">
             <Link href={`/industries/${food.slug}`} className={`${card} bg-cyan-soft p-8 md:p-11`}>
-              <h2 className="t-section !text-[clamp(1.5rem,1.3rem+1vw,2.25rem)]">{food.name}</h2>
+              <h2 className="t-section !text-[clamp(1.26rem,1.092rem+0.84vw,1.89rem)]">{food.name}</h2>
               <p className="body mt-4">{food.short}</p>
               {more}
               <div className="mt-8">
@@ -59,15 +59,15 @@ export default function IndustriesPage() {
           </ScrollReveal>
           <ScrollReveal className="lg:col-span-5">
             <Link href={`/industries/${dsd.slug}`} className={`${card} border border-line bg-white p-8 md:p-11`}>
-              <h2 className="t-section !text-[clamp(1.5rem,1.3rem+1vw,2.25rem)]">{dsd.name}</h2>
+              <h2 className="t-section !text-[clamp(1.26rem,1.092rem+0.84vw,1.89rem)]">{dsd.name}</h2>
               <p className="body mt-4">{dsd.short}</p>
-              <p className="mt-6 text-[clamp(1.25rem,1rem+1vw,1.625rem)] font-medium leading-snug tracking-[-0.03em] text-teal-deep">Load. Visit. Sell. Collect. Reconcile.</p>
+              <p className="mt-6 text-[clamp(1.05rem,0.84rem+0.84vw,1.365rem)] font-medium leading-snug tracking-[-0.03em] text-teal-deep">Load. Visit. Sell. Collect. Reconcile.</p>
               {more}
             </Link>
           </ScrollReveal>
           <ScrollReveal delay={90} className="lg:col-span-7">
             <Link href={`/industries/${wholesale.slug}`} className={`${card} bg-mist p-8 md:p-11`}>
-              <h2 className="t-section !text-[clamp(1.5rem,1.3rem+1vw,2.25rem)]">{wholesale.name}</h2>
+              <h2 className="t-section !text-[clamp(1.26rem,1.092rem+0.84vw,1.89rem)]">{wholesale.name}</h2>
               <p className="body mt-4">{wholesale.short}</p>
               {more}
               <WebScreenshotFrame shot={web.products} sizes="(max-width: 1024px) 90vw, 640px" className="mt-8" />

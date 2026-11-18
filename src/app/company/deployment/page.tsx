@@ -30,7 +30,7 @@ export default function DeploymentPage() {
         layout="split"
         visual={<Mascot name="company" priority sizes="(max-width: 1024px) 70vw, 420px" className="mx-auto w-full max-w-[400px]" />}
       />
-      <section className="pb-16 md:pb-24">
+      <section className="pb-12 md:pb-16">
         <div className="wrap">
           <ol className="relative">
             <span aria-hidden="true" className="absolute bottom-6 left-[19px] top-6 w-px bg-cyan-line md:left-[23px]" />
@@ -39,7 +39,7 @@ export default function DeploymentPage() {
                 <span className="absolute left-0 top-0 flex size-10 items-center justify-center rounded-full bg-navy-deep text-[14px] font-bold text-white md:size-12">{index + 1}</span>
                 <ScrollReveal>
                   <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-teal-deep">Step {String(index + 1).padStart(2, "0")}</p>
-                  <h2 className="mt-1.5 text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)] font-medium leading-tight tracking-[-0.03em]">{step.title}</h2>
+                  <h2 className="mt-1.5 text-[clamp(1.26rem,1.092rem+0.672vw,1.785rem)] font-medium leading-tight tracking-[-0.03em]">{step.title}</h2>
                 </ScrollReveal>
                 <ScrollReveal delay={80} className="md:pt-6">
                   <p className="lede !text-navy">{step.body}</p>

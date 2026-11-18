@@ -33,8 +33,8 @@ export default function BookDemoPage() {
         layout="split"
         visual={<Mascot name="confirm" priority sizes="(max-width: 1024px) 70vw, 380px" className="mx-auto w-full max-w-[360px]" />}
       />
-      <section className="pb-16 md:pb-24">
-        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      <section className="pb-12 md:pb-16">
+        <div className="wrap grid gap-10 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-12">
           <div>
             <ul className="space-y-6">
               {points.map((point, index) => {

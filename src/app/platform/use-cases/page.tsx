@@ -31,7 +31,7 @@ export default function UseCasesPage() {
         layout="split"
         visual={<Mascot name="business" priority sizes="(max-width: 1024px) 70vw, 420px" className="mx-auto w-full max-w-[400px]" />}
       />
-      <section className="pb-16 md:pb-24">
+      <section className="pb-12 md:pb-16">
         <div className="wrap">
           <ol className="border-t border-navy/80">
             {useCases.map((useCase, index) => (
@@ -39,13 +39,13 @@ export default function UseCasesPage() {
                 key={useCase.id}
                 id={useCase.id}
                 data-reveal="" suppressHydrationWarning
-                className="grid scroll-mt-24 gap-5 border-b border-line py-9 md:grid-cols-[64px_minmax(0,4fr)_minmax(0,6fr)] md:gap-8 md:py-12"
+                className="grid scroll-mt-16 gap-5 border-b border-line py-9 md:grid-cols-[64px_minmax(0,4fr)_minmax(0,6fr)] md:gap-8 md:py-12"
               >
                 <span aria-hidden="true" className="text-[14px] font-bold tabular-nums text-teal-deep">
                   {String(index + 1).padStart(2, "0")}
                 </span>
                 <div>
-                  <h2 className="t-section !text-[clamp(1.5rem,1.3rem+0.8vw,2.125rem)]">{useCase.title}</h2>
+                  <h2 className="t-section !text-[clamp(1.26rem,1.092rem+0.672vw,1.785rem)]">{useCase.title}</h2>
                   <Vignette kind={caseScenes[useCase.id] ?? "plan"} className="mt-4 h-[84px] w-[122px] rounded-2xl bg-band-cyan" />
                   <Button href={useCase.link.href} variant="text" className="mt-3">
                     {useCase.link.label}

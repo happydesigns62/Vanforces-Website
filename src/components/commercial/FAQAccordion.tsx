@@ -51,8 +51,8 @@ export function FAQAccordion({ items }: { items: Faq[] }) {
 export function FaqSection({ items, title = "Frequently asked questions" }: { items: Faq[]; title?: string }) {
   return (
     <section className="section-tight">
-      <div className="wrap grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-16">
-        <h2 className="t-section !text-[clamp(1.75rem,1.5rem+1vw,2.5rem)]">{title}</h2>
+      <div className="wrap grid gap-8 lg:grid-cols-[minmax(0,4fr)_minmax(0,8fr)] lg:gap-12">
+        <h2 className="t-section !text-[clamp(1.47rem,1.26rem+0.84vw,2.1rem)]">{title}</h2>
         <FAQAccordion items={items} />
       </div>
     </section>
