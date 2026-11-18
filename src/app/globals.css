@@ -857,3 +857,11 @@ input[type="range"] {
 .board-flow { animation: board-flow 1.9s linear infinite; }
 @keyframes board-flow { to { stroke-dashoffset: -10; } }
 @media (prefers-reduced-motion: reduce) { .board-flow { animation: none; } }
+
+/* Testimonial wall: two columns drift in opposite directions and slow to a stop under the pointer. */
+.testi-up { animation: testi-up 46s linear infinite; }
+.testi-down { animation: testi-down 52s linear infinite; }
+@keyframes testi-up { from { translate: 0 0; } to { translate: 0 -50%; } }
+@keyframes testi-down { from { translate: 0 -50%; } to { translate: 0 0; } }
+.testi-col:hover .testi-up, .testi-col:hover .testi-down { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .testi-up, .testi-down { animation: none; } }
