@@ -186,8 +186,8 @@ export function PageHero({
       <section className="inner-hero hero-wash relative overflow-hidden pb-10 pt-8 md:pb-14 md:pt-12">
         <div className="wrap grid items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:gap-14">
           <div>{text}</div>
-          <div className="seq-shot min-w-0 lg:w-full lg:max-w-[500px] lg:justify-self-end" style={{ "--d": "260ms" } as React.CSSProperties}>
-            <div className="stage-soft rounded-[24px] border border-cyan-line p-4 sm:p-5">{visual}</div>
+          <div className="seq-shot min-w-0 mx-auto w-full max-w-[400px] lg:justify-self-end" style={{ "--d": "260ms" } as React.CSSProperties}>
+            {visual}
           </div>
         </div>
       </section>
@@ -200,8 +200,8 @@ export function PageHero({
         <div className="wrap">
           <div className="mx-auto max-w-3xl text-center">{text}</div>
           {visual ? (
-            <div className="seq-shot mx-auto mt-10 min-w-0 max-w-[880px]" style={{ "--d": "300ms" } as React.CSSProperties}>
-              <div className="stage-soft rounded-[24px] border border-cyan-line p-3 sm:p-5 lg:p-7">{visual}</div>
+            <div className="seq-shot mx-auto mt-8 min-w-0 max-w-[640px]" style={{ "--d": "300ms" } as React.CSSProperties}>
+              {visual}
             </div>
           ) : null}
         </div>
